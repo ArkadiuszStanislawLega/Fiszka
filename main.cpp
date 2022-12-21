@@ -1,6 +1,9 @@
 #include <stdio.h>
+#include "question.h"
+
 
 int main(){
-  printf("%s", "Elo\n");
+	Question q = Question();
+	q.Say();
   return 0;
 }

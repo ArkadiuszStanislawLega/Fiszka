@@ -1,7 +1,3 @@
-TARGET=main
+g++ -o main main.cpp question.cpp -Wall
+./main
 
-all: clean $(TARGET)
-	./$(TARGET)
-
-clean:
-	rm -f $(TARGET)
