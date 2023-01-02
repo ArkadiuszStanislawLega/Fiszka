@@ -1,8 +1,12 @@
 #include "main.h"
 
 int main(int argc, const char * argv[]) {
-	Question *q = new Question("Wartosc", "Odpowiedz");
-	std::cout << q->getAnswer() << " " << q->getValue() << "\n";
-
-    return 0;
+	std::vector<Question> questions;
+	questions.push_back(Question("Wartosc", "odpowiedz"));
+	for(int i = 0; i < questions.size(); i++){
+	 	std::cout << questions[i].getAnswer() << " " << questions[i].getValue() << "\n";
+	}
+	printf("%lu\n", rand()%questions.size()+1);
+	 
+    return 0; 
 }
