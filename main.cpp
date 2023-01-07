@@ -1,6 +1,9 @@
 #include "main.h"
 
 int main(){
-	Question *q = new Question("Wartosc", "Odpowiedz");
-	std::cout << q->getAnswer() << " " << q->getValue() << "\n";
+	Engine *engine = new Engine();
+	engine->test();
+
+
+	return 0;
 }

@@ -5,10 +5,14 @@
 class Question{
 	private:
 		std::string _value, _answer;
+		long _id;
 
 	public:
-		Question(std::string, std::string);
-		std::string getValue();
-		std::string getAnswer();
+		Question();
+		Question(long, std::string, std::string);
+		std::string get_value();
+		std::string get_answer();
+		void set_answer(std::string);
+		long get_id();
 };
 #endif
