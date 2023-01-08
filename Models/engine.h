@@ -4,8 +4,9 @@
 #include <string>
 #include <map>
 #include <vector>
-#include <stdlib.h>
 #include <algorithm>
+#include <ctime>
+#include <cstdlib>
 
 #include "question.h"
 #include "database.h"
@@ -19,8 +20,8 @@ class Engine{
 		Engine();
 		void test();
 		Database * get_database();
-		int get_random_question();
-		void randomise_questions();
+		Question * get_random_question();
+		void randomise_questions(); 
 
 		template <typename T>
 		void quick_remove_at(std::vector<T> &v, std::size_t index);
