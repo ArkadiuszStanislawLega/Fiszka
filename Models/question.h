@@ -14,5 +14,6 @@ class Question{
 		std::string get_answer();
 		void set_answer(std::string);
 		long get_id();
+		std::string to_string();
 };
 #endif

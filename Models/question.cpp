@@ -27,3 +27,7 @@ long Question::get_id(){
 void Question::set_answer(std::string value){
 	this->_answer = value;
 }
+
+std::string Question::to_string(){
+	return std::to_string(this->_id) + ". " + this->_value + " " + this->_answer; 
+}
