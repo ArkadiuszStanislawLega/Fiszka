@@ -1,19 +1,28 @@
 #ifndef question 
 #define question
 #include <iostream>
+#include <vector>
+#include <set>
+
+using std::string;
+using std::set;
 
 class Question{
 	private:
-		std::string _value, _answer;
+		string _value, _answer;
 		long _id;
+		set<string> _tags;
 
 	public:
 		Question();
-		Question(long, std::string, std::string);
-		std::string get_value();
-		std::string get_answer();
-		void set_answer(std::string);
+		Question(long, string, string, set<string>);
+		string get_value();
+		string get_answer();
+		void add_tag();
+		void remove_tag(string);
+		bool is_have_tag(string);
+		void set_answer(string);
 		long get_id();
-		std::string to_string();
+		string to_string();
 };
 #endif

@@ -6,12 +6,16 @@
 
 #include "question.h"
 
+using std::map;
+using std::string;
+
 class Database{
 	private:
-		std::map<long, Question*> _db_questions;
+		map<long, Question*> _db_questions;
 
 	public:
-		std::map<long, Question*> get_questions();
+		map<long, Question*> get_questions();
+		map<long, Question*> get_questions_by_tags(set<string>);
 		void insert_question(Question *);
 		Question * get_question(long);
 };

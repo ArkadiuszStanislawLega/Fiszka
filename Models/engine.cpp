@@ -5,7 +5,12 @@
 Engine::Engine(){ 
 	this->_db = new Database();
 	this->test();
-	this->randomise_questions();
+
+	vector<long> questions_ids;
+	for(auto item : this->_db->get_questions_by_tags(set<string> {"wiedza"})){
+		questions_ids.push_back(item.first);
+	}	
+	this->randomise_questions(questions_ids);
 
 	printf("Zrandomizowana lista (%lu):\n", this->_randomised_questions.size());
 	for(Question * q : this->_randomised_questions){
@@ -13,15 +18,27 @@ Engine::Engine(){
 	}
 }
 
+int Engine::get_questions_number(){
+	return this->_randomised_questions.size();
+}
+
 void Engine::test(){
-	this->_db->insert_question(new Question(1, "mleko, karmel, czekolada", "znany tekst"));
-	this->_db->insert_question(new Question(2, "cos tam costam", "odpowiedz"));
-	this->_db->insert_question(new Question(3, "teraz fajnie bedzie", "dobra odpowiedze"));
-	this->_db->insert_question(new Question(4, "co to teraz bedzie", "elo"));
-	this->_db->insert_question(new Question(5, "mleko, karmel, czekolada", "znany tekst"));
-	this->_db->insert_question(new Question(6, "cos tam costam", "odpowiedz"));
-	this->_db->insert_question(new Question(7, "teraz fajnie bedzie", "dobra odpowiedze"));
-	this->_db->insert_question(new Question(8, "co to teraz bedzie", "elo"));
+	this->_db->insert_question(
+			new Question(1, "mleko, karmel, czekolada", "znany tekst", set<string> {"jedzenie"}));
+	this->_db->insert_question(
+			new Question(2, "cos tam costam", "odpowiedz", set<string> {"wiedza"}));
+	this->_db->insert_question(
+			new Question(3, "teraz fajnie bedzie", "dobra odpowiedze", set<string> {"uczucia"}));
+	this->_db->insert_question(
+			new Question(4, "co to teraz bedzie", "elo", set<string> {"oczekiwania"}));
+	this->_db->insert_question(
+			new Question(5, "mleko, karmel, czekolada", "znany tekst", set<string> {"jedzenie"}));
+	this->_db->insert_question(
+			new Question(6, "cos tam costam", "odpowiedz", set<string> {"wiedza", "uczucia"}));
+	this->_db->insert_question(
+			new Question(7, "teraz fajnie bedzie", "dobra odpowiedze", set<string> {"uczucia, emocje"}));
+	this->_db->insert_question(
+			new Question(8, "co to teraz bedzie", "elo", set<string> {"uczucia"}));
 
 	for(auto item : this->_db->get_questions())
 	{
@@ -41,22 +58,16 @@ void Engine::quick_remove_at(std::vector<T> &v, std::size_t index){
 	} 
 }
 
-void Engine::randomise_questions(){
-	std::vector<int> questions_ids;
+void Engine::randomise_questions(vector<long> ids){
 	int i = 0; 
-
-	for(auto item : this->_db->get_questions()){
-		questions_ids.push_back(item.first);
-	}	
-	printf("Wielkosc przed randomizacja: %lu\n", this->_randomised_questions.size());
-	for(i = questions_ids.size(); i > 0; i--){
+	for(i = ids.size(); i > 0; i--){
 		std::srand(time(NULL));
 		long index = std::rand() % i;
 
-		Question * q = this->_db->get_question(questions_ids[index]);
+		Question * q = this->_db->get_question(ids[index]);
 		this->_randomised_questions.push_back(q);
 
-		this->quick_remove_at(questions_ids, index);
+		this->quick_remove_at(ids, index);
 	}
  } 
 
