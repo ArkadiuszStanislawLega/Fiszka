@@ -29,7 +29,7 @@ class Engine{
 		void print_tags();
 		void print_all_randominsed_questions();
 		void get_tag();
-		vector<long> get_questions_at_tag(string);
+		vector<long> get_questions_id_with_tag();
 		Database * get_database();
 		Question * get_random_question();
 		void randomise_questions(vector<long>); 

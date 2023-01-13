@@ -9,18 +9,17 @@ Engine::Engine(){
 	this->get_tag();
 	printf("\n");
 
+	this->randomise_questions(this->get_questions_id_with_tag());
+	this->print_all_randominsed_questions();
+}
+
+vector<long> Engine::get_questions_id_with_tag(){
 	vector<long> questions_ids;
 	for(auto item : this->_db->get_questions_by_tags(set<string> {this->_current_tag})){
 		questions_ids.push_back(item.first);
 	}	
 	printf("Liczba pytan (%lu) w bazie danych o tagu: #%s,", questions_ids.size(), this->_current_tag.c_str());
-
-	this->randomise_questions(questions_ids);
-	this->print_all_randominsed_questions();
-}
-
-vector<long> get_questions_by_tags(string tag){
-
+ 	return questions_ids;
 }
 
 void Engine::print_all_randominsed_questions(){
