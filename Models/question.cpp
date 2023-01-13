@@ -13,6 +13,10 @@ Question::Question(long id, string value, string answer, set<string>tags){
 	this->_tags = tags;
 }
 
+set<string> Question::get_tags(){
+	return this->_tags;
+}
+
 string Question::get_value(){
 	return this->_value;
 }

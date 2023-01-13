@@ -17,6 +17,17 @@ map<long, Question*> Database::get_questions_by_tags(set<string> tags){
 	return questions;
 }
 
+set<string> Database::get_all_tags(){
+	for(auto it: _db_questions){
+		for(string tag : it.second->get_tags()){
+			this->_all_tags.insert(tag);
+		}
+	}
+	return this->_all_tags;
+}
+
+
+
 void Database::insert_question(Question * q){
 	this->_db_questions[q->get_id()] = q;
 }

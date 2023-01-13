@@ -15,15 +15,21 @@
 using std::vector;
 using std::string;
 using std::size_t;
+using std::cin;
 
 class Engine{
 	private:
 		Database * _db;
 		vector<Question *> _randomised_questions;
+		string _current_tag;
 
 	public:
 		Engine();
-		void test();
+		void fill_database();
+		void print_tags();
+		void print_all_randominsed_questions();
+		void get_tag();
+		vector<long> get_questions_at_tag(string);
 		Database * get_database();
 		Question * get_random_question();
 		void randomise_questions(vector<long>); 
