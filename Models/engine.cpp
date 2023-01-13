@@ -1,13 +1,11 @@
 #include "engine.h"
-#include <cstdlib>
-#include <ctime>
 
 Engine::Engine(){ 
 	this->_db = new Database();
 	this->test();
 
 	vector<long> questions_ids;
-	for(auto item : this->_db->get_questions_by_tags(set<string> {"wiedza"})){
+	for(auto item : this->_db->get_questions_by_tags(set<string> {"linux"})){
 		questions_ids.push_back(item.first);
 	}	
 	this->randomise_questions(questions_ids);
@@ -24,21 +22,81 @@ int Engine::get_questions_number(){
 
 void Engine::test(){
 	this->_db->insert_question(
-			new Question(1, "mleko, karmel, czekolada", "znany tekst", set<string> {"jedzenie"}));
+			new Question(1, 
+				"|", 
+				"Potok", 
+				set<string> {"linux"})
+			);
 	this->_db->insert_question(
-			new Question(2, "cos tam costam", "odpowiedz", set<string> {"wiedza"}));
+			new Question(2, 
+				"^+B", 
+				"przesuniecie kursora w lew", 
+				set<string> {"linux"})
+			);
 	this->_db->insert_question(
-			new Question(3, "teraz fajnie bedzie", "dobra odpowiedze", set<string> {"uczucia"}));
+			new Question(3, 
+				"^+F", 
+				"przesuniecie kursora w prawo", 
+				set<string> {"linux"})
+			);
 	this->_db->insert_question(
-			new Question(4, "co to teraz bedzie", "elo", set<string> {"oczekiwania"}));
+			new Question(4, 
+				"^+A", 
+				"przesuniecie kursora na poczatek wiersza", 
+				set<string> {"linux"})
+			);
 	this->_db->insert_question(
-			new Question(5, "mleko, karmel, czekolada", "znany tekst", set<string> {"jedzenie"}));
+			new Question(5, 
+				"^+E", 
+				"przesuniecie kursora na koniec wiersza", 
+				set<string> {"linux"})
+			);
 	this->_db->insert_question(
-			new Question(6, "cos tam costam", "odpowiedz", set<string> {"wiedza", "uczucia"}));
+			new Question(6, 
+				"^+K", 
+				"^usuniecie tekstu od kursora do konca wiersza", 
+				set<string> {"linux"})
+			);
 	this->_db->insert_question(
-			new Question(7, "teraz fajnie bedzie", "dobra odpowiedze", set<string> {"uczucia, emocje"}));
+			new Question(7, 
+				"kill -STOP pid", 
+				"zatrzymanie procesu", 
+				set<string> {"linux"})
+			);
 	this->_db->insert_question(
-			new Question(8, "co to teraz bedzie", "elo", set<string> {"uczucia"}));
+			new Question(8, 
+				"kill -CONT pid", 
+				"wznawia zatrzymany proces", 
+				set<string> {"linux"})
+			);
+	this->_db->insert_question(
+			new Question(9, 
+				"kill -l", 
+				"sprawdzanie numerow sygnalow", 
+				set<string> {"linux"})
+			);
+
+	this->_db->insert_question(
+			new Question(10, 
+				"^+Z", 
+				"usypianie procesu", 
+				set<string> {"linux"})
+			);
+
+	this->_db->insert_question(
+			new Question(11, 
+				"^+C", 
+				"zabijanie procesu", 
+				set<string> {"linux"})
+			);
+
+	this->_db->insert_question(
+			new Question(12, 
+				"jobs", 
+				"wyswietla uspione procesy", 
+				set<string> {"linux"})
+			);
+
 
 	for(auto item : this->_db->get_questions())
 	{
