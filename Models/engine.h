@@ -23,19 +23,22 @@ class Engine{
 		vector<Question *> _randomised_questions;
 		string _current_tag;
 
-	public:
-		Engine();
 		void fill_database();
-		void print_tags();
-		void print_all_randominsed_questions();
-		void get_tag();
-		vector<long> get_questions_id_with_tag();
 		Database * get_database();
-		Question * get_random_question();
+		vector<long> get_questions_id_with_tag();
 		void randomise_questions(vector<long>); 
 
 		template <typename T>
 		void quick_remove_at(vector<T> &v, size_t index);
+
+	public:
+		Engine();
+		void print_tags();
+		void print_all_randominsed_questions();
+		void get_tag();
+
+		Question * get_random_question();
+
 		int get_questions_number();
 };
 #endif
