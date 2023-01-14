@@ -6,7 +6,7 @@ Engine::Engine(){
 	this->fill_database();
 	this->print_tags();
 
-	printf("Wybierz zestaw pytan z podanej listy tagow:");
+	printf("Wybierz zestaw pytan z podanej listy tagow (wpisz wybrany tag):");
 	this->get_tag();
 	printf("\n");
 
@@ -71,6 +71,11 @@ void Engine::print_tags(){
 
 void Engine::get_tag(){
 	cin >> this->_current_tag;	
+	const set<string> tags  = this->_db->get_all_tags();
+	if(tags.find(this->_current_tag) == tags.end()){
+		printf("Bledny tag, sprobuj jeszcze raz.\n");
+		this->get_tag();
+	}
 }
 
 int Engine::get_questions_number(){
