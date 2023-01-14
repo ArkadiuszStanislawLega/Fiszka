@@ -22,6 +22,7 @@ class Engine{
 		Database * _db;
 		vector<Question *> _randomised_questions;
 		string _current_tag;
+		int _questions_number_to_print;
 
 		void fill_database();
 		Database * get_database();
@@ -36,6 +37,9 @@ class Engine{
 		void print_tags();
 		void print_all_randominsed_questions();
 		void get_tag();
+		void print_question();
+		void get_questions_number_in_series();
+		void print_questions_series();
 
 		Question * get_random_question();
 

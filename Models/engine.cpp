@@ -1,4 +1,5 @@
 #include "engine.h" 
+#include <cstdio>
 
 Engine::Engine(){ 
 	this->_db = new Database();
@@ -11,7 +12,37 @@ Engine::Engine(){
 
 	this->randomise_questions(this->get_questions_id_with_tag());
 	this->print_all_randominsed_questions();
+
+	this->get_questions_number_in_series();
+	this->print_questions_series();
 }
+
+void Engine::get_questions_number_in_series(){
+	printf("Podaj ilosc pytan ktore chcesz przerobic, cyfra musi byc mniejsza od %lu:\n", this->_randomised_questions.size());
+	cin >> this->_questions_number_to_print;
+	if(this->_questions_number_to_print > this->_randomised_questions.size()){
+		printf("Nieprawidlowa wartosc. Sprobuj jeszcze raz.");
+		this->get_questions_number_in_series();
+	}
+}
+
+void Engine::print_question(){
+	Question *q = get_random_question();
+	int space = 0;
+
+	printf("%s\n", q->get_value().c_str());
+	getchar();
+	printf("%s\n", q->get_answer().c_str());
+	getchar();
+}
+
+void Engine::print_questions_series(){
+	size_t i = 0;
+	for(; i < this->_questions_number_to_print; i++){
+		this->print_question();
+	}
+}
+
 
 vector<long> Engine::get_questions_id_with_tag(){
 	vector<long> questions_ids;
