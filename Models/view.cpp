@@ -39,26 +39,17 @@ void View::print_number_of_questions_with_tag(){
 }
 
 void View::print_how_many_number_in_series(){
-	printf("Podaj ilosc pytan ktore chcesz przerobic, cyfra musi byc mniejsza od %lu:\n", this->_model->get_randomised_questions().size());
+	printf("Podaj ilosc pytan ktore chcesz przerobic, cyfra musi byc mniejsza lub rowna (%lu):\n", this->_model->get_randomised_questions().size());
 }
 
 void View::print_value_is_invalid(){
 	printf("Nieprawidlowa wartosc. Sprobuj jeszcze raz.");
 }
 
-void View::print_question(){
-	Question *q = this->_model->get_random_question();
-	int space = 0;
-	printf("%s\n", q->get_value().c_str());
-	getchar();
-	printf("%s\n", q->get_answer().c_str());
-	getchar();
-}
-
 void View::print_question_value(Question *q){
-	printf("%s", q->get_value().c_str());
+	printf("%s\n", q->get_value().c_str());
 }
 
 void View::print_question_answer(Question *q){
-	printf("%s", q->get_answer().c_str());
+	printf("%s\n", q->get_answer().c_str());
 }

@@ -1,4 +1,5 @@
 #include "controller.h"
+#include <limits>
 
 Controller::Controller(Model *model, View *view){
 	this->_model = model;
@@ -41,10 +42,13 @@ void Controller::get_tag(){
 
 void Controller::series(){
 	size_t i = 0;
+	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 	for(; i < this->_model->get_questions_in_series(); i++){ 
 		Question *q = this->_model->get_random_question();
+
 		this->_view->print_question_value(q);
 		getchar();
+
 		this->_view->print_question_answer(q);
 		getchar();
 	}

@@ -17,7 +17,6 @@ string Model::get_current_tag(){
 
 void Model::start_app(){
 	this->randomise_questions();
-	this->get_questions_number_in_series();
 }
 
 vector<Question *> Model::get_randomised_questions(){
@@ -33,8 +32,8 @@ void Model::get_tag(){
 }
 
 bool Model::is_tag_correct(){
-	const set<string> tags  = this->_db->get_all_tags();
-	return tags.find(this->_current_tag) == tags.end();
+	const set<string> tags = this->_db->get_all_tags();
+	return tags.find(this->_current_tag) != tags.end();
 }
 
 void Model::get_questions_number_in_series(){
@@ -42,7 +41,7 @@ void Model::get_questions_number_in_series(){
 }
 
 bool Model::is_questions_number_valid(){
-	return this->_questions_in_series < this->_randomised_questions.size();
+	return this->_questions_in_series <= this->_randomised_questions.size();
 }
 
 void Model::randomise_questions(){
