@@ -1,5 +1,8 @@
 #include "database.h"
 
+Database::Database(){
+	this->fill_database();
+}
 
 map<long, Question *> Database::get_questions(){
 	return this->_db_questions;
@@ -34,4 +37,86 @@ void Database::insert_question(Question * q){
 
 Question * Database::get_question(long id){
 	return this->_db_questions[id];
+}
+
+void Database::fill_database(){
+	this->insert_question(
+			new Question(1, 
+				"|", 
+				"Potok", 
+				set<string> {"linux"})
+			);
+	this->insert_question(
+			new Question(2, 
+				"^+B", 
+				"przesuniecie kursora w lew", 
+				set<string> {"linux"})
+			);
+	this->insert_question(
+			new Question(3, 
+				"^+F", 
+				"przesuniecie kursora w prawo", 
+				set<string> {"linux"})
+			);
+	this->insert_question(
+			new Question(4, 
+				"^+A", 
+				"przesuniecie kursora na poczatek wiersza", 
+				set<string> {"linux"})
+			);
+	this->insert_question(
+			new Question(5, 
+				"^+E", 
+				"przesuniecie kursora na koniec wiersza", 
+				set<string> {"linux"})
+			);
+	this->insert_question(
+			new Question(6, 
+				"^+K", 
+				"^usuniecie tekstu od kursora do konca wiersza", 
+				set<string> {"linux"})
+			);
+	this->insert_question(
+			new Question(7, 
+				"kill -STOP pid", 
+				"zatrzymanie procesu", 
+				set<string> {"linux"})
+			);
+	this->insert_question(
+			new Question(8, 
+				"kill -CONT pid", 
+				"wznawia zatrzymany proces", 
+				set<string> {"linux"})
+			);
+	this->insert_question(
+			new Question(9, 
+				"kill -l", 
+				"sprawdzanie numerow sygnalow", 
+				set<string> {"linux"})
+			);
+
+	this->insert_question(
+			new Question(10, 
+				"^+Z", 
+				"usypianie procesu", 
+				set<string> {"linux"})
+			);
+	this->insert_question(
+			new Question(11, 
+				"^+C", 
+				"zabijanie procesu", 
+				set<string> {"linux"})
+			);
+	this->insert_question(
+			new Question(12, 
+				"jobs", 
+				"wyswietla uspione procesy", 
+				set<string> {"linux"})
+			);
+	this->insert_question(
+			new Question(13, 
+				"void insert_sorted()",
+				"sortowanie listy/vectora", 
+				set<string> {"C++"})
+			);
 }

@@ -15,11 +15,13 @@ class Database{
 		set<string> _all_tags;
 
 	public:
+		Database();
 		map<long, Question*> get_questions();
 		map<long, Question*> get_questions_by_tags(set<string>);
 		void insert_question(Question *);
 		Question * get_question(long);
 		set<string> get_all_tags();
+		void fill_database();
 };
 
 #endif
