@@ -2,21 +2,45 @@
 
 Database::Database(){
 	this->fill_database();
-	this->openDb();
+	this->openDb();	
+	this->create_tables();
+}
+
+Database::~Database(){
+	sqlite3_close(this->_db);
+}
+
+int Database::callback(void *NotUsed, int argc, char **argv, char **colName){
+	int i;
+	for(i = 0; i<argc; i++) {
+	      printf("%s = %s\n", colName[i], argv[i] ? argv[i] : "NULL");
+	}
+	printf("\n");
+	return 0;
 }
 
 void Database::openDb(){
-	sqlite3 *db;
   	char *zErrMsg = 0;
    	int rc;
 	
-   	rc = sqlite3_open("test.db", &db);
+   	rc = sqlite3_open("test.db", &this->_db);
    	if( rc ) {
-      		fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg(db));
+      		fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg(this->_db));
    	} else {
       		fprintf(stderr, "Opened database successfully\n");
    	}
-   	sqlite3_close(db);
+}
+
+void Database::create_tables(){
+	char *sql, *zErrMsg;
+	int rc;
+	sql = "CREATE TABLE IF NOT EXISTS QUESTIONS(ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, VALUE TEXT NOT NULL, ANSWER TEXT NOT NULL);";
+	rc = sqlite3_exec(this->_db, sql, callback, 0, &zErrMsg);
+	if( rc != SQLITE_OK ) {
+		fprintf(stderr, "SQL error: %s\n", zErrMsg);
+	} else {
+		fprintf(stdout, "Table created successfully\n");
+	}
 }
 
 map<long, Question *> Database::get_questions(){
