@@ -2,6 +2,21 @@
 
 Database::Database(){
 	this->fill_database();
+	this->openDb();
+}
+
+void Database::openDb(){
+	sqlite3 *db;
+  	char *zErrMsg = 0;
+   	int rc;
+	
+   	rc = sqlite3_open("test.db", &db);
+   	if( rc ) {
+      		fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg(db));
+   	} else {
+      		fprintf(stderr, "Opened database successfully\n");
+   	}
+   	sqlite3_close(db);
 }
 
 map<long, Question *> Database::get_questions(){
@@ -28,8 +43,6 @@ set<string> Database::get_all_tags(){
 	}
 	return this->_all_tags;
 }
-
-
 
 void Database::insert_question(Question * q){
 	this->_db_questions[q->get_id()] = q;

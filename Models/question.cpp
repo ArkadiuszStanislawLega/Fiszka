@@ -38,7 +38,6 @@ string Question::to_string(){
 	return std::to_string(this->_id) + ". " + this->_value + " " + this->_answer; 
 }
 
-
 bool Question::is_have_tag(string tag){
 	return this->_tags.find(tag) != this->_tags.end();
 }

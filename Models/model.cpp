@@ -58,7 +58,6 @@ void Model::randomise_questions(){
 	}
 }
 
-
 vector<long> Model::get_questions_id_with_tag(){
 	vector<long> questions_ids;
 	for(auto item : this->_db->get_questions_by_tags(set<string> {this->_current_tag})){
@@ -66,7 +65,6 @@ vector<long> Model::get_questions_id_with_tag(){
 	}	
  	return questions_ids;
 }
-
 
 template <typename T>
 void Model::quick_remove_at(std::vector<T> &v, std::size_t index){

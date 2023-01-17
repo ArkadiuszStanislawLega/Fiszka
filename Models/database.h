@@ -3,6 +3,8 @@
 #include <iostream>
 #include <map>
 #include <string>
+#include <stdio.h>
+#include <sqlite3.h>
 
 #include "question.h"
 
@@ -22,6 +24,7 @@ class Database{
 		Question * get_question(long);
 		set<string> get_all_tags();
 		void fill_database();
+		void openDb();
 };
 
 #endif
