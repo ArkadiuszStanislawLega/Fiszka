@@ -7,6 +7,7 @@
 #include <sqlite3.h>
 
 #include "question.h"
+#include "strings.h"
 
 using std::map;
 using std::string;
@@ -20,6 +21,10 @@ class Database{
 	public:
 		Database();
 		~Database();
+		void create_table(string, string);
+		void create_table_questions();
+		void create_table_tags();
+		void create_table_questions_tags();
 		map<long, Question*> get_questions();
 		map<long, Question*> get_questions_by_tags(set<string>);
 		void insert_question(Question *);

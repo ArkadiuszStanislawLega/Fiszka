@@ -23,7 +23,7 @@ void Database::openDb(){
   	char *zErrMsg = 0;
    	int rc;
 	
-   	rc = sqlite3_open("test.db", &this->_db);
+   	rc = sqlite3_open(DATABASE_NAME.c_str(), &this->_db);
    	if( rc ) {
       		fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg(this->_db));
    	} else {
@@ -31,16 +31,50 @@ void Database::openDb(){
    	}
 }
 
-void Database::create_tables(){
-	char *sql, *zErrMsg;
+void Database::create_table(string sql, string table_name){
+	char *message_error;
 	int rc;
-	sql = "CREATE TABLE IF NOT EXISTS QUESTIONS(ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, VALUE TEXT NOT NULL, ANSWER TEXT NOT NULL);";
-	rc = sqlite3_exec(this->_db, sql, callback, 0, &zErrMsg);
-	if( rc != SQLITE_OK ) {
-		fprintf(stderr, "SQL error: %s\n", zErrMsg);
+	rc = sqlite3_exec(this->_db, sql.c_str(), callback, 0, &message_error);
+	if(rc != SQLITE_OK){
+		printf("%s\n", message_error);
 	} else {
-		fprintf(stdout, "Table created successfully\n");
+		printf("Utworzono tabele %s.\n", table_name.c_str());
 	}
+}
+
+void Database::create_table_questions(){
+	string sql = {CREATE_TABLE_IF_NOT_EXISTS + " " + TABLE_QUESTIONS + "(" +
+			COLUMN_ID + " " + PRIMARY_KEY + ", " +
+			COLUMN_VALUE + " " + TEXT + ", " + 
+			COLUMN_ANSWER + " " + TEXT + ");"};
+	this->create_table(sql, TABLE_QUESTIONS);
+}
+
+void Database::create_table_tags(){
+	string sql = {CREATE_TABLE_IF_NOT_EXISTS + " " + TABLE_TAGS + "(" +
+			COLUMN_ID + " " + PRIMARY_KEY + ", " +
+			COLUMN_TAG + " " + TEXT + 
+			");" 
+	};
+	this->create_table(sql, TABLE_TAGS);
+}
+
+void Database::create_table_questions_tags(){
+	string sql = {CREATE_TABLE_IF_NOT_EXISTS + " " + TABLE_QUESTIONS_TAGS + "(" +
+			COLUMN_ID + " " + PRIMARY_KEY + ", " + 
+			COLUMN_QUESTION_ID + " " + INTEGER_NOT_NULL + ", " +
+			COLUMN_TAG_ID + " " + INTEGER_NOT_NULL + ", " +
+			FOREIGN_KEY + " (" + COLUMN_QUESTION_ID + ") "+ REFERENCES + " " + TABLE_QUESTIONS + "(" + COLUMN_ID + "), " +
+			FOREIGN_KEY + " (" + COLUMN_TAG_ID + ") " + REFERENCES + " " + TABLE_TAGS + "(" + COLUMN_ID + ")" +
+			");" };
+	std::cout << sql << "\n";
+	this->create_table(sql, TABLE_QUESTIONS_TAGS);
+}
+
+void Database::create_tables(){
+	this->create_table_questions();
+	this->create_table_tags();
+	this->create_table_questions_tags();
 }
 
 map<long, Question *> Database::get_questions(){
