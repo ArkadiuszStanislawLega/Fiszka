@@ -67,7 +67,6 @@ void Database::create_table_questions_tags(){
 			FOREIGN_KEY + " (" + COLUMN_QUESTION_ID + ") "+ REFERENCES + " " + TABLE_QUESTIONS + "(" + COLUMN_ID + "), " +
 			FOREIGN_KEY + " (" + COLUMN_TAG_ID + ") " + REFERENCES + " " + TABLE_TAGS + "(" + COLUMN_ID + ")" +
 			");" };
-	std::cout << sql << "\n";
 	this->create_table(sql, TABLE_QUESTIONS_TAGS);
 }
 

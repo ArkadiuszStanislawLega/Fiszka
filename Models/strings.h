@@ -16,6 +16,6 @@ static const string CREATE_TABLE_IF_NOT_EXISTS  = "create table if not exists";
 static const string INTEGER_NOT_NULL = "INTEGER NOT NULL";
 static const string PRIMARY_KEY  = "INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL";
 static const string TEXT = "TEXT NOT NULL";
-static const string FOREIGN_KEY = "FOREIGN_KEY";
+static const string FOREIGN_KEY = "FOREIGN KEY";
 static const string REFERENCES = "REFERENCES";
 
