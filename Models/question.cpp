@@ -1,5 +1,25 @@
 #include "question.h"
 
+int callback(void *used, int argc, char **argv, char **colName){
+	int i;
+	for(i = 0; i<argc; i++) {
+	      printf("%s = %s\n", colName[i], argv[i] ? argv[i] : "NULL");
+	}
+	printf("\n");
+	Question::_db_answer = new Question((long)argv[0], (string)argv[1], (string)argv[2], {}); 
+	return 0;
+}
+
+Question *get_from_db(long id, sqlite3 *db){
+	char *error_message;
+	int rc;
+	string sql = "select * from Questions where id=1";
+	rc = sqlite3_exec(db, sql.c_str(), callback, 0, &error_message);
+	    
+	return Question::_db_answer;
+
+}
+
 Question::Question(){
 	this->_id = 0;
 	this->_value = "";

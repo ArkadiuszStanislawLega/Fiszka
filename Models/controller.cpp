@@ -10,10 +10,14 @@ Controller::Controller(Model *model, View *view){
 void Controller::start_app(){
 	this->_model->start_app();
 	this->_view->start_app();
+
 	Question * q = new Question();
 	q->set_value("To jest pytanie");
 	q->set_answer("to jest odpowiedz");
 	q->add_to_db(this->_model->get_database()->get_access());
+
+	Question *qu  = Question::get_from_db(1, this->_model->get_database()->get_access());
+	std::cout << qu->to_string();
 
 
 	this->prepare_randomised_questions();
