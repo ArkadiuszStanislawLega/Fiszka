@@ -1,23 +1,40 @@
 #include "question.h"
 
-int callback(void *used, int argc, char **argv, char **colName){
+int *Question::get_q_callback(void *used, int argc, char **argv, char **colName){
 	int i;
 	for(i = 0; i<argc; i++) {
 	      printf("%s = %s\n", colName[i], argv[i] ? argv[i] : "NULL");
 	}
+	Question *q = new Question();
 	printf("\n");
-	Question::_db_answer = new Question((long)argv[0], (string)argv[1], (string)argv[2], {}); 
 	return 0;
 }
 
-Question *get_from_db(long id, sqlite3 *db){
+Question *Question::get_from_db(long id, sqlite3 *db){
 	char *error_message;
-	int rc;
+	Question *rc;
+    	sqlite3_stmt * stmt;
 	string sql = "select * from Questions where id=1";
-	rc = sqlite3_exec(db, sql.c_str(), callback, 0, &error_message);
-	    
-	return Question::_db_answer;
 
+	sqlite3_prepare( db, sql.c_str(), -1, &stmt, NULL );//preparing the statement
+    	sqlite3_step( stmt );//executing the statement
+			     //
+	long db_id = (long)sqlite3_column_int(stmt, 0);
+
+	string s1, s2;
+	char *str1, *str2;
+
+	str1 = (char*)sqlite3_column_text(stmt, 1);
+	s1 = (string)str1;
+
+	str2 = (char*)sqlite3_column_text(stmt, 2);
+	s2 = (string)str2;
+
+	return new Question(db_id, s1, s2, {});;
+}
+
+void Question::set_id(long value){
+	this->_id = value;
 }
 
 Question::Question(){

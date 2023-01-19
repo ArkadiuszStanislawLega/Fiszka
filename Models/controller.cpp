@@ -16,9 +16,10 @@ void Controller::start_app(){
 	q->set_answer("to jest odpowiedz");
 	q->add_to_db(this->_model->get_database()->get_access());
 
-	Question *qu  = Question::get_from_db(1, this->_model->get_database()->get_access());
-	std::cout << qu->to_string();
+	q = q->get_from_db(1, this->_model->get_database()->get_access());
 
+	std::cout << "TEST\n"; 
+	std::cout << q->to_string();
 
 	this->prepare_randomised_questions();
 	this->get_questions_number_in_series();
