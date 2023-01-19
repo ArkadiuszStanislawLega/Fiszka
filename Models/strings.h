@@ -1,3 +1,5 @@
+#ifndef STRINGS
+#define STRINGS
 #include <string>
 
 using std::string;
@@ -18,4 +20,4 @@ static const string PRIMARY_KEY  = "INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL";
 static const string TEXT = "TEXT NOT NULL";
 static const string FOREIGN_KEY = "FOREIGN KEY";
 static const string REFERENCES = "REFERENCES";
-
+#endif

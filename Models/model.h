@@ -25,6 +25,7 @@ class Model{
 		vector<Question *> get_randomised_questions();
 		set<string>get_all_tags();
 		void get_tag();
+		Database *get_database();
 		bool is_tag_correct();
 		void get_questions_number_in_series();
 		bool is_questions_number_valid();

@@ -25,8 +25,10 @@ class Database{
 		void create_table_questions();
 		void create_table_tags();
 		void create_table_questions_tags();
+
 		map<long, Question*> get_questions();
 		map<long, Question*> get_questions_by_tags(set<string>);
+		sqlite3 *get_access();
 		void insert_question(Question *);
 		Question * get_question(long);
 		set<string> get_all_tags();

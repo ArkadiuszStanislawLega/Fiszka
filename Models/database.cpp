@@ -10,6 +10,10 @@ Database::~Database(){
 	sqlite3_close(this->_db);
 }
 
+sqlite3 *Database::get_access(){
+	return this->_db;
+}
+
 int Database::callback(void *NotUsed, int argc, char **argv, char **colName){
 	int i;
 	for(i = 0; i<argc; i++) {

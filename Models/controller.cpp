@@ -1,4 +1,5 @@
 #include "controller.h"
+#include "question.h"
 #include <limits>
 
 Controller::Controller(Model *model, View *view){
@@ -9,6 +10,11 @@ Controller::Controller(Model *model, View *view){
 void Controller::start_app(){
 	this->_model->start_app();
 	this->_view->start_app();
+	Question * q = new Question();
+	q->set_value("To jest pytanie");
+	q->set_answer("to jest odpowiedz");
+	q->add_to_db(this->_model->get_database()->get_access());
+
 
 	this->prepare_randomised_questions();
 	this->get_questions_number_in_series();

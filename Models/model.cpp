@@ -6,6 +6,9 @@ Model::Model(){
 	this->_current_tag = "";
 	this->_questions_in_series = 0;
 }
+Database *Model::get_database(){
+	return this->_db;
+}
 
 int Model::get_questions_in_series(){
 	return this->_questions_in_series;

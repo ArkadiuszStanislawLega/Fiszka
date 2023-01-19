@@ -6,6 +6,14 @@ Question::Question(){
 	this->_answer = "";
 }
 
+void Question::add_to_db(sqlite3 *db){
+	char* error_message;
+	int rc;
+	string sql = { "insert into Questions (Value, Answer) values (\"" 
+		+ this->_value + "\", \"" + this->_answer + "\");"};
+	rc = sqlite3_exec(db, sql.c_str(), NULL, 0, &error_message);
+}
+
 Question::Question(long id, string value, string answer, set<string>tags){
 	this->_id = id;
 	this->_value = value;
@@ -27,6 +35,10 @@ string Question::get_answer(){
 
 long Question::get_id(){
 	return this->_id;
+}
+
+void Question::set_value(string value){
+	this->_value = value;
 }
 
 void Question::set_answer(string value){
