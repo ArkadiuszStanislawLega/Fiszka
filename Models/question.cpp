@@ -1,18 +1,47 @@
 #include "question.h"
-#include <string>
+#include "strings.h"
 
-Question *Question::get_from_db(long id, sqlite3 *db){
+void Question::add_to_db(sqlite3 *db, Question *q){
+	char* error_message;
+	int rc;
+	string sql = { 	INSERT + TABLE_QUESTIONS + 
+			" (" + COLUMN_VALUE + ", " + COLUMN_ANSWER + ")" + VALUES + 
+			"(\"" + q->get_value() + "\", \"" + q->get_answer() + "\");"};
+	rc = sqlite3_exec(db, sql.c_str(), NULL, 0, &error_message);
+
+	if(rc != SQLITE_OK){
+		printf("%s\n", error_message);
+	}
+}
+
+
+Question *Question::get_from_db(sqlite3 *db, long id){
     	sqlite3_stmt * stmt;
-	string sql  = {SELECT + " * " + FROM + " " + TABLE_QUESTIONS + " " + WHERE + " " +  COLUMN_ID + "=" + std::to_string(id) + ";"};
+	string sql  = {	SELECT + "* " + FROM + TABLE_QUESTIONS + " " + 
+			WHERE +  COLUMN_ID + "=" + std::to_string(id) + ";"};
 
 	sqlite3_prepare( db, sql.c_str(), -1, &stmt, NULL );
-    	sqlite3_step( stmt );
+    	sqlite3_step(stmt);
 
 	return new Question(
 			(long)sqlite3_column_int(stmt, 0), 
 			(string)((char*)sqlite3_column_text(stmt, 1)), 
 			(string)((char*)sqlite3_column_text(stmt, 2)), 
 			{});;
+}
+
+void Question::update_in_db(sqlite3 *db, Question *updated_q){
+	char *error_message;
+	int rc;
+	string sql = {	UPDATE + TABLE_QUESTIONS + " " + SET + 
+			COLUMN_VALUE + "=\"" + updated_q->get_value() + "\", " + 
+			COLUMN_ANSWER + "=\"" + updated_q->get_answer() + "\" " + 
+			WHERE + COLUMN_ID + "=" + std::to_string(updated_q->get_id()) +";"};
+
+	rc = sqlite3_exec(db, sql.c_str(), NULL, 0, &error_message);
+	if(rc != SQLITE_OK){
+		printf("%s\n", error_message);
+	}
 }
 
 void Question::set_id(long value){
@@ -25,13 +54,6 @@ Question::Question(){
 	this->_answer = "";
 }
 
-void Question::add_to_db(sqlite3 *db, Question *q){
-	char* error_message;
-	int rc;
-	string sql = { "insert into Questions (Value, Answer) values (\"" 
-		+ q->_value + "\", \"" + q->_answer + "\");"};
-	rc = sqlite3_exec(db, sql.c_str(), NULL, 0, &error_message);
-}
 
 Question::Question(long id, string value, string answer, set<string>tags){
 	this->_id = id;

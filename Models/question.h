@@ -18,8 +18,9 @@ class Question{
 
 	public:
 		Question();
-		static Question *get_from_db(long, sqlite3*);
 		static void add_to_db(sqlite3*, Question*);
+		static Question *get_from_db(sqlite3*, long);
+		static void update_in_db(sqlite3*, Question*);
 		Question(long, string, string, set<string>);
 		string get_value();
 		string get_answer();
