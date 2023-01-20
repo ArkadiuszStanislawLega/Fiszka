@@ -20,4 +20,7 @@ static const string PRIMARY_KEY  = "INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL";
 static const string TEXT = "TEXT NOT NULL";
 static const string FOREIGN_KEY = "FOREIGN KEY";
 static const string REFERENCES = "REFERENCES";
+static const string SELECT = "SELECT";
+static const string FROM = "FROM";
+static const string WHERE = "WHERE";
 #endif

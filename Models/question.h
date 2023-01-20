@@ -5,6 +5,8 @@
 #include <set>
 #include <sqlite3.h>
 
+#include "strings.h"
+
 using std::string;
 using std::set;
 

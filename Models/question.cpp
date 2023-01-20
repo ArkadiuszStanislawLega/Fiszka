@@ -1,26 +1,18 @@
 #include "question.h"
+#include <string>
 
 Question *Question::get_from_db(long id, sqlite3 *db){
-	char *error_message;
-	Question *rc;
     	sqlite3_stmt * stmt;
-	string sql = "select * from Questions where id=13";
+	string sql  = {SELECT + " * " + FROM + " " + TABLE_QUESTIONS + " " + WHERE + " " +  COLUMN_ID + "=" + std::to_string(id) + ";"};
 
-	sqlite3_prepare( db, sql.c_str(), -1, &stmt, NULL );//preparing the statement
-    	sqlite3_step( stmt );//executing the statement
-			     //
-	long db_id = (long)sqlite3_column_int(stmt, 0);
+	sqlite3_prepare( db, sql.c_str(), -1, &stmt, NULL );
+    	sqlite3_step( stmt );
 
-	string s1, s2;
-	char *str1, *str2;
-
-	str1 = (char*)sqlite3_column_text(stmt, 1);
-	s1 = (string)str1;
-
-	str2 = (char*)sqlite3_column_text(stmt, 2);
-	s2 = (string)str2;
-
-	return new Question(db_id, s1, s2, {});;
+	return new Question(
+			(long)sqlite3_column_int(stmt, 0), 
+			(string)((char*)sqlite3_column_text(stmt, 1)), 
+			(string)((char*)sqlite3_column_text(stmt, 2)), 
+			{});;
 }
 
 void Question::set_id(long value){
