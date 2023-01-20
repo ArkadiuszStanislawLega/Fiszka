@@ -1,7 +1,6 @@
 #include "question.h"
-#include "strings.h"
 
-void Question::add_to_db(sqlite3 *db, Question *q){
+void Question::create(sqlite3 *db, Question *q){
 	char* error_message;
 	int rc;
 	string sql = { 	INSERT + TABLE_QUESTIONS + 
@@ -15,28 +14,43 @@ void Question::add_to_db(sqlite3 *db, Question *q){
 }
 
 
-Question *Question::get_from_db(sqlite3 *db, long id){
+Question *Question::read(sqlite3 *db, long id){
     	sqlite3_stmt * stmt;
 	string sql  = {	SELECT + "* " + FROM + TABLE_QUESTIONS + " " + 
 			WHERE +  COLUMN_ID + "=" + std::to_string(id) + ";"};
 
 	sqlite3_prepare( db, sql.c_str(), -1, &stmt, NULL );
     	sqlite3_step(stmt);
-
-	return new Question(
+	
+	if((long)sqlite3_column_int(stmt, 0)){
+		return new Question(
 			(long)sqlite3_column_int(stmt, 0), 
 			(string)((char*)sqlite3_column_text(stmt, 1)), 
 			(string)((char*)sqlite3_column_text(stmt, 2)), 
 			{});;
+	} 
+	return 0;
 }
 
-void Question::update_in_db(sqlite3 *db, Question *updated_q){
+void Question::update(sqlite3 *db, Question *updated_q){
 	char *error_message;
 	int rc;
 	string sql = {	UPDATE + TABLE_QUESTIONS + " " + SET + 
 			COLUMN_VALUE + "=\"" + updated_q->get_value() + "\", " + 
 			COLUMN_ANSWER + "=\"" + updated_q->get_answer() + "\" " + 
 			WHERE + COLUMN_ID + "=" + std::to_string(updated_q->get_id()) +";"};
+
+	rc = sqlite3_exec(db, sql.c_str(), NULL, 0, &error_message);
+	if(rc != SQLITE_OK){
+		printf("%s\n", error_message);
+	}
+}
+
+void Question::del(sqlite3 *db, long id){
+	char *error_message;
+	int rc;
+	string sql = { DELETE + TABLE_QUESTIONS + " " + WHERE + COLUMN_ID + "=" + std::to_string(id) + ";"};
+	std::cout << sql << "\n";
 
 	rc = sqlite3_exec(db, sql.c_str(), NULL, 0, &error_message);
 	if(rc != SQLITE_OK){

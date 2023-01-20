@@ -27,4 +27,5 @@ static const string INSERT = "INSERT INTO ";
 static const string VALUES = "VALUES";
 static const string UPDATE = "UPDATE ";
 static const string SET = "SET ";
+static const string DELETE = "DELETE FROM ";
 #endif

@@ -17,25 +17,27 @@ class Question{
 		set<string> _tags;
 
 	public:
+		static void create(sqlite3*, Question*);
+		static Question *read(sqlite3*, long);
+		static void update(sqlite3*, Question*);
+		static void del(sqlite3*, long);
+
 		Question();
-		static void add_to_db(sqlite3*, Question*);
-		static Question *get_from_db(sqlite3*, long);
-		static void update_in_db(sqlite3*, Question*);
 		Question(long, string, string, set<string>);
+
+		long get_id();
 		string get_value();
 		string get_answer();
-			
-
-		void add_tag();
-		void remove_tag(string);
-		bool is_have_tag(string);
-		set<string> get_tags();
 
 		void set_id(long);	
 		void set_value(string);
 		void set_answer(string);
+			
+		void add_tag();
+		void remove_tag(string);
+		bool is_have_tag(string);
 
-		long get_id();
+		set<string> get_tags();
 		string to_string();
 };
 #endif

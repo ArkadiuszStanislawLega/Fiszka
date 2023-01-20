@@ -11,16 +11,6 @@ void Controller::start_app(){
 	this->_model->start_app();
 	this->_view->start_app();
 
-	Question * q = new Question();
-	q = q->get_from_db(this->_model->get_database()->get_access(), 13);
-	q->set_answer("Zostalo cos tam zaktualizowane");
-	q->set_value("Bylo tez zaktualizowane");
-	Question::update_in_db(this->_model->get_database()->get_access(), q);
-	q = q->get_from_db(this->_model->get_database()->get_access(), 13);
-
-	std::cout << "TEST\n"; 
-	std::cout << q->to_string();
-
 	this->prepare_randomised_questions();
 	this->get_questions_number_in_series();
 	this->series();
