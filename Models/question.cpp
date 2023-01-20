@@ -1,20 +1,10 @@
 #include "question.h"
 
-int *Question::get_q_callback(void *used, int argc, char **argv, char **colName){
-	int i;
-	for(i = 0; i<argc; i++) {
-	      printf("%s = %s\n", colName[i], argv[i] ? argv[i] : "NULL");
-	}
-	Question *q = new Question();
-	printf("\n");
-	return 0;
-}
-
 Question *Question::get_from_db(long id, sqlite3 *db){
 	char *error_message;
 	Question *rc;
     	sqlite3_stmt * stmt;
-	string sql = "select * from Questions where id=1";
+	string sql = "select * from Questions where id=13";
 
 	sqlite3_prepare( db, sql.c_str(), -1, &stmt, NULL );//preparing the statement
     	sqlite3_step( stmt );//executing the statement
@@ -43,11 +33,11 @@ Question::Question(){
 	this->_answer = "";
 }
 
-void Question::add_to_db(sqlite3 *db){
+void Question::add_to_db(sqlite3 *db, Question *q){
 	char* error_message;
 	int rc;
 	string sql = { "insert into Questions (Value, Answer) values (\"" 
-		+ this->_value + "\", \"" + this->_answer + "\");"};
+		+ q->_value + "\", \"" + q->_answer + "\");"};
 	rc = sqlite3_exec(db, sql.c_str(), NULL, 0, &error_message);
 }
 

@@ -12,9 +12,10 @@ void Controller::start_app(){
 	this->_view->start_app();
 
 	Question * q = new Question();
-	q->set_value("To jest pytanie");
-	q->set_answer("to jest odpowiedz");
-	q->add_to_db(this->_model->get_database()->get_access());
+	q->set_value("Kolejne pytanie");
+	q->set_answer("Kolejna odpowiedz.");
+
+	Question::add_to_db(this->_model->get_database()->get_access(), q);
 
 	q = q->get_from_db(1, this->_model->get_database()->get_access());
 
