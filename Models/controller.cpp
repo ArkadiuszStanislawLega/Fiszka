@@ -1,6 +1,4 @@
 #include "controller.h"
-#include "question.h"
-#include <limits>
 
 Controller::Controller(Model *model, View *view){
 	this->_model = model;
@@ -10,6 +8,12 @@ Controller::Controller(Model *model, View *view){
 void Controller::start_app(){
 	this->_model->start_app();
 	this->_view->start_app();
+	
+	Tag *tag = new Tag();
+	tag->set_tag("fajny");
+	Tag::create(this->_model->get_database()->get_access(), tag);
+	tag = Tag::read(this->_model->get_database()->get_access(), 1);
+	std::cout << tag->get_id() << " " << tag->get_tag() << "\n";
 
 	this->prepare_randomised_questions();
 	this->get_questions_number_in_series();

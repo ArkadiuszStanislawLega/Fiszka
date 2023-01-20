@@ -1,8 +1,10 @@
 #ifndef CONTROLLER
 #define CONTROLLER
+#include <limits>
 
 #include "model.h"
 #include "view.h"
+#include "tag.h"
 
 class Controller{
 	private:

@@ -1,14 +1,35 @@
 #include "tag.h"
 
 void Tag::create(sqlite3 *db, Tag *tag){
+	if (tag != NULL){
+		char* error_message;
+		int rc;
+		string sql = { 	INSERT + TABLE_TAGS + 
+				" (" + COLUMN_TAG + ")" + VALUES + 
+				"(\"" + tag->get_tag() + "\");"};
 
+		rc = sqlite3_exec(db, sql.c_str(), NULL, 0, &error_message);
+
+		if(rc != SQLITE_OK){
+			printf("%s\n", error_message);
+		}
+	}
 }
 
 Tag *Tag::read(sqlite3 *db, long id){
-	Tag *t = new Tag();
+    	sqlite3_stmt * stmt;
+	string sql  = {	SELECT + "* " + FROM + TABLE_TAGS + " " + 
+			WHERE +  COLUMN_ID + "=" + std::to_string(id) + ";"};
 
-
-	return t;
+	sqlite3_prepare( db, sql.c_str(), -1, &stmt, NULL );
+    	sqlite3_step(stmt);
+	
+	if((long)sqlite3_column_int(stmt, 0)){
+		return new Tag((long)sqlite3_column_int(stmt, 0), 
+				(string)((char*)sqlite3_column_text(stmt, 1))
+				);
+	} 
+	return 0;
 }
 
 void Tag::update(sqlite3 *db, Tag *tag){
@@ -46,5 +67,13 @@ long Tag::get_id(){
 }
 
 string Tag::get_tag(){
-	return this->get_tag();
+	return this->_tag;
+}
+
+void Tag::set_id(long id){
+	this->_id = id;
+}
+
+void Tag::set_tag(string tag){
+	this->_tag = tag;
 }

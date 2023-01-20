@@ -5,6 +5,7 @@
 #include <sqlite3.h>
 
 #include "question.h"
+#include "strings.h"
 
 using std::string;
 using std::vector;
@@ -27,5 +28,8 @@ class Tag{
 
 		long get_id();
 		string get_tag();
+
+		void set_id(long);
+		void set_tag(string);
 };
 #endif
