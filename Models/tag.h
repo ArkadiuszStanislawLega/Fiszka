@@ -16,10 +16,10 @@ class Tag{
 		string _tag;
 
 	public:
-		static void create(sqlite3 *, Tag *);
+		static int create(sqlite3 *, Tag *);
 		static Tag *read(sqlite3*, long);
-		static void update(sqlite3*, Tag *);
-		static void del(sqlite3*, long);
+		static int update(sqlite3*, Tag *);
+		static int del(sqlite3*, long);
 		static vector<Tag> read_all_tags(sqlite3*);
 		static vector<Question> read_all_connected_questions(sqlite3*, Tag);
 

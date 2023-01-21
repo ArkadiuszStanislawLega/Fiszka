@@ -1,7 +1,7 @@
 #include "tag.h"
 
-void Tag::create(sqlite3 *db, Tag *tag){
-	if (tag != NULL){
+int Tag::create(sqlite3 *db, Tag *tag){
+	if (db != NULL && tag != NULL){
 		char* error_message;
 		int rc;
 		string sql = { 	INSERT + TABLE_TAGS + 
@@ -12,49 +12,69 @@ void Tag::create(sqlite3 *db, Tag *tag){
 
 		if(rc != SQLITE_OK){
 			printf("%s\n", error_message);
-		}
+		} 
+		return rc;
+	} else {
+		printf("Tag::create -> Database Error or Tag is Null.");
 	}
+	return -1;
 }
 
 Tag *Tag::read(sqlite3 *db, long id){
-    	sqlite3_stmt * stmt;
-	string sql  = {	SELECT + "* " + FROM + TABLE_TAGS + " " + 
-			WHERE +  COLUMN_ID + "=" + std::to_string(id) + ";"};
+	if (db != NULL && id > 0){
+		sqlite3_stmt * stmt;
+		string sql  = {	SELECT + "* " + FROM + TABLE_TAGS + " " + 
+				WHERE +  COLUMN_ID + "=" + std::to_string(id) + ";"};
 
-	sqlite3_prepare( db, sql.c_str(), -1, &stmt, NULL );
-    	sqlite3_step(stmt);
-	
-	if((long)sqlite3_column_int(stmt, 0)){
-		return new Tag((long)sqlite3_column_int(stmt, 0), 
-				(string)((char*)sqlite3_column_text(stmt, 1))
-				);
-	} 
+		sqlite3_prepare( db, sql.c_str(), -1, &stmt, NULL );
+		sqlite3_step(stmt);
+		
+		if((long)sqlite3_column_int(stmt, 0)){
+			return new Tag((long)sqlite3_column_int(stmt, 0), 
+					(string)((char*)sqlite3_column_text(stmt, 1))
+					);
+		} 
+
+	} else {
+		printf("Tag::read -> Database Error or id is lower than 0.");
+	}
 	return 0;
 }
 
-void Tag::update(sqlite3 *db, Tag *tag){
-	char *error_message;
-	int rc;
-	string sql = {	UPDATE + TABLE_TAGS + " " + SET + 
-			COLUMN_TAG + "=\"" + tag->get_tag() + "\" " + 
-			WHERE + COLUMN_ID + "=" + std::to_string(tag->get_id()) +";"};
+int Tag::update(sqlite3 *db, Tag *tag){
+	if (db != NULL && tag != NULL){
+		char *error_message;
+		int rc;
+		string sql = {	UPDATE + TABLE_TAGS + " " + SET + 
+				COLUMN_TAG + "=\"" + tag->get_tag() + "\" " + 
+				WHERE + COLUMN_ID + "=" + std::to_string(tag->get_id()) +";"};
 
-	rc = sqlite3_exec(db, sql.c_str(), NULL, 0, &error_message);
-	if(rc != SQLITE_OK){
-		printf("%s\n", error_message);
+		rc = sqlite3_exec(db, sql.c_str(), NULL, 0, &error_message);
+		if(rc != SQLITE_OK){
+			printf("%s\n", error_message);
+		}
+		return rc;
+	} else {
+		printf("Tag::update -> Database Error or tag is Null.");
 	}
+	return -1;
 }
 
-void Tag::del(sqlite3 *db, long id){
-	char *error_message;
-	int rc;
-	string sql = { DELETE + TABLE_TAGS + " " + WHERE + COLUMN_ID + "=" + std::to_string(id) + ";"};
+int Tag::del(sqlite3 *db, long id){
+	if(db != NULL && id > 0){
+		char *error_message;
+		int rc;
+		string sql = { DELETE + TABLE_TAGS + " " + WHERE + COLUMN_ID + "=" + std::to_string(id) + ";"};
 
-	rc = sqlite3_exec(db, sql.c_str(), NULL, 0, &error_message);
-	if(rc != SQLITE_OK){
-		printf("%s\n", error_message);
+		rc = sqlite3_exec(db, sql.c_str(), NULL, 0, &error_message);
+		if(rc != SQLITE_OK){
+			printf("%s\n", error_message);
+		}
+		return rc;
+	} else {
+		printf("Tag::del -> Database Error or id is lower than 0.");
 	}
-
+	return -1;
 }
 
 vector<Tag> Tag::read_all_tags(sqlite3 *db){
