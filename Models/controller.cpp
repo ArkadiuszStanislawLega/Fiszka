@@ -9,6 +9,11 @@ void Controller::start_app(){
 	this->_model->start_app();
 	this->_view->start_app();
 
+	for (Tag t :Tag::read_all_tags(this->_model->get_database()->get_access())){
+		std::cout << t.get_id() << " " << t.get_tag() << "\n";
+	}
+
+
 	this->prepare_randomised_questions();
 	this->get_questions_number_in_series();
 	this->series();

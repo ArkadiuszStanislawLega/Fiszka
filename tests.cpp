@@ -11,6 +11,7 @@ int main(){
 	return 0;
 }
 
+//SQLITE_OK = 0, every other values means error.
 void model_tag_test(){
 	Model *m = new Model();
 	Tag *tag = new Tag();

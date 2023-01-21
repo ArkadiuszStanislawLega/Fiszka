@@ -1,5 +1,4 @@
 #include "tag.h"
-#include <iostream>
 #include <string>
 
 int Tag::create(sqlite3 *db, Tag *tag){
@@ -71,10 +70,9 @@ int Tag::del(sqlite3 *db, long id){
 	return 0;
 }
 
-int Tag::get_all_tags(void *tags, int columns, char** column_values, char** column_names){
- 	if (vector<Tag>* t = reinterpret_cast<vector<Tag>*>(tags)){
-        	t->push_back(Tag(std::stol(column_values[0]), column_values[1]));
-	}
+int Tag::get_tags(void *tags, int columns, char** column_values, char** column_names){
+ 	if (std::vector<Tag>* tags = reinterpret_cast<std::vector<Tag>*>(tags))
+        tags->push_back(Tag((long)column_values[0], column_values[1]));
 	return 0;
 }
 
@@ -83,8 +81,12 @@ vector<Tag> Tag::read_all_tags(sqlite3 *db){
 	if(db != NULL){   
 		char *error_mesaage;
 		int rc;
-		string sql = {SELECT + "* " + FROM + TABLE_TAGS + ";"};
-		rc = sqlite3_exec(db, sql.c_str(), &get_all_tags, static_cast<void*>(&tags), &error_mesaage);
+		string sql = "Select * from Tags;";
+		rc = sqlite3_exec(db, sql.c_str(), get_tags, static_cast<void*>(&tags), &error_mesaage);
+
+		for(Tag t : tags){
+			std::cout << std::to_string(t.get_id()) << t.get_tag() << "\n";
+		}
 	}
 	return tags;
 }

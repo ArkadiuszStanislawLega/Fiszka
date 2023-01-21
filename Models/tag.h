@@ -12,6 +12,7 @@ using std::vector;
 
 class Tag{
 	private:
+		static int get_all_tags(void*, int, char**, char**);
 		long _id;
 		string _tag;
 
