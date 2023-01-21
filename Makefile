@@ -1,6 +1,6 @@
-CFLAGS=-Wall -g
+CFLAGS=-Wall -g 
 TARGET=main
-TATGET_T=tests
+TARGET_T=tests
 MODLES_PATH=Models
 
 fiszka: 	
@@ -8,7 +8,7 @@ fiszka:
 	g++ -o $(TARGET) $(TARGET).cpp $(MODLES_PATH)/*.cpp -lsqlite3
 	./$(TARGET)
 
-test:
+ftests:
 	rm -f $(TARGET_T)
 	g++ -o $(TARGET_T) $(TARGET_T).cpp $(MODLES_PATH)/*.cpp -lsqlite3
 	./$(TARGET_T)

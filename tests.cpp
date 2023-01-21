@@ -1,7 +1,8 @@
-#include <assert.h>
-#include "Models/tag.h"
+#include "tests.h"
 
 int main(){
-	assert(Tag::create(NULL, NULL));
+	Tag *tag = new Tag();
+	assert(Tag::create(NULL, tag));
+	assert(Tag::update(NULL, tag));
 	return 0;
 }

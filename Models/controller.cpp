@@ -8,6 +8,9 @@ Controller::Controller(Model *model, View *view){
 void Controller::start_app(){
 	this->_model->start_app();
 	this->_view->start_app();
+	Tag *t = new Tag();
+	t->set_tag("wzorce");
+	Tag::create(this->_model->get_database()->get_access(), t);
 
 	this->prepare_randomised_questions();
 	this->get_questions_number_in_series();

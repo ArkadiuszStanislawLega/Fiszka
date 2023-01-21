@@ -19,5 +19,4 @@ class Controller{
 		Controller(Model *, View *);
 		void start_app();
 };
-
 #endif
