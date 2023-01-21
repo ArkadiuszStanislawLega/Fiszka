@@ -15,9 +15,9 @@ int Tag::create(sqlite3 *db, Tag *tag){
 		} 
 		return rc;
 	} else {
-		printf("Tag::create -> Database Error or Tag is Null.");
+		printf("Tag::create -> Database Error or Tag is Null.\n");
 	}
-	return -1;
+	return 0;
 }
 
 Tag *Tag::read(sqlite3 *db, long id){
@@ -36,7 +36,7 @@ Tag *Tag::read(sqlite3 *db, long id){
 		} 
 
 	} else {
-		printf("Tag::read -> Database Error or id is lower than 0.");
+		printf("Tag::read -> Database Error or id is lower than 0.\n");
 	}
 	return 0;
 }
@@ -55,9 +55,9 @@ int Tag::update(sqlite3 *db, Tag *tag){
 		}
 		return rc;
 	} else {
-		printf("Tag::update -> Database Error or tag is Null.");
+		printf("Tag::update -> Database Error or tag is Null.\n");
 	}
-	return -1;
+	return 0;
 }
 
 int Tag::del(sqlite3 *db, long id){
@@ -72,9 +72,9 @@ int Tag::del(sqlite3 *db, long id){
 		}
 		return rc;
 	} else {
-		printf("Tag::del -> Database Error or id is lower than 0.");
+		printf("Tag::del -> Database Error or id is lower than 0.\n");
 	}
-	return -1;
+	return 0;
 }
 
 vector<Tag> Tag::read_all_tags(sqlite3 *db){
