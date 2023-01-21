@@ -33,10 +33,27 @@ Tag *Tag::read(sqlite3 *db, long id){
 }
 
 void Tag::update(sqlite3 *db, Tag *tag){
+	char *error_message;
+	int rc;
+	string sql = {	UPDATE + TABLE_TAGS + " " + SET + 
+			COLUMN_TAG + "=\"" + tag->get_tag() + "\" " + 
+			WHERE + COLUMN_ID + "=" + std::to_string(tag->get_id()) +";"};
 
+	rc = sqlite3_exec(db, sql.c_str(), NULL, 0, &error_message);
+	if(rc != SQLITE_OK){
+		printf("%s\n", error_message);
+	}
 }
 
 void Tag::del(sqlite3 *db, long id){
+	char *error_message;
+	int rc;
+	string sql = { DELETE + TABLE_TAGS + " " + WHERE + COLUMN_ID + "=" + std::to_string(id) + ";"};
+
+	rc = sqlite3_exec(db, sql.c_str(), NULL, 0, &error_message);
+	if(rc != SQLITE_OK){
+		printf("%s\n", error_message);
+	}
 
 }
 
