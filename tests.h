@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "Models/tag.h"
+#include "Models/question.h"
 #include "Models/model.h"
 
 #endif

@@ -30,8 +30,6 @@ void Database::openDb(){
    	rc = sqlite3_open(DATABASE_NAME.c_str(), &this->_db);
    	if( rc ) {
       		fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg(this->_db));
-   	} else {
-      		fprintf(stderr, "Opened database successfully\n");
    	}
 }
 
@@ -40,10 +38,8 @@ void Database::create_table(string sql, string table_name){
 	int rc;
 	rc = sqlite3_exec(this->_db, sql.c_str(), callback, 0, &message_error);
 	if(rc != SQLITE_OK){
-		printf("%s\n", message_error);
-	} else {
-		printf("Utworzono tabele %s.\n", table_name.c_str());
-	}
+		fprintf(stderr, "%s\n", message_error);
+	} 
 }
 
 void Database::create_table_questions(){

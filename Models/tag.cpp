@@ -14,10 +14,9 @@ int Tag::create(sqlite3 *db, Tag *tag){
 			printf("%s\n", error_message);
 		} 
 		return rc;
-	} else {
-		printf("Tag::create -> Database Error or Tag is Null.\n");
 	}
 	return 0;
+
 }
 
 Tag *Tag::read(sqlite3 *db, long id){
@@ -34,9 +33,6 @@ Tag *Tag::read(sqlite3 *db, long id){
 					(string)((char*)sqlite3_column_text(stmt, 1))
 					);
 		} 
-
-	} else {
-		printf("Tag::read -> Database Error or id is lower than 0.\n");
 	}
 	return 0;
 }
@@ -54,8 +50,6 @@ int Tag::update(sqlite3 *db, Tag *tag){
 			printf("%s\n", error_message);
 		}
 		return rc;
-	} else {
-		printf("Tag::update -> Database Error or tag is Null.\n");
 	}
 	return 0;
 }
@@ -71,9 +65,7 @@ int Tag::del(sqlite3 *db, long id){
 			printf("%s\n", error_message);
 		}
 		return rc;
-	} else {
-		printf("Tag::del -> Database Error or id is lower than 0.\n");
-	}
+	} 
 	return 0;
 }
 

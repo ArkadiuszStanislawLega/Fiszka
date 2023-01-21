@@ -17,10 +17,10 @@ class Question{
 		set<string> _tags;
 
 	public:
-		static void create(sqlite3*, Question*);
+		static int create(sqlite3*, Question*);
 		static Question *read(sqlite3*, long);
-		static void update(sqlite3*, Question*);
-		static void del(sqlite3*, long);
+		static int update(sqlite3*, Question*);
+		static int del(sqlite3*, long);
 
 		Question();
 		Question(long, string, string, set<string>);

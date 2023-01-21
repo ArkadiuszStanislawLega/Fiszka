@@ -1,61 +1,75 @@
 #include "question.h"
 
-void Question::create(sqlite3 *db, Question *q){
-	char* error_message;
-	int rc;
-	string sql = { 	INSERT + TABLE_QUESTIONS + 
-			" (" + COLUMN_VALUE + ", " + COLUMN_ANSWER + ")" + VALUES + 
-			"(\"" + q->get_value() + "\", \"" + q->get_answer() + "\");"};
-	rc = sqlite3_exec(db, sql.c_str(), NULL, 0, &error_message);
+int Question::create(sqlite3 *db, Question *q){
+	if(db != NULL && q != NULL){
+		char* error_message;
+		int rc;
+		string sql = { 	INSERT + TABLE_QUESTIONS + 
+				" (" + COLUMN_VALUE + ", " + COLUMN_ANSWER + ")" + VALUES + 
+				"(\"" + q->get_value() + "\", \"" + q->get_answer() + "\");"};
+		rc = sqlite3_exec(db, sql.c_str(), NULL, 0, &error_message);
 
-	if(rc != SQLITE_OK){
-		printf("%s\n", error_message);
+		if(rc != SQLITE_OK){
+			printf("%s\n", error_message);
+		}
+		return rc;
 	}
+	return 0;
 }
 
 
 Question *Question::read(sqlite3 *db, long id){
-    	sqlite3_stmt * stmt;
-	string sql  = {	SELECT + "* " + FROM + TABLE_QUESTIONS + " " + 
-			WHERE +  COLUMN_ID + "=" + std::to_string(id) + ";"};
+	if (db != NULL && id > 0){
+		sqlite3_stmt * stmt;
+		string sql  = {	SELECT + "* " + FROM + TABLE_QUESTIONS + " " + 
+				WHERE +  COLUMN_ID + "=" + std::to_string(id) + ";"};
 
-	sqlite3_prepare( db, sql.c_str(), -1, &stmt, NULL );
-    	sqlite3_step(stmt);
-	
-	if((long)sqlite3_column_int(stmt, 0)){
-		return new Question(
-			(long)sqlite3_column_int(stmt, 0), 
-			(string)((char*)sqlite3_column_text(stmt, 1)), 
-			(string)((char*)sqlite3_column_text(stmt, 2)), 
-			{});;
-	} 
+		sqlite3_prepare( db, sql.c_str(), -1, &stmt, NULL );
+		sqlite3_step(stmt);
+		
+		if((long)sqlite3_column_int(stmt, 0)){
+			return new Question(
+				(long)sqlite3_column_int(stmt, 0), 
+				(string)((char*)sqlite3_column_text(stmt, 1)), 
+				(string)((char*)sqlite3_column_text(stmt, 2)), 
+				{});;
+		} 
+	}
 	return 0;
 }
 
-void Question::update(sqlite3 *db, Question *updated_q){
-	char *error_message;
-	int rc;
-	string sql = {	UPDATE + TABLE_QUESTIONS + " " + SET + 
-			COLUMN_VALUE + "=\"" + updated_q->get_value() + "\", " + 
-			COLUMN_ANSWER + "=\"" + updated_q->get_answer() + "\" " + 
-			WHERE + COLUMN_ID + "=" + std::to_string(updated_q->get_id()) +";"};
+int Question::update(sqlite3 *db, Question *updated_q){
+	if(db != NULL && updated_q != NULL){
+		char *error_message;
+		int rc;
+		string sql = {	UPDATE + TABLE_QUESTIONS + " " + SET + 
+				COLUMN_VALUE + "=\"" + updated_q->get_value() + "\", " + 
+				COLUMN_ANSWER + "=\"" + updated_q->get_answer() + "\" " + 
+				WHERE + COLUMN_ID + "=" + std::to_string(updated_q->get_id()) +";"};
 
-	rc = sqlite3_exec(db, sql.c_str(), NULL, 0, &error_message);
-	if(rc != SQLITE_OK){
-		printf("%s\n", error_message);
+		rc = sqlite3_exec(db, sql.c_str(), NULL, 0, &error_message);
+		if(rc != SQLITE_OK){
+			printf("%s\n", error_message);
+		}
+		return rc;
 	}
+	return 0;
 }
 
-void Question::del(sqlite3 *db, long id){
-	char *error_message;
-	int rc;
-	string sql = { DELETE + TABLE_QUESTIONS + " " + WHERE + COLUMN_ID + "=" + std::to_string(id) + ";"};
-	std::cout << sql << "\n";
+int Question::del(sqlite3 *db, long id){
+	if (db != NULL && id > 0){
+		char *error_message;
+		int rc;
+		string sql = { DELETE + TABLE_QUESTIONS + " " + WHERE + COLUMN_ID + "=" + std::to_string(id) + ";"};
+		std::cout << sql << "\n";
 
-	rc = sqlite3_exec(db, sql.c_str(), NULL, 0, &error_message);
-	if(rc != SQLITE_OK){
-		printf("%s\n", error_message);
+		rc = sqlite3_exec(db, sql.c_str(), NULL, 0, &error_message);
+		if(rc != SQLITE_OK){
+			printf("%s\n", error_message);
+		}
+		return rc;
 	}
+	return 0;
 }
 
 void Question::set_id(long value){
