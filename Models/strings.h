@@ -28,4 +28,6 @@ static const string VALUES = "VALUES";
 static const string UPDATE = "UPDATE ";
 static const string SET = "SET ";
 static const string DELETE = "DELETE FROM ";
+static const string INNER_JOIN = "INNER JOIN ";
+static const string ON = "ON ";
 #endif

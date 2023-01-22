@@ -9,10 +9,15 @@ void Controller::start_app(){
 	this->_model->start_app();
 	this->_view->start_app();
 
-	for (Tag t :Tag::read_all_tags(this->_model->get_database()->get_access())){
-		std::cout << t.get_id() << " " << t.get_tag() << "\n";
-	}
+	Question *q = Question::read(this->_model->get_database()->get_access(), 6);
+	Tag *tag = Tag::read(this->_model->get_database()->get_access(), 1);
+	tag->relate_question(this->_model->get_database()->get_access(), q);
+	vector<Question> questions = tag->read_related_questions(this->_model->get_database()->get_access());
 
+	std::cout << "TEST\n";
+	for(Question q: questions){
+		std::cout << q.to_string() << "\n";
+	}
 
 	this->prepare_randomised_questions();
 	this->get_questions_number_in_series();
