@@ -85,7 +85,7 @@ Question::Question(){
 }
 
 
-Question::Question(long id, string value, string answer, set<string>tags){
+Question::Question(long id, string value, string answer, vector<Tag>tags){
 	this->_id = id;
 	this->_value = value;
 	this->_answer = answer;
@@ -120,10 +120,6 @@ vector<Tag> Question::read_tags(sqlite3* db, Question *q){
 	return tags;
 }
 
-set<string> Question::get_tags(){
-	return this->_tags;
-}
-
 string Question::get_value(){
 	return this->_value;
 }
@@ -149,18 +145,17 @@ string Question::to_string(){
 	return std::to_string(this->_id) + ". " + this->_value + " " + this->_answer; 
 }
 
-bool Question::is_have_tag(string tag){
-	return this->_tags.find(tag) != this->_tags.end();
+bool Question::is_have_tag(Tag *tag){
+	return	std::find_if(this->_tags.begin(), this->_tags.end(), [&](Tag &current)
+			{ return current.get_id() == tag->get_id();}) != this->_tags.end() ? true : false;
 }
 
-void Question::remove_tag(string tag){
-	this->_tags.erase(tag);
+void Question::set_tags(vector<Tag> t){
+	this->_tags = t;
 }
 
-void Question::set_tags(vector<Tag> tags){
-	this->_tags_db = tags;
-}
-
-vector<Tag> Question::get_tags_db(){
-	return this->_tags_db;
+void Question::remove_tag(Tag *tag){
+	auto inter = std::find_if(this->_tags.begin(), this->_tags.end(), [&](Tag &current)
+			{return current.get_id() == tag->get_id();});
+	this->_tags.erase(inter);
 }

@@ -10,15 +10,6 @@ void Controller::start_app(){
 	this->_model->start_app();
 	this->_view->start_app();
 
-	Question *q = new Question(6, "", "", {});
-	Tag *t = new Tag(1, "elo");
-	t->relate_question(this->_model->get_database()->get_access(), q);
-
-	q->set_tags(Question::read_tags(this->_model->get_database()->get_access(), q));
-	for(Tag t : q->get_tags_db()){
-		std::cout << t.get_tag() << "\n";
-	}
-
 	this->prepare_randomised_questions();
 	this->get_questions_number_in_series();
 	this->series();
@@ -43,10 +34,10 @@ void Controller::get_questions_number_in_series(){
 void Controller::get_tag(){
 	this->_view->get_tag();
 	this->_model->get_tag();
-	if(!this->_model->is_tag_correct()){
+	//if(!this->_model->is_tag_correct()){
 		this->_view->print_wrong_tag();
 		this->get_tag();
-	}
+	//}
 }
 
 void Controller::series(){

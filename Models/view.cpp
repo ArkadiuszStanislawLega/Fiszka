@@ -19,10 +19,10 @@ void View::get_tag(){
 
 void View::print_tags(){
 	int i = 1;
-	printf("Tagi w bazie danych (%lu):\n", this->_model->get_all_tags().size());
-	for(string tag : this->_model->get_all_tags()){
-		printf("%d. %s\n", i++, tag.c_str());
-	}
+//	printf("Tagi w bazie danych (%lu):\n", this->_model->get_all_tags().size());
+//	for(string tag : this->_model->get_all_tags()){
+//		printf("%d. %s\n", i++, tag.c_str());
+//	}
 	printf("--\n");
 }
 

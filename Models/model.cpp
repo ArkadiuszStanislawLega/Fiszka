@@ -26,17 +26,8 @@ vector<Question *> Model::get_randomised_questions(){
 	return this->_randomised_questions;
 } 
 
-set<string> Model::get_all_tags(){
-	return this->_db->get_all_tags();
-}
-
 void Model::get_tag(){
 	std::cin >> this->_current_tag;	
-}
-
-bool Model::is_tag_correct(){
-	const set<string> tags = this->_db->get_all_tags();
-	return tags.find(this->_current_tag) != tags.end();
 }
 
 void Model::get_questions_number_in_series(){
@@ -54,8 +45,8 @@ void Model::randomise_questions(){
 		std::srand(time(NULL));
 		long index = std::rand() % i;
 
-		Question * q = this->_db->get_question(ids[index]);
-		this->_randomised_questions.push_back(q);
+		//Question * q = this->_db->get_question(ids[index]);
+		//this->_randomised_questions.push_back(q);
 
 		this->quick_remove_at(ids, index);
 	}
@@ -63,9 +54,9 @@ void Model::randomise_questions(){
 
 vector<long> Model::get_questions_id_with_tag(){
 	vector<long> questions_ids;
-	for(auto item : this->_db->get_questions_by_tags(set<string> {this->_current_tag})){
-		questions_ids.push_back(item.first);
-	}	
+//	for(auto item : this->_db->get_questions_by_tags(set<string> {this->_current_tag})){
+//		questions_ids.push_back(item.first);
+//	}	
  	return questions_ids;
 }
 

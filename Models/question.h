@@ -1,16 +1,16 @@
 #pragma once
-#ifndef question 
-#define question
+#ifndef QUESTION 
+#define QUESTION
 #include <iostream>
 #include <vector>
 #include <set>
 #include <sqlite3.h>
+#include <algorithm>
 
 #include "tag.h"
 #include "strings.h"
 
 using std::string;
-using std::set;
 using std::vector;
 
 class Tag;
@@ -20,8 +20,7 @@ class Question{
 		static int read_related_tag(void *, int, char **, char **);
 		string _value, _answer;
 		long _id;
-		set<string> _tags;
-		vector<Tag> _tags_db;
+		vector<Tag> _tags;
 
 	public:
 		static int create(sqlite3 *, Question *);
@@ -31,7 +30,7 @@ class Question{
 		static vector<Tag> read_tags(sqlite3 *, Question *);
 
 		Question();
-		Question(long, string, string, set<string>);
+		Question(long, string, string, vector<Tag>);
 
 		long get_id();
 		string get_value();
@@ -43,10 +42,9 @@ class Question{
 		void set_tags(vector<Tag>);
 			
 		void add_tag();
-		void remove_tag(string);
-		bool is_have_tag(string);
+		void remove_tag(Tag*);
+		bool is_have_tag(Tag *);
 
-		set<string> get_tags();
 		vector<Tag> get_tags_db();
 		string to_string();
 };
