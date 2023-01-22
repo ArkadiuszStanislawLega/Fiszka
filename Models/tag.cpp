@@ -90,16 +90,26 @@ int Tag::relate_question(sqlite3 *db, Question *q){
 	if(db != NULL && q != NULL){
 		char *error_message;
 		int rc;
-		string sql = {
-			INSERT + TABLE_QUESTIONS_TAGS + 
-			"(" + COLUMN_QUESTION_ID + ", " + COLUMN_TAG_ID + ")" + VALUES + 
-			"(" + std::to_string(q->get_id()) + ", " + std::to_string(this->_id) + ");"
-			};
-		rc = sqlite3_exec(db, sql.c_str(), NULL, 0, &error_message);
-		if(rc != SQLITE_OK){
-			printf("%s\n", error_message);
+		bool is_relation_egsist = false;
+		//TODO: Zrobic funkcje w questions.
+		for (Tag t : Question::read_tags(db, q)){
+			if(t.get_id() == this->_id){
+				is_relation_egsist = true;
+				break;
+			}
 		}
-		return rc;
+		if(!is_relation_egsist){
+			string sql = {
+				INSERT + TABLE_QUESTIONS_TAGS + 
+				"(" + COLUMN_QUESTION_ID + ", " + COLUMN_TAG_ID + ")" + VALUES + 
+				"(" + std::to_string(q->get_id()) + ", " + std::to_string(this->_id) + ");"
+				};
+			rc = sqlite3_exec(db, sql.c_str(), NULL, 0, &error_message);
+			if(rc != SQLITE_OK){
+				printf("%s\n", error_message);
+			}
+			return rc;
+		}
 	}
 	return 0;
 }
