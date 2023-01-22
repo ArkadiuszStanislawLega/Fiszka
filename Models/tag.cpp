@@ -90,15 +90,8 @@ int Tag::relate_question(sqlite3 *db, Question *q){
 	if(db != NULL && q != NULL){
 		char *error_message;
 		int rc;
-		bool is_relation_egsist = false;
-		//TODO: Zrobic funkcje w questions.
-		for (Tag t : Question::read_tags(db, q)){
-			if(t.get_id() == this->_id){
-				is_relation_egsist = true;
-				break;
-			}
-		}
-		if(!is_relation_egsist){
+
+		if(!q->is_have_tag(this)){
 			string sql = {
 				INSERT + TABLE_QUESTIONS_TAGS + 
 				"(" + COLUMN_QUESTION_ID + ", " + COLUMN_TAG_ID + ")" + VALUES + 

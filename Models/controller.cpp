@@ -10,6 +10,11 @@ void Controller::start_app(){
 	this->_model->start_app();
 	this->_view->start_app();
 
+	Question *q = new Question(this->_model->get_database()->get_access(), 6);
+	for(Tag t : q->get_tags()){
+		std::cout << t.get_tag() << "\n";
+	}
+
 	this->prepare_randomised_questions();
 	this->get_questions_number_in_series();
 	this->series();

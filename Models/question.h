@@ -21,20 +21,23 @@ class Question{
 		string _value, _answer;
 		long _id;
 		vector<Tag> _tags;
+		sqlite3 *_db;
 
 	public:
 		static int create(sqlite3 *, Question *);
 		static Question *read(sqlite3 *, long);
 		static int update(sqlite3 *, Question *);
 		static int del(sqlite3 *, long);
-		static vector<Tag> read_tags(sqlite3 *, Question *);
+		vector<Tag> read_tags();
 
 		Question();
+		
 		Question(long, string, string, vector<Tag>);
-
+		Question(sqlite3 *, long);
 		long get_id();
 		string get_value();
 		string get_answer();
+		vector<Tag> get_tags();
 
 		void set_id(long);	
 		void set_value(string);
@@ -45,7 +48,6 @@ class Question{
 		void remove_tag(Tag*);
 		bool is_have_tag(Tag *);
 
-		vector<Tag> get_tags_db();
 		string to_string();
 };
 #endif
