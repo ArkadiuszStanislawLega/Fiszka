@@ -1,4 +1,6 @@
 #include "question.h"
+#include "database.h"
+#include "strings.h"
 
 int Question::create(sqlite3 *db, Question *q){
 	if(db != NULL && q != NULL){
@@ -90,6 +92,34 @@ Question::Question(long id, string value, string answer, set<string>tags){
 	this->_tags = tags;
 }
 
+int Question::read_related_tag(void *tags, int columns, char **column_values, char **columns_names){
+	if(vector<Tag> *t = reinterpret_cast<vector<Tag>*>(tags)){
+		t->push_back(Tag(std::stol(column_values[0]), column_values[1]));
+	}
+	return 0;
+}
+
+vector<Tag> Question::read_tags(sqlite3* db, Question *q){
+	vector<Tag> tags;
+	if(db != NULL && q != NULL){
+		char *error_message;
+		int rc;
+		// SELECT Tags.Id, Tag FROM Tags
+		// INNER JOIN Questions_tags ON Questions_tags.Tag_id=Tags.Id
+		// INNER JOIN Questions ON Questions.Id=Questions_tags.Id
+		// WHERE Questions_tags.Question_id = q->id;
+		string sql = {	SELECT + TABLE_TAGS + "." + COLUMN_ID + ", " + COLUMN_TAG + " " + FROM + TABLE_TAGS + " " +
+				INNER_JOIN + TABLE_QUESTIONS_TAGS + " " + ON + TABLE_QUESTIONS_TAGS + "." + COLUMN_TAG_ID + "=" + TABLE_TAGS + "." + COLUMN_ID + " " + 
+				INNER_JOIN + TABLE_QUESTIONS + " " + ON + TABLE_QUESTIONS + "." + COLUMN_ID + "=" + TABLE_QUESTIONS_TAGS + "." + COLUMN_QUESTION_ID + " " + 
+				WHERE + TABLE_QUESTIONS_TAGS + "." + COLUMN_QUESTION_ID + "=" + std::to_string(q->get_id()) + ";"};
+		rc = sqlite3_exec(db, sql.c_str(), &read_related_tag, static_cast<void*>(&tags), &error_message); 
+		if(rc != SQLITE_OK){
+			printf("%s\n", error_message);
+		}
+	}
+	return tags;
+}
+
 set<string> Question::get_tags(){
 	return this->_tags;
 }
@@ -125,4 +155,12 @@ bool Question::is_have_tag(string tag){
 
 void Question::remove_tag(string tag){
 	this->_tags.erase(tag);
+}
+
+void Question::set_tags(vector<Tag> tags){
+	this->_tags_db = tags;
+}
+
+vector<Tag> Question::get_tags_db(){
+	return this->_tags_db;
 }

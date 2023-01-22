@@ -1,3 +1,4 @@
+#pragma once
 #ifndef TAG
 #define TAG
 #include <string>
@@ -9,6 +10,8 @@
 
 using std::string;
 using std::vector;
+
+class Question;
 
 class Tag{
 	private:

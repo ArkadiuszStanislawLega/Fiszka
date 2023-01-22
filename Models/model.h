@@ -1,3 +1,4 @@
+#pragma once
 #ifndef MODEL
 #define MODEL
 #include <iostream>

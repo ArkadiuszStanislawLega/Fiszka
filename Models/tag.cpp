@@ -1,6 +1,4 @@
 #include "tag.h"
-#include <iostream>
-#include <string>
 
 int Tag::create(sqlite3 *db, Tag *tag){
 	if (db != NULL && tag != NULL){
@@ -122,7 +120,7 @@ vector<Question> Tag::read_related_questions(sqlite3 *db){
 		// select Questions.Id, VALUE, ANSWER from QUESTIONS 
 		// inner join QUESTIONS_TAGS on QUESTIONS_TAGS.QUESTION_ID = QUESTIONS.ID 
 		// inner join TAGS on QUESTIONS_TAGS.TAG_ID = TAGS.ID 
-		// where TAGS.Id = 1;
+		// where TAGS.Id = this->id;
 		string sql = {	SELECT + TABLE_QUESTIONS + "." + COLUMN_ID + ", " + COLUMN_VALUE + ", " + COLUMN_ANSWER + " " + FROM + TABLE_QUESTIONS + " " +
 				INNER_JOIN + TABLE_QUESTIONS_TAGS + " " + ON + TABLE_QUESTIONS_TAGS + "." + COLUMN_QUESTION_ID  + "=" + TABLE_QUESTIONS + "." + COLUMN_ID + " " +
 				INNER_JOIN + TABLE_TAGS + " " + ON +  TABLE_QUESTIONS_TAGS + "." + COLUMN_TAG_ID + "=" + TABLE_TAGS + "." + COLUMN_ID + " " +

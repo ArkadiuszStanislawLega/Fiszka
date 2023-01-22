@@ -1,4 +1,5 @@
 #include "controller.h"
+#include "tag.h"
 
 Controller::Controller(Model *model, View *view){
 	this->_model = model;
@@ -9,14 +10,10 @@ void Controller::start_app(){
 	this->_model->start_app();
 	this->_view->start_app();
 
-	Question *q = Question::read(this->_model->get_database()->get_access(), 6);
-	Tag *tag = Tag::read(this->_model->get_database()->get_access(), 1);
-	tag->relate_question(this->_model->get_database()->get_access(), q);
-	vector<Question> questions = tag->read_related_questions(this->_model->get_database()->get_access());
-
-	std::cout << "TEST\n";
-	for(Question q: questions){
-		std::cout << q.to_string() << "\n";
+	Question *q = new Question(6, "", "", {});
+	q->set_tags(Question::read_tags(this->_model->get_database()->get_access(), q));
+	for(Tag t : q->get_tags_db()){
+		std::cout << t.get_tag() << "\n";
 	}
 
 	this->prepare_randomised_questions();
