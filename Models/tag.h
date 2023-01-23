@@ -20,22 +20,26 @@ class Tag{
 
 		long _id;
 		string _tag;
+		sqlite3 *_db;
+		vector<Tag> _tags;
 
 	public:
-		static int create(sqlite3 *, Tag *);
-		static Tag *read(sqlite3*, long);
-		static int update(sqlite3*, Tag *);
-		static int del(sqlite3*, long);
-		static vector<Tag> read_all_tags(sqlite3*);
+		int create();
+		int read();
+		int update();
+		int del();
+		static vector<Tag> read_all_tags(sqlite3 *);
 
 		Tag();
-		Tag(long, string);
+		Tag(sqlite3*, long);
+		Tag(sqlite3*, long, string);
 
 		long get_id();
 		string get_tag();
 
 		void set_id(long);
 		void set_tag(string);
+		void set_db(sqlite3 *);
 		
 		int relate_question(sqlite3 *, Question *);
 		vector<Question> read_related_questions(sqlite3*);

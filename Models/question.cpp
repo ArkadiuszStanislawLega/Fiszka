@@ -103,7 +103,10 @@ vector<Tag> Question::get_tags(){
 
 int Question::read_related_tag(void *tags, int columns, char **column_values, char **columns_names){
 	if(vector<Tag> *t = reinterpret_cast<vector<Tag>*>(tags)){
-		t->push_back(Tag(std::stol(column_values[0]), column_values[1]));
+		Tag tag = Tag();
+		tag.set_id(std::stol(column_values[0]));
+		tag.set_tag(column_values[1]);
+		t->push_back(tag);
 	}
 	return 0;
 }
