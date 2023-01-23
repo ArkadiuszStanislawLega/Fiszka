@@ -1,13 +1,13 @@
 #include "question.h"
 
-int Question::create(sqlite3 *db, Question *q){
-	if(db != NULL && q != NULL){
+int Question::create(){
+	if(this->_db != NULL){
 		char* error_message;
 		int rc;
 		string sql = { 	INSERT + TABLE_QUESTIONS + 
 				" (" + COLUMN_VALUE + ", " + COLUMN_ANSWER + ")" + VALUES + 
-				"(\"" + q->get_value() + "\", \"" + q->get_answer() + "\");"};
-		rc = sqlite3_exec(db, sql.c_str(), NULL, 0, &error_message);
+				"(\"" + this->_value + "\", \"" + this->_answer + "\");"};
+		rc = sqlite3_exec(this->_db, sql.c_str(), NULL, 0, &error_message);
 
 		if(rc != SQLITE_OK){
 			printf("%s\n", error_message);
@@ -18,36 +18,34 @@ int Question::create(sqlite3 *db, Question *q){
 }
 
 
-Question *Question::read(sqlite3 *db, long id){
-	if (db != NULL && id > 0){
+int Question::read(){
+	if (this->_db != NULL && this->_id > 0){
 		sqlite3_stmt * stmt;
 		string sql  = {	SELECT + "* " + FROM + TABLE_QUESTIONS + " " + 
-				WHERE +  COLUMN_ID + "=" + std::to_string(id) + ";"};
+				WHERE +  COLUMN_ID + "=" + std::to_string(this->_id) + ";"};
 
-		sqlite3_prepare( db, sql.c_str(), -1, &stmt, NULL );
+		sqlite3_prepare(this->_db, sql.c_str(), -1, &stmt, NULL );
 		sqlite3_step(stmt);
 		
-		if((long)sqlite3_column_int(stmt, 0)){
-			return new Question(
-				(long)sqlite3_column_int(stmt, 0), 
-				(string)((char*)sqlite3_column_text(stmt, 1)), 
-				(string)((char*)sqlite3_column_text(stmt, 2)), 
-				{});;
+		if((long)sqlite3_column_int(stmt, 0) == this->_id){
+			this->_value = (string)((char*)sqlite3_column_text(stmt, 1));
+			this->_answer = (string)((char*)sqlite3_column_text(stmt, 2));
+			this->read_tags();
 		} 
 	}
 	return 0;
 }
 
-int Question::update(sqlite3 *db, Question *updated_q){
-	if(db != NULL && updated_q != NULL){
+int Question::update(){
+	if(this->_db != NULL && this->_id > 0){
 		char *error_message;
 		int rc;
 		string sql = {	UPDATE + TABLE_QUESTIONS + " " + SET + 
-				COLUMN_VALUE + "=\"" + updated_q->get_value() + "\", " + 
-				COLUMN_ANSWER + "=\"" + updated_q->get_answer() + "\" " + 
-				WHERE + COLUMN_ID + "=" + std::to_string(updated_q->get_id()) +";"};
+				COLUMN_VALUE + "=\"" + this->_value + "\", " + 
+				COLUMN_ANSWER + "=\"" + this->_answer + "\" " + 
+				WHERE + COLUMN_ID + "=" + std::to_string(this->_id) +";"};
 
-		rc = sqlite3_exec(db, sql.c_str(), NULL, 0, &error_message);
+		rc = sqlite3_exec(this->_db, sql.c_str(), NULL, 0, &error_message);
 		if(rc != SQLITE_OK){
 			printf("%s\n", error_message);
 		}
@@ -56,14 +54,14 @@ int Question::update(sqlite3 *db, Question *updated_q){
 	return 0;
 }
 
-int Question::del(sqlite3 *db, long id){
-	if (db != NULL && id > 0){
+int Question::del(){
+	if (this->_db != NULL && this->_id > 0){
 		char *error_message;
 		int rc;
-		string sql = { DELETE + TABLE_QUESTIONS + " " + WHERE + COLUMN_ID + "=" + std::to_string(id) + ";"};
+		string sql = { DELETE + TABLE_QUESTIONS + " " + WHERE + COLUMN_ID + "=" + std::to_string(this->_id) + ";"};
 		std::cout << sql << "\n";
 
-		rc = sqlite3_exec(db, sql.c_str(), NULL, 0, &error_message);
+		rc = sqlite3_exec(this->_db, sql.c_str(), NULL, 0, &error_message);
 		if(rc != SQLITE_OK){
 			printf("%s\n", error_message);
 		}
@@ -77,24 +75,26 @@ void Question::set_id(long value){
 }
 
 Question::Question(){
+	this->_db = NULL;
 	this->_id = 0;
 	this->_value = "";
 	this->_answer = "";
 }
 
+Question::Question(sqlite3 *db, long id){
+	this->_db = db;
+	this->_id = id;
+	this->_value = "";
+	this->_answer = "";
+	this->read_tags();
+}
 
-Question::Question(long id, string value, string answer, vector<Tag>tags){
+Question::Question(sqlite3* db, long id, string value, string answer, vector<Tag>tags){
+	this->_db = db;
 	this->_id = id;
 	this->_value = value;
 	this->_answer = answer;
 	this->_tags = tags;
-}
-
-Question::Question(sqlite3 *db, long id){
-	this->_db = db;
-	this->_id = id;
-	Question::read(this->_db, this->_id);
-	this->read_tags();
 }
 
 vector<Tag> Question::get_tags(){
@@ -111,7 +111,7 @@ int Question::read_related_tag(void *tags, int columns, char **column_values, ch
 	return 0;
 }
 
-vector<Tag> Question::read_tags(){
+int Question::read_tags(){
 	if(this->_db != NULL){
 		this->_tags.clear();
 		char *error_message;
@@ -128,8 +128,9 @@ vector<Tag> Question::read_tags(){
 		if(rc != SQLITE_OK){
 			printf("%s\n", error_message);
 		}
+		return rc;
 	}
-	return this->_tags;
+	return 0; 
 }
 
 string Question::get_value(){
@@ -146,10 +147,16 @@ long Question::get_id(){
 
 void Question::set_value(string value){
 	this->_value = value;
+	this->update();
 }
 
 void Question::set_answer(string value){
 	this->_answer = value;
+	this->update();
+}
+
+void Question::set_db(sqlite3 *db){
+	this->_db = db;
 }
 
 

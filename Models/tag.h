@@ -24,15 +24,15 @@ class Tag{
 		vector<Tag> _tags;
 
 	public:
+		Tag();
+		Tag(sqlite3*, long);
+		Tag(sqlite3*, long, string);
+
 		int create();
 		int read();
 		int update();
 		int del();
 		static vector<Tag> read_all_tags(sqlite3 *);
-
-		Tag();
-		Tag(sqlite3*, long);
-		Tag(sqlite3*, long, string);
 
 		long get_id();
 		string get_tag();

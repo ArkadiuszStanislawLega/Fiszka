@@ -24,25 +24,27 @@ class Question{
 		sqlite3 *_db;
 
 	public:
-		static int create(sqlite3 *, Question *);
-		static Question *read(sqlite3 *, long);
-		static int update(sqlite3 *, Question *);
-		static int del(sqlite3 *, long);
-		vector<Tag> read_tags();
-
 		Question();
-		
-		Question(long, string, string, vector<Tag>);
 		Question(sqlite3 *, long);
+		Question(sqlite3 *, long, string, string, vector<Tag>);
+
+		int create();
+		int read();
+		int update();
+		int del();
+		int read_tags();
+
 		long get_id();
 		string get_value();
 		string get_answer();
+		sqlite3 *get_db();
 		vector<Tag> get_tags();
 
 		void set_id(long);	
 		void set_value(string);
 		void set_answer(string);
 		void set_tags(vector<Tag>);
+		void set_db(sqlite3 *);
 			
 		void add_tag();
 		void remove_tag(Tag*);

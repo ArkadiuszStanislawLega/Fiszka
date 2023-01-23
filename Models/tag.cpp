@@ -113,7 +113,11 @@ int Tag::relate_question(sqlite3 *db, Question *q){
 
 int Tag::read_related_question(void *questions, int columns, char **column_values, char **columns_names){
  	if (vector<Question>* q = reinterpret_cast<vector<Question>*>(questions)){
-        	q->push_back(Question(std::stol(column_values[0]), column_values[1], column_values[2], {}));
+		Question question = Question();
+		question.set_id(std::stol(column_values[0]));
+		question.set_value(column_values[1]);
+		question.set_answer(column_values[2]);
+		q->push_back(question);
 	}
 	return 0;
 
@@ -135,6 +139,10 @@ vector<Question> Tag::read_related_questions(sqlite3 *db){
 		};
 		std::cout << sql << "\n";			
 		rc = sqlite3_exec(db, sql.c_str(), &read_related_question, static_cast<void*>(&questions), &error_message);
+		for(Question q : questions){
+			q.set_db(db);
+			q.get_tags();
+		}
 	}
 	return questions;
 } 
