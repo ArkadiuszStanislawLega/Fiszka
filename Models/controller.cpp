@@ -6,18 +6,23 @@ Controller::Controller(Model *model, View *view){
 	this->_view = view;
 }
 
+void Controller::main_menu(){
+	this->_model->get_user_selection(); 
+}
+
 void Controller::start_app(){
 	this->_model->start_app();
 	this->_view->start_app();
 
-	Question *q = new Question(this->_model->get_database()->get_access(), 6);
-	for(Tag t : q->get_tags()){
-		std::cout << t.get_tag() << "\n";
+	while(this->_model->is_working())
+	{
+		this->page();
 	}
+}
 
-	this->prepare_randomised_questions();
-	this->get_questions_number_in_series();
-	this->series();
+void Controller::page(){
+	this->_model->select_model(this->_model->get_current_view());
+	this->_view->select_view(this->_model->get_current_view());
 }
 
 void Controller::prepare_randomised_questions(){

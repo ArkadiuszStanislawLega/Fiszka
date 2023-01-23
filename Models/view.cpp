@@ -5,8 +5,48 @@ View::View(Model * model){
 }
 
 void View::start_app(){
-	this->print_tags();
-	this->get_tag();
+	this->print_menu();
+}
+
+void View::select_view(Views view){
+	switch(view){
+		case Views::main_v:
+		{	
+			this->print_menu();
+			break;
+		}
+		case Views::add_tag:
+		{
+			this->print_add_tag();
+			break;
+		}
+		case Views::tag_list:
+		{
+			this->print_tag_list();
+			break;
+		}
+		case Views::add_question:
+		{
+			this->print_add_question();
+			break;
+		}
+	}
+}
+
+void View::print_add_tag(){
+	printf("Dodaj tag:\n");
+}
+
+void View::print_tag_list(){
+	printf("List tagow\n");
+}
+
+void View::print_add_question(){
+	printf("Doddaj pytranie\n");
+}
+
+void View::print_menu(){
+	printf("1. Create tag.\n2. List tags.\n0. Exit.\nChose number:");
 }
 
 void View::print_wrong_tag(){
