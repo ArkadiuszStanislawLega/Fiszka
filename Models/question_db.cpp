@@ -1,25 +1,15 @@
 #include "question_db.h"
 
-int QuestionDb::callback(void *NotUsed, int argc, char **argv, char **colName){
-	int i;
-	for(i = 0; i<argc; i++) {
-	      printf("%s = %s\n", colName[i], argv[i] ? argv[i] : "NULL");
-	}
-	printf("\n");
-	return 0;
-}
-
 void QuestionDb::create_table(){
 	char *message_error;
 	sqlite3 *db;
-   	sqlite3_open(DATABASE_NAME.c_str(), &db);
-
 	string sql = {CREATE_TABLE_IF_NOT_EXISTS + " " + TABLE_QUESTIONS + "(" +
 			COLUMN_ID + " " + PRIMARY_KEY + ", " +
 			COLUMN_VALUE + " " + TEXT + ", " + 
 			COLUMN_ANSWER + " " + TEXT + ");"};
 
-	sqlite3_exec(db, sql.c_str(), callback, 0, &message_error);
+   	sqlite3_open(DATABASE_NAME.c_str(), &db);
+	sqlite3_exec(db, sql.c_str(), NULL, 0, &message_error);
 	sqlite3_close(db);
 }
 

@@ -33,30 +33,7 @@ void Database::openDb(){
    	}
 }
 
-void Database::create_table(string sql, string table_name){
-	char *message_error;
-	int rc;
-	rc = sqlite3_exec(this->_db, sql.c_str(), callback, 0, &message_error);
-	if(rc != SQLITE_OK){
-		fprintf(stderr, "%s\n", message_error);
-	} 
-}
 
-void Database::create_table_questions(){
-	string sql = {CREATE_TABLE_IF_NOT_EXISTS + " " + TABLE_QUESTIONS + "(" +
-			COLUMN_ID + " " + PRIMARY_KEY + ", " +
-			COLUMN_VALUE + " " + TEXT + ", " + 
-			COLUMN_ANSWER + " " + TEXT + ");"};
-	this->create_table(sql, TABLE_QUESTIONS);
-}
-
-void Database::create_table_tags(){
-	string sql = {CREATE_TABLE_IF_NOT_EXISTS + " " + TABLE_TAGS + "(" +
-			COLUMN_ID + " " + PRIMARY_KEY + ", " +
-			COLUMN_TAG + " " + TEXT + 
-			");" 
-	};
-	this->create_table(sql, TABLE_TAGS);
 }
 
 void Database::create_table_questions_tags(){

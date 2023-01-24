@@ -7,8 +7,8 @@
 
 class QuestionDb{
 	private:
-		static int callback(void *, int, char **, char **);
-		static sqlite3 *dd;
+		static int read_related_tag_callback(void *, int, char **, char **);
+		static int read_all_questions_callback(void *, int, char **, char **);
 
 	public:
 		static void create_table();
@@ -17,8 +17,6 @@ class QuestionDb{
 		static int update(Question *);
 		static int remove(long);
 
-		static int read_related_tag_callback(void *, int, char **, char **);
-		static int read_all_questions_callback(void *, int, char **, char **);
 
 		static vector<Question> read_all_questions();
 		static int read_related_tags(Question *);
