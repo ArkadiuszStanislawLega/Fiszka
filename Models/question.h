@@ -25,6 +25,7 @@ class Question{
 
 	public:
 		Question();
+		Question(long, string, string, vector<Tag>);
 		Question(sqlite3 *, long);
 		Question(sqlite3 *, long, string, string, vector<Tag>);
 

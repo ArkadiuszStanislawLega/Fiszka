@@ -81,6 +81,13 @@ Question::Question(){
 	this->_answer = "";
 }
 
+Question::Question(long id, string value, string answer, vector<Tag> tags){
+	this->_id = id;
+	this->_value = value;
+	this->_answer = answer;
+	this->_tags = tags;
+}
+
 Question::Question(sqlite3 *db, long id){
 	this->_db = db;
 	this->_id = id;

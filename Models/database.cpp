@@ -23,10 +23,11 @@ int Database::callback(void *NotUsed, int argc, char **argv, char **colName){
 }
 
 void Database::openDb(){
+	sqlite3 *db;
   	char *zErrMsg = 0;
    	int rc;
 	
-   	rc = sqlite3_open(DATABASE_NAME.c_str(), &this->_db);
+   	rc = sqlite3_open(DATABASE_NAME.c_str(), &db);
    	if( rc ) {
       		fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg(this->_db));
    	}
