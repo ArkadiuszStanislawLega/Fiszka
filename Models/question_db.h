@@ -16,6 +16,12 @@ class QuestionDb{
 		static Question read(long);
 		static int update(Question *);
 		static int remove(long);
-		static sqlite3 *db();
+
+		static int read_related_tag_callback(void *, int, char **, char **);
+		static int read_all_questions_callback(void *, int, char **, char **);
+
+		static vector<Question> read_all_questions();
+		static int read_related_tags(Question *);
+		static int remove_tag(Question *, Tag *);
 };
 #endif 

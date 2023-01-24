@@ -30,4 +30,5 @@ static const string SET = "SET ";
 static const string DELETE = "DELETE FROM ";
 static const string INNER_JOIN = "INNER JOIN ";
 static const string ON = "ON ";
+static const string AND = "AND ";
 #endif
