@@ -5,7 +5,6 @@ void Question::set_id(long value){
 }
 
 Question::Question(){
-	this->_db = NULL;
 	this->_id = 0;
 	this->_value = "";
 	this->_answer = "";
@@ -34,14 +33,12 @@ long Question::get_id(){
 	return this->_id;
 }
 
-void Question::set_value(string value){
-	this->_value = value;
-	this->update();
-}
-
 void Question::set_answer(string value){
 	this->_answer = value;
-	this->update();
+}
+
+void Question::set_value(string value){
+	this->_value = value;
 }
 
 

@@ -1,4 +1,4 @@
-#include "tagDb.h"
+#include "tag_db.h"
 
 int TagDb::create_table(){
 	char *message_error;
@@ -162,7 +162,6 @@ vector<Question> TagDb::read_related_questions(Tag *tag){
 		if(rc != SQLITE_OK){ printf("%s\n", error_message);}
 		else {
 			for(Question q : questions){
-				q.set_db(db);
 				q.get_tags();
 			}
 		}

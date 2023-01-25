@@ -59,7 +59,7 @@ void View::get_tag(){
 
 void View::print_tags(){
 	int i = 1;
-	vector<Tag> tags = Tag::read_all_tags(this->_model->get_database()->get_access());
+	vector<Tag> tags = TagDb::read_all_tags();
 	printf("Tagi w bazie danych (%lu):\n", tags.size());
 	for(Tag tag : tags){
 		printf("%d. %s\n", i++, tag.get_tag().c_str());

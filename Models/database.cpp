@@ -1,42 +1,9 @@
 #include "database.h"
 
-Database::Database(){
-	this->openDb();	
-	this->create_tables();
-}
-
-Database::~Database(){
-	sqlite3_close(this->_db);
-}
-
-sqlite3 *Database::get_access(){
-	return this->_db;
-}
-
-int Database::callback(void *NotUsed, int argc, char **argv, char **colName){
-	int i;
-	for(i = 0; i<argc; i++) {
-	      printf("%s = %s\n", colName[i], argv[i] ? argv[i] : "NULL");
-	}
-	printf("\n");
-	return 0;
-}
-
-void Database::openDb(){
+int Database::create_table_questions_tags(){
+	char *message_error;
+	int rc = 0;
 	sqlite3 *db;
-  	char *zErrMsg = 0;
-   	int rc;
-	
-   	rc = sqlite3_open(DATABASE_NAME.c_str(), &db);
-   	if( rc ) {
-      		fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg(this->_db));
-   	}
-}
-
-
-}
-
-void Database::create_table_questions_tags(){
 	string sql = {CREATE_TABLE_IF_NOT_EXISTS + " " + TABLE_QUESTIONS_TAGS + "(" +
 			COLUMN_ID + " " + PRIMARY_KEY + ", " + 
 			COLUMN_QUESTION_ID + " " + INTEGER_NOT_NULL + ", " +
@@ -44,13 +11,19 @@ void Database::create_table_questions_tags(){
 			FOREIGN_KEY + " (" + COLUMN_QUESTION_ID + ") "+ REFERENCES + " " + TABLE_QUESTIONS + "(" + COLUMN_ID + "), " +
 			FOREIGN_KEY + " (" + COLUMN_TAG_ID + ") " + REFERENCES + " " + TABLE_TAGS + "(" + COLUMN_ID + ")" +
 			");" };
-	this->create_table(sql, TABLE_QUESTIONS_TAGS);
+	sqlite3_open(DATABASE_NAME.c_str(), &db);
+	rc = sqlite3_exec(db, sql.c_str(), NULL, 0, &message_error);
+	if(rc != SQLITE_OK){
+		printf("%s\n", message_error);
+	}
+	sqlite3_close(db);
+	return rc;
 }
 
 void Database::create_tables(){
-	this->create_table_questions();
-	this->create_table_tags();
-	this->create_table_questions_tags();
+	Database::create_table_questions_tags();
+	QuestionDb::create_table();
+	TagDb::create_table();
 }
 
 //void Database::fill_database(){

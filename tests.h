@@ -4,6 +4,9 @@
 #include <sqlite3.h>
 #include <vector>
 
+#include "Models/question_db.h"
+#include "Models/tag_db.h"
+
 #include "Models/tag.h"
 #include "Models/question.h"
 #include "Models/model.h"

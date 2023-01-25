@@ -2,6 +2,7 @@
 #define VIEW
 
 #include "model.h"
+#include "tag_db.h"
 #include "../Enums/views.h"
 
 class View{
