@@ -23,10 +23,15 @@ void model_database_test(){
 //SQLITE_OK = 0, every other values means error.
 void model_tag_test(){
 	assert(TagDb::create_table() == 0);
+	Tag *t = new Tag(1, "TEST");
+	assert(TagDb::create(t) == 0);
+	assert(TagDb::read(1) != NULL);
+	t->set_tag("TEST2");
+	assert(TagDb::update(t) == 0);
+	assert(TagDb::remove(1) == 0);
 
 }
 
 void model_question_test(){
 	assert(QuestionDb::create_table() == 0);
-
 }

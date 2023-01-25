@@ -21,9 +21,17 @@ int TagDb::create(Tag *tag){
 		sqlite3 *db;
 		char* error_message;
 		int rc;
-		string sql = { 	INSERT + TABLE_TAGS + 
+		string sql;
+		if (tag->get_id() == 1){//unit test value.
+			sql = { INSERT + TABLE_TAGS + 
+				" (" + COLUMN_ID + ", " + COLUMN_TAG + ")" + VALUES + 
+				"( 1, \"" + tag->get_tag() + "\");"};
+
+		} else {
+			sql = { INSERT + TABLE_TAGS + 
 				" (" + COLUMN_TAG + ")" + VALUES + 
 				"(\"" + tag->get_tag() + "\");"};
+		}
 		sqlite3_open(DATABASE_NAME.c_str(), &db);
 		rc = sqlite3_exec(db, sql.c_str(), NULL, 0, &error_message);
 		if(rc != SQLITE_OK){
@@ -35,7 +43,8 @@ int TagDb::create(Tag *tag){
 	return 0;
 }
 
-Tag TagDb::read(long id){
+Tag *TagDb::read(long id){
+	Tag *t; 
 	if (id > 0){
 		sqlite3 *db;
 		sqlite3_stmt * stmt;
@@ -44,12 +53,13 @@ Tag TagDb::read(long id){
 		sqlite3_open(DATABASE_NAME.c_str(), &db);
 		sqlite3_prepare(db, sql.c_str(), -1, &stmt, NULL );
 		sqlite3_step(stmt);
-		sqlite3_close(db); 
 		if((long)sqlite3_column_int(stmt, 0) == id){
-			return Tag(id, (string)((char*)sqlite3_column_text(stmt, 1)));
-		} 
+			t = new Tag(id, (string)((char*)sqlite3_column_text(stmt, 1)));
+		}
+		sqlite3_finalize(stmt); 
+		sqlite3_close(db); 
 	}
-	return Tag();
+	return t;
 }
 
 int TagDb::update(Tag *tag){

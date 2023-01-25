@@ -18,7 +18,7 @@ class TagDb{
 	public:
 		static int create_table();
 		static int create(Tag *);
-		static Tag read(long);
+		static Tag *read(long);
 		static int update(Tag *);
 		static int remove(long);
 
