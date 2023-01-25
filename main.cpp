@@ -9,6 +9,5 @@ int main(){
 	//controller->start_app();
 	//
 	QuestionDb::create_table();
-	QuestionDb::db();
 	return 0;
 }

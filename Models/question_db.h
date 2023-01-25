@@ -13,12 +13,12 @@ class QuestionDb{
 	public:
 		static int create_table();
 		static int create(Question *);
-		static Question read(long);
+		static Question *read(long);
 		static int update(Question *);
 		static int remove(long);
 
 
-		static vector<Question> read_all_questions();
+		static vector<Question*> read_all_questions();
 		static int read_related_tags(Question *);
 		static int remove_tag(Question *, Tag *);
 };

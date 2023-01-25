@@ -21,11 +21,19 @@ int QuestionDb::create(Question *question){
 		char* error_message;
 		int rc;
 		sqlite3 *db;
-		string sql = { 	INSERT + TABLE_QUESTIONS + 
+		string sql = "";
+		if(question->get_id()){
+			sql = {	INSERT + TABLE_QUESTIONS + 
+				" (" + COLUMN_ID + ", " + COLUMN_VALUE + ", " + COLUMN_ANSWER + ")" + VALUES + 
+				"(1, \"" + question->get_value() + "\", \"" + question->get_answer() + "\");"};
+
+		} else {
+			sql = {	INSERT + TABLE_QUESTIONS + 
 				" (" + COLUMN_VALUE + ", " + COLUMN_ANSWER + ")" + VALUES + 
 				"(\"" + question->get_value() + "\", \"" + question->get_answer() + "\");"};
+		}
+		sqlite3_open(DATABASE_NAME.c_str(), &db);
 		rc = sqlite3_exec(db, sql.c_str(), NULL, 0, &error_message);
-
 		if(rc != SQLITE_OK){
 			printf("%s\n", error_message);
 		}
@@ -35,8 +43,8 @@ int QuestionDb::create(Question *question){
 	return 0;
 }
 
-Question QuestionDb::read(long id){
-	Question q;
+Question *QuestionDb::read(long id){
+	Question *q;
 	if ( id > 0){
 		sqlite3_stmt * stmt;
 		sqlite3 *db;
@@ -47,11 +55,11 @@ Question QuestionDb::read(long id){
 		sqlite3_step(stmt);
 		
 		if((long)sqlite3_column_int(stmt, 0) == id){
-			//TODO: Zrobic tutaj uzupelnienie w liste tagow.!!!!!!!!!!!
-			q = Question(id, (string)((char*)sqlite3_column_text(stmt, 1)),(string)((char*)sqlite3_column_text(stmt, 2)),  {} );
+			q =  new Question(id, (string)((char*)sqlite3_column_text(stmt, 1)),(string)((char*)sqlite3_column_text(stmt, 2)),  {} );
 		} 
+		sqlite3_finalize(stmt);
 		sqlite3_close(db);
-		read_related_tags(&q);
+		read_related_tags(q);
 	}
 	return q;
 }
@@ -76,12 +84,19 @@ int QuestionDb::update(Question *question){
 	return 0;
 }
 
-vector<Question> QuestionDb::read_all_questions(){
-	vector<Question> questions;
+int QuestionDb::read_all_questions_callback(void *questions, int columns, char **column_values, char **columns_names){
+	if(vector<Question> *q = reinterpret_cast<vector<Question>*>(questions)){
+		q->push_back(Question(std::stol(column_values[0]), column_values[1], column_values[2], {}));
+	}
+	return 0;
+}
+
+vector<Question*> QuestionDb::read_all_questions(){
+	 vector<Question*> questions;
 	char *error_message;
 	sqlite3 *db;
 	int rc;
-	string sql = { SELECT + "* " + TABLE_QUESTIONS + ";"};
+	string sql = { SELECT + "* " + FROM + TABLE_QUESTIONS + ";"};
 	sqlite3_open(DATABASE_NAME.c_str(), &db);
 	rc = sqlite3_exec(db, sql.c_str(), &read_all_questions_callback, static_cast<void*>(&questions), &error_message);
 	if(rc != SQLITE_OK){
@@ -89,17 +104,13 @@ vector<Question> QuestionDb::read_all_questions(){
 	}
 	sqlite3_close(db);
 
-	for(Question q : questions){
-		read_related_tags(&q);
+	for(Question *q : questions){
+		if(q != NULL){
+		printf("%lu. %s %s\n", q->get_id(), q->get_value().c_str(), q->get_answer().c_str());
+		read_related_tags(q);
+		}
 	}
 	return questions;
-}
-
-int QuestionDb::read_all_questions_callback(void *questions, int columns, char **column_values, char **columns_names){
-	if(vector<Question> *q = reinterpret_cast<vector<Question>*>(questions)){
-		q->push_back(Question(std::stol(column_values[0]), column_values[1], column_values[2], {}));
-	}
-	return 0;
 }
 
 int QuestionDb::read_related_tags(Question *question){
