@@ -22,9 +22,11 @@ void model_database_test(){
 
 //SQLITE_OK = 0, every other values means error.
 void model_tag_test(){
+	assert(TagDb::create_table() == 0);
 
 }
 
 void model_question_test(){
+	assert(QuestionDb::create_table() == 0);
 
 }

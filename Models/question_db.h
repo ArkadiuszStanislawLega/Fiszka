@@ -11,7 +11,7 @@ class QuestionDb{
 		static int read_all_questions_callback(void *, int, char **, char **);
 
 	public:
-		static void create_table();
+		static int create_table();
 		static int create(Question *);
 		static Question read(long);
 		static int update(Question *);

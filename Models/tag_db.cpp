@@ -2,6 +2,7 @@
 
 int TagDb::create_table(){
 	char *message_error;
+	int rc = 0;
 	sqlite3 *db;
 	string sql = {CREATE_TABLE_IF_NOT_EXISTS + " " + TABLE_TAGS + "(" +
 			COLUMN_ID + " " + PRIMARY_KEY + ", " +
@@ -12,7 +13,7 @@ int TagDb::create_table(){
 	sqlite3_open(DATABASE_NAME.c_str(), &db);
 	sqlite3_exec(db, sql.c_str(), NULL, 0, &message_error);
 	sqlite3_close(db);
-	return 0;
+	return rc;
 }
 
 int TagDb::create(Tag *tag){

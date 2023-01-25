@@ -1,7 +1,8 @@
 #include "question_db.h"
 
-void QuestionDb::create_table(){
-	char *message_error;
+int QuestionDb::create_table(){
+	char *error_message;
+	int rc = 0;
 	sqlite3 *db;
 	string sql = {CREATE_TABLE_IF_NOT_EXISTS + " " + TABLE_QUESTIONS + "(" +
 			COLUMN_ID + " " + PRIMARY_KEY + ", " +
@@ -9,8 +10,10 @@ void QuestionDb::create_table(){
 			COLUMN_ANSWER + " " + TEXT + ");"};
 
    	sqlite3_open(DATABASE_NAME.c_str(), &db);
-	sqlite3_exec(db, sql.c_str(), NULL, 0, &message_error);
+	sqlite3_exec(db, sql.c_str(), NULL, 0, &error_message);
+	if(rc != SQLITE_OK){ printf("%s\n", error_message);}
 	sqlite3_close(db);
+	return rc;
 }
 
 int QuestionDb::create(Question *question){
