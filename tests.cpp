@@ -1,4 +1,5 @@
 #include "tests.h"
+#include <cassert>
 #include <vector>
 
 using std::vector;
@@ -21,7 +22,7 @@ void model_database_test(){
 
 //SQLITE_OK = 0, every other values means error.
 void model_tag_test(){
-	printf("Tag model tests start...\n");
+	printf("Database tests start...\n");
 
 	printf("Create table tags.\t");
 	assert(TagDb::create_table() == 0);
@@ -74,6 +75,7 @@ void model_tag_test(){
 
 	printf("Read related tags.\t");
 	assert(QuestionDb::read_related_tags(q) == SQLITE_OK);
+	assert(q->get_tags().size() == 1);
 	printf("OK\n");
 	
 	printf("Read all questions.\t");
@@ -82,6 +84,9 @@ void model_tag_test(){
 
 	printf("Remove tag from question.\t");
 	assert(QuestionDb::remove_tag(q, t) == SQLITE_OK);
+	q->get_tags().clear();
+	QuestionDb::read_related_tags(q);
+	assert(q->get_tags().size() == 0);
 	printf("OK\n");
 
 	printf("Remove tag.\t\t");
@@ -92,5 +97,5 @@ void model_tag_test(){
 	assert(QuestionDb::remove(1) == SQLITE_OK);
 	printf("OK\n");
 
-	printf("Tag model tests end.\n");
+	printf("Database tests end.\n");
 }
