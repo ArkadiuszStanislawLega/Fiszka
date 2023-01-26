@@ -10,14 +10,14 @@ Question::Question(){
 	this->_answer = "";
 }
 
-Question::Question(long id, string value, string answer, vector<Tag> tags){
+Question::Question(long id, string value, string answer, vector<Tag*> tags){
 	this->_id = id;
 	this->_value = value;
 	this->_answer = answer;
 	this->_tags = tags;
 }
 
-vector<Tag> Question::get_tags(){
+vector<Tag*> Question::get_tags(){
 	return this->_tags;
 }
 
@@ -47,10 +47,11 @@ string Question::to_string(){
 }
 
 bool Question::is_have_tag(Tag *tag){
-	return	std::find_if(this->_tags.begin(), this->_tags.end(), [&](Tag &current)
-			{ return current.get_id() == tag->get_id();}) != this->_tags.end() ? true : false;
+	return false;
+	//return	std::find_if(this->_tags.begin(), this->_tags.end(), [&](Tag &current)
+	//		{ return current.get_id() == tag->get_id();}) != this->_tags.end() ? true : false;
 }
 
-void Question::set_tags(vector<Tag> t){
+void Question::set_tags(vector<Tag*> t){
 	this->_tags = t;
 }

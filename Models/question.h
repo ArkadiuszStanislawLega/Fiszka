@@ -20,21 +20,21 @@ class Question{
 		static int read_related_tag(void *, int, char **, char **);
 		string _value, _answer;
 		long _id;
-		vector<Tag> _tags;
+		vector<Tag*> _tags;
 
 	public:
 		Question();
-		Question(long, string, string, vector<Tag>);
+		Question(long, string, string, vector<Tag*>);
 
 		long get_id();
 		string get_value();
 		string get_answer();
-		vector<Tag> get_tags();
+		vector<Tag*> get_tags();
 
 		void set_id(long);	
 		void set_value(string);
 		void set_answer(string);
-		void set_tags(vector<Tag>);
+		void set_tags(vector<Tag*>);
 			
 		bool is_have_tag(Tag *);
 
