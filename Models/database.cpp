@@ -13,9 +13,6 @@ int Database::execute_query(string query){
 }
 
 int Database::create_table_questions_tags(){
-	char *message_error;
-	int rc = 0;
-	sqlite3 *db;
 	string sql = {CREATE_TABLE_IF_NOT_EXISTS + " " + TABLE_QUESTIONS_TAGS + "(" +
 			COLUMN_ID + " " + PRIMARY_KEY + ", " + 
 			COLUMN_QUESTION_ID + " " + INTEGER_NOT_NULL + ", " +
@@ -23,29 +20,13 @@ int Database::create_table_questions_tags(){
 			FOREIGN_KEY + " (" + COLUMN_QUESTION_ID + ") "+ REFERENCES + " " + TABLE_QUESTIONS + "(" + COLUMN_ID + "), " +
 			FOREIGN_KEY + " (" + COLUMN_TAG_ID + ") " + REFERENCES + " " + TABLE_TAGS + "(" + COLUMN_ID + ")" +
 			");" };
-	sqlite3_open(DATABASE_NAME.c_str(), &db);
-	rc = sqlite3_exec(db, sql.c_str(), NULL, 0, &message_error);
-	if(rc != SQLITE_OK){
-		printf("%s\n", message_error);
-	}
-	sqlite3_close(db);
-	return rc;
+	return execute_query(sql);
 }
 
 int Database::create_relation(Tag *t, Question *q){
-	char *message_error;
-	int rc = 0;
-	sqlite3* db;
 	string sql = {INSERT + TABLE_QUESTIONS_TAGS + "(" + COLUMN_QUESTION_ID + ", " + COLUMN_TAG_ID  + ")" +
 		VALUES + "(" + std::to_string(q->get_id()) + ", " + std::to_string(t->get_id()) + ")"};
-
-	sqlite3_open(DATABASE_NAME.c_str(), &db);
-	rc = sqlite3_exec(db, sql.c_str(), NULL, 0, &message_error);
-	if(rc != SQLITE_OK){
-		printf("%s\n", message_error);
-	}
-	sqlite3_close(db);
-	return rc;
+	return execute_query(sql);
 }
 
 void Database::create_tables(){
