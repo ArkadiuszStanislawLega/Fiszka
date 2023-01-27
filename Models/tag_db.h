@@ -1,3 +1,4 @@
+#pragma once
 #ifndef TAG_DB
 #define TAG_DB
 #include <vector>
@@ -6,6 +7,7 @@
 #include "tag.h"
 #include "question.h"
 #include "strings.h"
+#include "database.h"
 
 using std::vector;
 using std::string;

@@ -2,26 +2,17 @@
 #include <cassert>
 #include <vector>
 
-using std::vector;
-
-void model_tag_test();
-void model_question_test();
-void model_database_test();
+void database_tests();
 
 int main(){
 	printf("Start testing.\n"); 
-	model_database_test();
-	model_tag_test();
+	database_tests();
 	printf("Koniec testow.\n");
 	return 0;
 }
 
-void model_database_test(){
-	assert(Database::create_table_questions_tags()==0);
-}
-
 //SQLITE_OK = 0, every other values means error.
-void model_tag_test(){
+void database_tests(){
 	printf("Database tests start...\n");
 
 	printf("Create table tags.\t");
@@ -67,6 +58,10 @@ void model_tag_test(){
 	printf("Update Question.\t");
 	q = new Question(1, "TEST1", "TEST2", {});
 	assert(QuestionDb::update(q) == SQLITE_OK);
+	printf("OK\n");
+
+	printf("Create table questions tags.\t");
+	assert(Database::create_table_questions_tags()==0);
 	printf("OK\n");
 
 	printf("Added relation questions and tag.\t");

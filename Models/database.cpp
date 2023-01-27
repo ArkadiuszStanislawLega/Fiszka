@@ -1,6 +1,17 @@
 #include "database.h"
 #include <string>
 
+int Database::execute_query(string query){
+	char *message_error;
+	int rc = 0;
+	sqlite3 *db;
+
+	sqlite3_open(DATABASE_NAME.c_str(), &db);
+	sqlite3_exec(db, query.c_str(), NULL, 0, &message_error);
+	sqlite3_close(db);
+	return rc;
+}
+
 int Database::create_table_questions_tags(){
 	char *message_error;
 	int rc = 0;

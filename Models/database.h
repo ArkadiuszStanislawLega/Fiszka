@@ -1,3 +1,4 @@
+#pragma once
 #ifndef DATABASE
 #define DATABASE
 #include <string>
@@ -14,5 +15,6 @@ class Database{
 		static int create_table_questions_tags();
 		static int create_relation(Tag *, Question *);
 		static void create_tables();
+		static int execute_query(string sql);
 };
 #endif

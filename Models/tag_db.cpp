@@ -1,26 +1,15 @@
 #include "tag_db.h"
 
 int TagDb::create_table(){
-	char *message_error;
-	int rc = 0;
-	sqlite3 *db;
 	string sql = {CREATE_TABLE_IF_NOT_EXISTS + " " + TABLE_TAGS + "(" +
 			COLUMN_ID + " " + PRIMARY_KEY + ", " +
 			COLUMN_TAG + " " + TEXT + 
-			");" 
-	};
-
-	sqlite3_open(DATABASE_NAME.c_str(), &db);
-	sqlite3_exec(db, sql.c_str(), NULL, 0, &message_error);
-	sqlite3_close(db);
-	return rc;
+			");" };
+	return Database::execute_query(sql);
 }
 
 int TagDb::create(Tag *tag){
 	if (tag != NULL){
-		sqlite3 *db;
-		char* error_message;
-		int rc;
 		string sql;
 		if (tag->get_id() == 1){//unit test value.
 			sql = { INSERT + TABLE_TAGS + 
@@ -32,15 +21,9 @@ int TagDb::create(Tag *tag){
 				" (" + COLUMN_TAG + ")" + VALUES + 
 				"(\"" + tag->get_tag() + "\");"};
 		}
-		sqlite3_open(DATABASE_NAME.c_str(), &db);
-		rc = sqlite3_exec(db, sql.c_str(), NULL, 0, &error_message);
-		if(rc != SQLITE_OK){
-			printf("%s\n", error_message);
-		} 
-		sqlite3_close(db);
-		return rc;
+		return Database::execute_query(sql);
 	}
-	return 0;
+	return -1;
 }
 
 Tag *TagDb::read(long id){
@@ -64,39 +47,21 @@ Tag *TagDb::read(long id){
 
 int TagDb::update(Tag *tag){
 	if (tag != NULL){
-		sqlite3 *db;
-		char *error_message;
-		int rc;
 		string sql = {	UPDATE + TABLE_TAGS + " " + SET + 
 				COLUMN_TAG + "=\"" + tag-> get_tag() + "\" " + 
 				WHERE + COLUMN_ID + "=" + std::to_string(tag->get_id()) +";"};
-		sqlite3_open(DATABASE_NAME.c_str(), &db);
-		rc = sqlite3_exec(db, sql.c_str(), NULL, 0, &error_message);
-		if(rc != SQLITE_OK){
-			printf("%s\n", error_message);
-		}
-		sqlite3_close(db);
-		return rc;
+		return Database::execute_query(sql);
 	}
-	return 0;
+	return -1;
 }
 
 
 int TagDb::remove(long id){
 	if(id > 0){
-		sqlite3 *db;
-		char *error_message;
-		int rc;
 		string sql = { DELETE + TABLE_TAGS + " " + WHERE + COLUMN_ID + "=" + std::to_string(id) + ";"};
-		sqlite3_open(DATABASE_NAME.c_str(), &db);
-		rc = sqlite3_exec(db, sql.c_str(), NULL, 0, &error_message);
-		if(rc != SQLITE_OK){
-			printf("%s\n", error_message);
-		}
-		sqlite3_close(db);
-		return rc;
+		return Database::execute_query(sql);
 	} 
-	return 0;
+	return -1;
 }
 
 int TagDb::read_all_tags_callback(void *tags, int columns, char **column_values, char **column_names){
@@ -122,22 +87,15 @@ vector<Tag> TagDb::read_all_tags(){
 }
 
 int TagDb::relate_tag_with_question(Question *q, Tag *t){
-	int rc = 0;
 	if(!q->is_have_tag(t)){
-		sqlite3 *db;
-		char *error_message;
 		string sql = {
 			INSERT + TABLE_QUESTIONS_TAGS + 
 			"(" + COLUMN_QUESTION_ID + ", " + COLUMN_TAG_ID + ")" + VALUES + 
 			"(" + std::to_string(q->get_id()) + ", " + std::to_string(t->get_id()) + ");"
 			};
-		sqlite3_open(DATABASE_NAME.c_str(), &db);
-		rc = sqlite3_exec(db, sql.c_str(), NULL, 0, &error_message);
-		if(rc != SQLITE_OK){ printf("%s\n", error_message);}
-		sqlite3_close(db);
-		return rc;
+		return Database::execute_query(sql);
 	}
-	return 0;
+	return -1;
 }
 
 int TagDb::read_related_questions_callback(void *questions, int columns, char **column_values, char **columns_names){
