@@ -1,26 +1,15 @@
 #include "question_db.h"
 
 int QuestionDb::create_table(){
-	char *error_message;
-	int rc = 0;
-	sqlite3 *db;
 	string sql = {CREATE_TABLE_IF_NOT_EXISTS + " " + TABLE_QUESTIONS + "(" +
 			COLUMN_ID + " " + PRIMARY_KEY + ", " +
 			COLUMN_VALUE + " " + TEXT + ", " + 
 			COLUMN_ANSWER + " " + TEXT + ");"};
-
-   	sqlite3_open(DATABASE_NAME.c_str(), &db);
-	sqlite3_exec(db, sql.c_str(), NULL, 0, &error_message);
-	if(rc != SQLITE_OK){ printf("%s\n", error_message);}
-	sqlite3_close(db);
-	return rc;
+	return Database::execute_query(sql);
 }
 
 int QuestionDb::create(Question *question){
 	if(question != NULL){
-		char* error_message;
-		int rc;
-		sqlite3 *db;
 		string sql = "";
 		if(question->get_id()){
 			sql = {	INSERT + TABLE_QUESTIONS + 
@@ -32,13 +21,7 @@ int QuestionDb::create(Question *question){
 				" (" + COLUMN_VALUE + ", " + COLUMN_ANSWER + ")" + VALUES + 
 				"(\"" + question->get_value() + "\", \"" + question->get_answer() + "\");"};
 		}
-		sqlite3_open(DATABASE_NAME.c_str(), &db);
-		rc = sqlite3_exec(db, sql.c_str(), NULL, 0, &error_message);
-		if(rc != SQLITE_OK){
-			printf("%s\n", error_message);
-		}
-		sqlite3_close(db);
-		return rc;
+		return Database::execute_query(sql);
 	}
 	return -1;
 }
@@ -66,20 +49,11 @@ Question *QuestionDb::read(long id){
 
 int QuestionDb::update(Question *question){
 	if(question != NULL){
-		char *error_message;
-		sqlite3 *db;
-		int rc;
 		string sql = {	UPDATE + TABLE_QUESTIONS + " " + SET + 
 				COLUMN_VALUE + "=\"" + question->get_value() + "\", " + 
 				COLUMN_ANSWER + "=\"" + question->get_answer() + "\" " + 
 				WHERE + COLUMN_ID + "=" + std::to_string(question->get_id()) +";"};
-		sqlite3_open(DATABASE_NAME.c_str(), &db);
-		rc = sqlite3_exec(db, sql.c_str(), NULL, 0, &error_message);
-		if(rc != SQLITE_OK){
-			printf("%s\n", error_message);
-		}
-		sqlite3_close(db);
-		return rc;
+		return Database::execute_query(sql);
 	}
 	return -1;
 }
@@ -123,64 +97,45 @@ int QuestionDb::read_related_tag_callback(void *tags, int columns, char **column
 }
 
 int QuestionDb::read_related_tags(Question *question){
-	if(question != NULL){
-		vector<Tag*> tags;
-		char *error_message;
-		sqlite3 *db;
-		int rc;
-		// SELECT Tags.Id, Tag FROM Tags
-		// INNER JOIN Questions_tags ON Questions_tags.Tag_id=Tags.Id
-		// INNER JOIN Questions ON Questions.Id=Questions_tags.Id
-		// WHERE Questions_tags.Question_id = q->id;
-		string sql = {	SELECT + TABLE_TAGS + "." + COLUMN_ID + ", " + COLUMN_TAG + " " + FROM + TABLE_TAGS + " " +
-				INNER_JOIN + TABLE_QUESTIONS_TAGS + " " + ON + TABLE_QUESTIONS_TAGS + "." + COLUMN_TAG_ID + "=" + TABLE_TAGS + "." + COLUMN_ID + " " + 
-				INNER_JOIN + TABLE_QUESTIONS + " " + ON + TABLE_QUESTIONS + "." + COLUMN_ID + "=" + TABLE_QUESTIONS_TAGS + "." + COLUMN_QUESTION_ID + " " + 
-				WHERE + TABLE_QUESTIONS_TAGS + "." + COLUMN_QUESTION_ID + "=" + std::to_string(question->get_id()) + ";"};
-		sqlite3_open(DATABASE_NAME.c_str(), &db);
-		rc = sqlite3_exec(db, sql.c_str(), &read_related_tag_callback, static_cast<void*>(&tags), &error_message);
-		
-		if (rc != SQLITE_OK){ printf("%s\n", error_message);}
-		
-		question->set_tags(tags);
-		sqlite3_close(db);
-		return rc;
-	}
-	return -1; 
+	vector<Tag*> tags;
+	char *error_message;
+	sqlite3 *db;
+	int rc;
+	// SELECT Tags.Id, Tag FROM Tags
+	// INNER JOIN Questions_tags ON Questions_tags.Tag_id=Tags.Id
+	// INNER JOIN Questions ON Questions.Id=Questions_tags.Id
+	// WHERE Questions_tags.Question_id = q->id;
+	string sql = {	SELECT + TABLE_TAGS + "." + COLUMN_ID + ", " + COLUMN_TAG + " " + FROM + TABLE_TAGS + " " +
+			INNER_JOIN + TABLE_QUESTIONS_TAGS + " " + ON + TABLE_QUESTIONS_TAGS + "." + COLUMN_TAG_ID + "=" + TABLE_TAGS + "." + COLUMN_ID + " " + 
+			INNER_JOIN + TABLE_QUESTIONS + " " + ON + TABLE_QUESTIONS + "." + COLUMN_ID + "=" + TABLE_QUESTIONS_TAGS + "." + COLUMN_QUESTION_ID + " " + 
+			WHERE + TABLE_QUESTIONS_TAGS + "." + COLUMN_QUESTION_ID + "=" + std::to_string(question->get_id()) + ";"};
+	sqlite3_open(DATABASE_NAME.c_str(), &db);
+	rc = sqlite3_exec(db, sql.c_str(), &read_related_tag_callback, static_cast<void*>(&tags), &error_message);
+	
+	if (rc != SQLITE_OK){ printf("%s\n", error_message);}
+	
+	question->set_tags(tags);
+	sqlite3_close(db);
+	return rc;
 }
 
 int QuestionDb::remove_tag(Question *q, Tag *t){
 	if(q != NULL && t != NULL){
-		char *error_message;
-		sqlite3 *db;
-		int rc;
 		//DELETE FROM QUESTIONS_TAGS
 		//WHERE Questions_tags.QUESTION_ID = 5 AND QUESTIONS_TAGS.TAG_ID = 2;
 		string sql = {	DELETE + TABLE_QUESTIONS_TAGS + " " + 
 				WHERE + TABLE_QUESTIONS_TAGS + "." + COLUMN_QUESTION_ID + "=" + std::to_string(q->get_id()) + " " +
 				AND + TABLE_QUESTIONS_TAGS + "." + COLUMN_TAG_ID + "=" + std::to_string(t->get_id()) + ";"
 		};
-		sqlite3_open(DATABASE_NAME.c_str(), &db);
-		rc = sqlite3_exec(db, sql.c_str(), NULL, 0, &error_message);
-		if(rc != SQLITE_OK){
-			printf("%s\n", error_message);
-		}
-		sqlite3_close(db);
-		return rc;
+		return Database::execute_query(sql);
 	}
 	return -1;
 }
 
 int QuestionDb::remove(long id){
 	if(id > 0){
-		char *error_message;
-		sqlite3 *db;
-		int rc;
 		string sql = { DELETE + TABLE_QUESTIONS + " " + WHERE + COLUMN_ID + "=" + std::to_string(id) + ";"};
-		sqlite3_open(DATABASE_NAME.c_str(), &db);
-		rc = sqlite3_exec(db, sql.c_str(), NULL, 0, &error_message);
-		if(rc != SQLITE_OK) {printf("%s\n", error_message);}
-		sqlite3_close(db);
-		return rc;
+		return Database::execute_query(sql);
 	}
 	return -1;
 }

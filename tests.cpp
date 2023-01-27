@@ -61,7 +61,7 @@ void database_tests(){
 	printf("OK\n");
 
 	printf("Create table questions tags.\t");
-	assert(Database::create_table_questions_tags()==0);
+	assert(Database::create_table_questions_tags() == SQLITE_OK);
 	printf("OK\n");
 
 	printf("Added relation questions and tag.\t");

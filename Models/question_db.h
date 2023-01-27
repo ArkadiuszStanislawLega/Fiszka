@@ -1,7 +1,6 @@
 #pragma once
 #ifndef QUESTION_DB
 #define QUESTION_DB
-#include <sqlite3.h>
 
 #include "strings.h"
 #include "question.h"
