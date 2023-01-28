@@ -2,7 +2,6 @@
 #define VIEW
 
 #include "model.h"
-#include "tag_db.h"
 #include "../Enums/views.h"
 
 class View{
@@ -11,12 +10,19 @@ class View{
 
 	public:
 		View(Model *);
+		void start_app();
 		void select_view(Views);
 		void print_menu();
-		void print_add_tag();
+
 		void print_tag_list();
+		void print_add_tag();
 		void print_add_question();
-		void start_app();
+		void print_add_tag_to_question();
+		void print_remove_tag();
+		void print_remove_question();
+		void print_remove_tag_from_question();
+		void print_make_series();
+		
 		void get_tag();
 		void print_wrong_tag();
 		void print_tags();

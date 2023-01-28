@@ -130,8 +130,8 @@ void DatabaseTests::database_tests(){
 	read_related_tags();
 	read_all_questions();
 	remove_tag_from_question();
-	remove_tag();
 	remove_question();
+	remove_tag();
 
 	printf("Database tests end.\n");
 }

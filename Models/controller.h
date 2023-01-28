@@ -9,19 +9,26 @@
 
 class Controller{
 	private:
-		Views _current_view;
 		Model *_model;
 		View *_view;
 		void prepare_randomised_questions();
+		void select_action(Views);
+		
+		void select_tag_list();
+		void add_tag();
+		void add_question();
+		void add_tag_to_question();
+		void remove_tag();
+		void remove_question();
+		void remove_tag_from_question();
+
 		void get_questions_number_in_series();
 		void get_tag();
 		void series();
 		
 	public:
 		Controller(Model *, View *);
-		void page();
 		void start_app();
 		void main_menu();
-		void add_tag();
 };
 #endif
