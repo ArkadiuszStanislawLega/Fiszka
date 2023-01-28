@@ -29,6 +29,10 @@ void View::print_wrong_value(){
 	printf("Wrong value.");
 }
 
+void View::print_first_select_tag(){
+	printf("Select Tag first.");
+}
+
 
 void View::print_tag_list(){
 	int i = 0;

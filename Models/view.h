@@ -14,6 +14,7 @@ class View{
 		void select_view(Views);
 		void print_menu();
 		void print_wrong_value();
+		void print_first_select_tag();
 
 		void print_tag_list();
 		void print_create_tag();

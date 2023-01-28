@@ -15,15 +15,15 @@ void Controller::main_menu(){
 	std::cin >> option_selected;
 	option_selected++;
 
-	if(option_selected < 10){
+	if(option_selected < Model::ACTIONS_NUMBER){
 		this->select_action((Views)option_selected);
 	} 
 
-	if(option_selected == 10){
+	if(option_selected == Model::ACTIONS_NUMBER){
 		this->_model->set_is_working(false);
 	}
 
-	if(option_selected > 10 && option_selected < 0){
+	if(option_selected > Model::ACTIONS_NUMBER && option_selected < 0){
 		this->_view->print_wrong_value();
 	}
 }
@@ -46,19 +46,28 @@ void Controller::create_tag(){
 }
 
 void Controller::create_question(){
-	//TODO: Sprawdzic czy jest wybrany tag - wywalic odpowiedni monit.
-	//TODO: Dorobic automatyczne dodawanie tagu do questa.
-	this->_view->print_create_question();
-	string value, answer;
-	
-	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-	std::getline(std::cin, value);	
-	std::getline(std::cin, answer);
+	if(this->_model->get_selected_tag() == NULL){
+		this->_view->print_first_select_tag();
+	} else{
+		string value, answer;
+		int sql_answer = -1;
+		this->_view->print_create_question();
+		
+		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+		std::getline(std::cin, value);	
+		std::getline(std::cin, answer);
 
-	Question *q = new Question();
-	q->set_value(value);
-	q->set_answer(answer);
-	this->_view->print_created_question(q, QuestionDb::create(q));
+		Question *q = new Question();
+		q->set_value(value);
+		q->set_answer(answer);
+
+		sql_answer = QuestionDb::create(q);
+		this->_view->print_created_question(q, sql_answer); 
+
+		if(sql_answer == SQLITE_OK){
+			Database::create_relation(this->_model->get_selected_tag(), q);
+		}
+	}
 }
 
 void Controller::select_tag(){
