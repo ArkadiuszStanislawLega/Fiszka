@@ -5,11 +5,10 @@ View::View(Model * model){
 }
 
 void View::start_app(){
-	this->print_menu();
 }
 
 void View::print_menu(){
-	std::set<string> options = {	"Tag list", "Add tag", "Add question", 
+	std::vector<string> options = {	"Tag list", "Add tag", "Add question", 
 					"Add tag to question", "Remove Tag", 
 					"Remove question", "Remove tag from question", 
 					"Exit"};
@@ -24,12 +23,26 @@ void View::print_menu(){
 
 
 void View::print_tag_list(){
+	int i = 0;
 	printf("List tagow\n");
+	for(Tag t : TagDb::read_all_tags()){
+		printf("%d. %s\n", i, t.get_tag().c_str());
+	}
 }
 
-void View::print_add_tag(){
+void View::print_create_tag(){
 	printf("Dodaj tag:\n");
 }
+
+void View::print_created_tag(Tag *t, int sql_answer){
+	if(sql_answer == 0){
+		printf("Poprawnie utworzono tag: %s\n", t->get_tag().c_str());
+	} else {
+		printf("Blad bazy danych");
+	}
+}
+
+
 
 void View::print_add_question(){
 	printf("Doddaj pytanie\n");

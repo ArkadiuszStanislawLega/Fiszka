@@ -15,23 +15,43 @@ void Controller::main_menu(){
 	this->select_action((Views)option_selected);
 }
 
+void Controller::tags_list(){
+	int option_selected;
+	this->_view->print_tag_list();
+}
+
+void Controller::create_tag(){
+	this->_view->print_create_tag();
+	string tag;
+
+	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+	std::cin >> tag;
+
+	Tag *t = new Tag();
+	t->set_tag(tag);
+	this->_view->print_created_tag(t, TagDb::create(t));
+}
+
 void Controller::select_action(Views view){
 	switch(view){
 		case Views::main_v:
 		{	
-			main_menu();
+			this->main_menu();
 			break;
 		}
 		case Views::tag_list:
 		{
+			this->tags_list();
 			break;
 		}
 		case Views::add_tag:
 		{
+			this->create_tag();
 			break;
 		}
 		case Views::add_question:
 		{
+			this->create_question();
 			break;
 		}
 		case Views::add_tag_to_question:

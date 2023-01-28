@@ -14,8 +14,8 @@ class Controller{
 		void prepare_randomised_questions();
 		void select_action(Views);
 		
-		void select_tag_list();
-		void add_tag();
+		void tags_list();
+		void create_tag();
 		void add_question();
 		void add_tag_to_question();
 		void remove_tag();
