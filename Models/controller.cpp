@@ -13,7 +13,6 @@ void Controller::main_menu(){
 
 	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 	std::cin >> option_selected;
-	option_selected++;
 
 	if(option_selected < Model::ACTIONS_NUMBER){
 		this->select_action((Views)option_selected);
@@ -48,7 +47,7 @@ void Controller::create_tag(){
 void Controller::create_question(){
 	if(this->_model->get_selected_tag() == NULL){
 		this->_view->print_first_select_tag();
-	} else{
+	} else {
 		string value, answer;
 		int sql_answer = -1;
 		this->_view->print_create_question();
@@ -65,6 +64,10 @@ void Controller::create_question(){
 		this->_view->print_created_question(q, sql_answer); 
 
 		if(sql_answer == SQLITE_OK){
+			printf("Jest okej.");
+			q->set_id(QuestionDb::read_id(value, answer));
+			printf("%lu\n", q->get_id());
+			printf("taga = %lu\n", this->_model->get_selected_tag()->get_id());
 			Database::create_relation(this->_model->get_selected_tag(), q);
 		}
 	}
@@ -74,9 +77,10 @@ void Controller::select_tag(){
 	int option_selected = 0;
 	this->_view->print_select_tag();
 	std::cin >> option_selected;
-	vector<Tag> tags = TagDb::read_all_tags();
+	vector<Tag*> tags = TagDb::read_all_tags();
 	if(option_selected < tags.size()){
-		this->_model->set_selected_tag(&tags.at(option_selected));
+		this->_model->set_selected_tag(tags.at(option_selected));
+		printf("Zaraz po dodaniu: %lu\n", this->_model->get_selected_tag()->get_id());
 	} else {
 		this->_view->print_wrong_value();
 	}

@@ -15,6 +15,7 @@ class QuestionDb{
 		static int create_table();
 		static int create(Question *);
 		static Question *read(long);
+		static long read_id(string, string);
 		static int update(Question *);
 		static int remove(long);
 

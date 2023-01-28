@@ -33,6 +33,7 @@ Question *QuestionDb::read(long id){
 		sqlite3 *db;
 		string sql  = {	SELECT + "* " + FROM + TABLE_QUESTIONS + " " + 
 				WHERE +  COLUMN_ID + "=" + std::to_string(id) + ";"};
+		printf("%s", sql.c_str());
 		sqlite3_open(DATABASE_NAME.c_str(), &db);
 		sqlite3_prepare(db, sql.c_str(), -1, &stmt, NULL );
 		sqlite3_step(stmt);
@@ -45,6 +46,28 @@ Question *QuestionDb::read(long id){
 		read_related_tags(q);
 	}
 	return q;
+}
+
+long QuestionDb::read_id(string value, string answer){
+	//TODO: Zrobic na to testy.
+	if ( value != "" && answer != ""){
+		long response = 0;
+		sqlite3_stmt * stmt;
+		sqlite3 *db;
+		string sql  = {	SELECT + COLUMN_ID + " " + FROM + TABLE_QUESTIONS + " " + 
+				WHERE +  COLUMN_VALUE + "=\"" + value + "\" " + AND + " " +
+				COLUMN_ANSWER + "=\"" + answer  + "\";"};
+		sqlite3_open(DATABASE_NAME.c_str(), &db);
+		sqlite3_prepare(db, sql.c_str(), -1, &stmt, NULL );
+		sqlite3_step(stmt);
+
+		response = (long)sqlite3_column_int(stmt, 0);
+
+		sqlite3_finalize(stmt);
+		sqlite3_close(db);
+		return response;
+	}
+	return 0;
 }
 
 int QuestionDb::update(Question *question){

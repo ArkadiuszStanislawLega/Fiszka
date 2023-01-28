@@ -24,7 +24,7 @@ class TagDb{
 		static int update(Tag *);
 		static int remove(long);
 
-		static vector<Tag> read_all_tags();
+		static vector<Tag*> read_all_tags();
 		static vector<Question> read_related_questions(Tag *);
 		static int remove_question(Question *, Tag *);
 		static int relate_tag_with_question(Question *, Tag *);

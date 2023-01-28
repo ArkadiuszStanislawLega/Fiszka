@@ -12,7 +12,7 @@ void View::print_menu(){
 					"Add tag to question", "Remove Tag", 
 					"Remove question", "Remove tag from question", 
 					"Select Tag", "Exit"};
-	int i = 0;
+	int i = 1;
 
 	printf("MAIN MENU:\n");
 	if(this->_model->get_selected_tag() != NULL){
@@ -20,7 +20,7 @@ void View::print_menu(){
 	}
 
 	for(string s : options){
-		printf("%d. %s.\n", ++i, s.c_str());
+		printf("%d. %s.\n", i++, s.c_str());
 	}
 	printf("Chose number:");
 }
@@ -37,8 +37,8 @@ void View::print_first_select_tag(){
 void View::print_tag_list(){
 	int i = 0;
 	printf("List tagow\n");
-	for(Tag t : TagDb::read_all_tags()){
-		printf("%d. %s\n", i, t.get_tag().c_str());
+	for(Tag *t : TagDb::read_all_tags()){
+		printf("%d. %s\n", i, t->get_tag().c_str());
 	}
 }
 
@@ -102,10 +102,10 @@ void View::get_tag(){
 
 void View::print_tags(){
 	int i = 1;
-	vector<Tag> tags = TagDb::read_all_tags();
+	vector<Tag*> tags = TagDb::read_all_tags();
 	printf("Tagi w bazie danych (%lu):\n", tags.size());
-	for(Tag tag : tags){
-		printf("%d. %s\n", i++, tag.get_tag().c_str());
+	for(Tag *tag : tags){
+		printf("%d. %s\n", i++, tag->get_tag().c_str());
 	}
 	printf("--\n");
 }

@@ -65,17 +65,17 @@ int TagDb::remove(long id){
 }
 
 int TagDb::read_all_tags_callback(void *tags, int columns, char **column_values, char **column_names){
- 	if (vector<Tag>* t = reinterpret_cast<vector<Tag>*>(tags)){
-		Tag tag = Tag();
-		tag.set_id(std::stol(column_values[0]));
-		tag.set_tag(column_values[1]);
+ 	if (vector<Tag*>* t = reinterpret_cast<vector<Tag*>*>(tags)){
+		Tag *tag = new Tag();
+		tag->set_id(std::stol(column_values[0]));
+		tag->set_tag(column_values[1]);
 		t->push_back(tag);
 	}
 	return 0;
 }
 
-vector<Tag> TagDb::read_all_tags(){
-	vector<Tag> tags;
+vector<Tag*> TagDb::read_all_tags(){
+	vector<Tag*> tags;
 	sqlite3 *db;
 	char *error_message;
 	int rc;
