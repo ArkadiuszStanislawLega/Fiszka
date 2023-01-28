@@ -20,7 +20,8 @@ void View::print_menu(){
 	}
 
 	for(string s : options){
-		printf("%d. %s.\n", i++, s.c_str());
+		printf("%d. %s.\n", i, s.c_str());
+		i++;
 	}
 	printf("Chose number:");
 }
@@ -39,6 +40,7 @@ void View::print_tag_list(){
 	printf("List tagow\n");
 	for(Tag *t : TagDb::read_all_tags()){
 		printf("%d. %s\n", i, t->get_tag().c_str());
+		i++;
 	}
 }
 
@@ -59,7 +61,7 @@ void View::print_create_question(){
 }
 
 void View::print_created_question(Question *q, int sql_answer){
-	if(sql_answer == 0){
+	if(sql_answer == SQLITE_OK){
 		printf("Poprawnie utworzono pytanie: %s, %s\n", q->get_value().c_str(), q->get_answer().c_str());
 	} else {
 		printf("Blad bazy danych");

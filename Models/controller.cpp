@@ -11,10 +11,10 @@ void Controller::main_menu(){
 	int option_selected = 0;
 	this->_view->print_menu();
 
-	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+	//std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 	std::cin >> option_selected;
 
-	if(option_selected < Model::ACTIONS_NUMBER){
+	if(option_selected < Model::ACTIONS_NUMBER && option_selected > 0){
 		this->select_action((Views)option_selected);
 	} 
 
@@ -28,7 +28,6 @@ void Controller::main_menu(){
 }
 
 void Controller::tags_list(){
-	int option_selected;
 	this->_view->print_tag_list();
 }
 
@@ -50,13 +49,14 @@ void Controller::create_question(){
 	} else {
 		string value, answer;
 		int sql_answer = -1;
+		Question *q = new Question();
+
 		this->_view->print_create_question();
 		
 		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 		std::getline(std::cin, value);	
 		std::getline(std::cin, answer);
 
-		Question *q = new Question();
 		q->set_value(value);
 		q->set_answer(answer);
 
@@ -91,6 +91,7 @@ void Controller::select_action(Views view){
 		}
 		case Views::tag_list:
 		{
+			printf("SELECTED 1");
 			this->tags_list();
 			break;
 		}
