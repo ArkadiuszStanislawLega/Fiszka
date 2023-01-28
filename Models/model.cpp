@@ -30,6 +30,18 @@ bool Model::is_working(){
 	return this->_is_working;
 }
 
+void Model::set_is_working(bool value){
+	this->_is_working = value;
+}
+
+Tag *Model::get_selected_tag(){
+	return this->_selected_tag;
+}
+
+void Model::set_selected_tag(Tag *value){
+	this->_selected_tag = value;
+}
+
 bool Model::is_questions_number_valid(){
 	return this->_questions_in_series <= this->_randomised_questions.size();
 }

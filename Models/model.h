@@ -15,6 +15,7 @@ using std::vector;
 class Model{
 	private:
 		Views _current_view;
+		Tag *_selected_tag;
 		bool _is_working;	
 		vector<Question *> _randomised_questions;
 		string _current_tag;
@@ -23,9 +24,13 @@ class Model{
 	public:
 		Model();
 		bool is_working();
+		void set_is_working(bool);
 
 		Views get_current_view();
 		void set_current_view(Views);
+	
+		Tag *get_selected_tag();
+		void set_selected_tag(Tag *);
 
 		void start_app();
 		vector<Question *> get_randomised_questions();

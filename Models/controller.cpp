@@ -13,7 +13,19 @@ void Controller::main_menu(){
 
 	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 	std::cin >> option_selected;
-	this->select_action((Views)option_selected);
+	option_selected++;
+
+	if(option_selected < 10){
+		this->select_action((Views)option_selected);
+	} 
+
+	if(option_selected == 10){
+		this->_model->set_is_working(false);
+	}
+
+	if(option_selected > 10 && option_selected < 0){
+		this->_view->print_wrong_value();
+	}
 }
 
 void Controller::tags_list(){
@@ -34,6 +46,8 @@ void Controller::create_tag(){
 }
 
 void Controller::create_question(){
+	//TODO: Sprawdzic czy jest wybrany tag - wywalic odpowiedni monit.
+	//TODO: Dorobic automatyczne dodawanie tagu do questa.
 	this->_view->print_create_question();
 	string value, answer;
 	
@@ -45,6 +59,18 @@ void Controller::create_question(){
 	q->set_value(value);
 	q->set_answer(answer);
 	this->_view->print_created_question(q, QuestionDb::create(q));
+}
+
+void Controller::select_tag(){
+	int option_selected = 0;
+	this->_view->print_select_tag();
+	std::cin >> option_selected;
+	vector<Tag> tags = TagDb::read_all_tags();
+	if(option_selected < tags.size()){
+		this->_model->set_selected_tag(&tags.at(option_selected));
+	} else {
+		this->_view->print_wrong_value();
+	}
 }
 
 void Controller::select_action(Views view){
@@ -75,18 +101,28 @@ void Controller::select_action(Views view){
 		}
 		case Views::remove_tag:
 		{
+			printf("SELECTED 4");
 			break;
 		}
 		case Views::remove_question:
 		{
+			printf("SELECTED 5");
 			break;
 		}
 		case Views::remove_tag_from_question:
 		{
+			printf("SELECTED 6");
 			break;
 		}
 		case Views::make_series:
 		{
+			printf("SELECTED 7");
+			break;
+		}
+		case Views::select_tag:
+		{
+			printf("SELECTED 8");
+			this->select_tag();
 			break;
 		}
 	}

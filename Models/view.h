@@ -13,12 +13,15 @@ class View{
 		void start_app();
 		void select_view(Views);
 		void print_menu();
+		void print_wrong_value();
 
 		void print_tag_list();
 		void print_create_tag();
 		void print_created_tag(Tag *, int);
 		void print_create_question();
 		void print_created_question(Question *, int);
+		void print_select_tag();
+
 		void print_add_tag_to_question();
 		void print_remove_tag();
 		void print_remove_question();

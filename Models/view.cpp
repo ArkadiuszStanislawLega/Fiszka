@@ -11,14 +11,22 @@ void View::print_menu(){
 	std::vector<string> options = {	"Tag list", "Add tag", "Add question", 
 					"Add tag to question", "Remove Tag", 
 					"Remove question", "Remove tag from question", 
-					"Exit"};
+					"Select Tag", "Exit"};
 	int i = 0;
 
 	printf("MAIN MENU:\n");
+	if(this->_model->get_selected_tag() != NULL){
+		printf("Selected tag: %s\n", this->_model->get_selected_tag()->get_tag().c_str());
+	}
+
 	for(string s : options){
 		printf("%d. %s.\n", ++i, s.c_str());
 	}
 	printf("Chose number:");
+}
+
+void View::print_wrong_value(){
+	printf("Wrong value.");
 }
 
 
@@ -52,6 +60,11 @@ void View::print_created_question(Question *q, int sql_answer){
 	} else {
 		printf("Blad bazy danych");
 	}
+}
+
+void View::print_select_tag(){
+	printf("Choose tag from list:");
+	this->print_tag_list();
 }
 
 void View::print_add_tag_to_question(){
