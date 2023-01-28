@@ -64,10 +64,7 @@ void Controller::create_question(){
 		this->_view->print_created_question(q, sql_answer); 
 
 		if(sql_answer == SQLITE_OK){
-			printf("Jest okej.");
 			q->set_id(QuestionDb::read_id(value, answer));
-			printf("%lu\n", q->get_id());
-			printf("taga = %lu\n", this->_model->get_selected_tag()->get_id());
 			Database::create_relation(this->_model->get_selected_tag(), q);
 		}
 	}
@@ -80,7 +77,6 @@ void Controller::select_tag(){
 	vector<Tag*> tags = TagDb::read_all_tags();
 	if(option_selected < tags.size()){
 		this->_model->set_selected_tag(tags.at(option_selected));
-		printf("Zaraz po dodaniu: %lu\n", this->_model->get_selected_tag()->get_id());
 	} else {
 		this->_view->print_wrong_value();
 	}
