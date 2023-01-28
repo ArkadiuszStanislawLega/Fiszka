@@ -42,10 +42,16 @@ void View::print_created_tag(Tag *t, int sql_answer){
 	}
 }
 
+void View::print_create_question(){
+	printf("Doddaj pytanie. Najpierw zapytanie, a po wcisnieciu klawisza ENTER odpowiedz. Nastepnie zatwierdz wciskajac klawisz ENTER.\n");
+}
 
-
-void View::print_add_question(){
-	printf("Doddaj pytanie\n");
+void View::print_created_question(Question *q, int sql_answer){
+	if(sql_answer == 0){
+		printf("Poprawnie utworzono pytanie: %s, %s\n", q->get_value().c_str(), q->get_answer().c_str());
+	} else {
+		printf("Blad bazy danych");
+	}
 }
 
 void View::print_add_tag_to_question(){

@@ -16,7 +16,7 @@ class Controller{
 		
 		void tags_list();
 		void create_tag();
-		void add_question();
+		void create_question();
 		void add_tag_to_question();
 		void remove_tag();
 		void remove_question();

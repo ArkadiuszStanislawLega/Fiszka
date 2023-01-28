@@ -1,4 +1,5 @@
 #include "controller.h"
+#include "question.h"
 #include "tag.h"
 
 Controller::Controller(Model *model, View *view){
@@ -30,6 +31,20 @@ void Controller::create_tag(){
 	Tag *t = new Tag();
 	t->set_tag(tag);
 	this->_view->print_created_tag(t, TagDb::create(t));
+}
+
+void Controller::create_question(){
+	this->_view->print_create_question();
+	string value, answer;
+	
+	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+	std::getline(std::cin, value);	
+	std::getline(std::cin, answer);
+
+	Question *q = new Question();
+	q->set_value(value);
+	q->set_answer(answer);
+	this->_view->print_created_question(q, QuestionDb::create(q));
 }
 
 void Controller::select_action(Views view){
