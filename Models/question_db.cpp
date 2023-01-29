@@ -33,7 +33,6 @@ Question *QuestionDb::read(long id){
 		sqlite3 *db;
 		string sql  = {	SELECT + "* " + FROM + TABLE_QUESTIONS + " " + 
 				WHERE +  COLUMN_ID + "=" + std::to_string(id) + ";"};
-		printf("%s", sql.c_str());
 		sqlite3_open(DATABASE_NAME.c_str(), &db);
 		sqlite3_prepare(db, sql.c_str(), -1, &stmt, NULL );
 		sqlite3_step(stmt);
@@ -56,7 +55,7 @@ long QuestionDb::read_id(string value, string answer){
 		sqlite3 *db;
 		string sql  = {	SELECT + COLUMN_ID + " " + FROM + TABLE_QUESTIONS + " " + 
 				WHERE +  COLUMN_VALUE + "=\"" + value + "\" " + AND + " " +
-				COLUMN_ANSWER + "=\"" + answer  + "\";"};
+				COLUMN_ANSWER + "=\"" + answer  + "\" limit 1;"};
 		sqlite3_open(DATABASE_NAME.c_str(), &db);
 		sqlite3_prepare(db, sql.c_str(), -1, &stmt, NULL );
 		sqlite3_step(stmt);

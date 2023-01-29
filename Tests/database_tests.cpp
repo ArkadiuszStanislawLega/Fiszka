@@ -90,6 +90,46 @@ void DatabaseTests::read_all_questions(){
 	printf("OK\n");
 }
 
+void DatabaseTests::delete_relation_questions_with_tag(){
+	printf("Read all questions.\t");
+	string value = "TEST";
+	Tag *t = new Tag(1, value);
+
+	Question *q1 = new Question();
+	q1->set_value(value);
+	q1->set_answer(value);
+	QuestionDb::create(q1);
+	q1->set_id(QuestionDb::read_id(value, value));
+	Database::create_relation(t, q1);
+
+	Question *q2 = new Question();
+	q2->set_value(value);
+	q2->set_answer(value);
+	QuestionDb::create(q2);
+	q2->set_id(q1->get_id());
+	Database::create_relation(t, q2);
+
+	Question *q3 = new Question();
+	q3->set_value(value);
+	q3->set_answer(value);
+	QuestionDb::create(q3);
+	q3->set_id(q1->get_id());
+	Database::create_relation(t, q3);
+
+	assert(Database::delete_all_relation_with_tag(t) == 0);
+
+	QuestionDb::remove(q1->get_id());
+	QuestionDb::remove(QuestionDb::read_id(value, value));
+	QuestionDb::remove(QuestionDb::read_id(value, value));
+	printf("OK\n");
+} 
+
+void DatabaseTests::delete_relation_tags_with_question(){
+	printf("Read all questions.\t");
+
+	printf("OK\n");
+}
+
 void DatabaseTests::remove_tag_from_question(){
 	printf("Remove tag from question.\t");
 	Question *q = new Question(1, "", "", {});
@@ -131,6 +171,8 @@ void DatabaseTests::database_tests(){
 	read_all_questions();
 	remove_tag_from_question();
 	remove_question();
+	delete_relation_questions_with_tag();
+	delete_relation_tags_with_question();
 	remove_tag();
 
 	printf("Database tests end.\n");

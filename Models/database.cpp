@@ -1,4 +1,5 @@
 #include "database.h"
+#include <ctime>
 #include <string>
 
 int Database::execute_query(string query){
@@ -7,7 +8,10 @@ int Database::execute_query(string query){
 	sqlite3 *db;
 
 	sqlite3_open(DATABASE_NAME.c_str(), &db);
-	sqlite3_exec(db, query.c_str(), NULL, 0, &message_error);
+	rc = sqlite3_exec(db, query.c_str(), NULL, 0, &message_error);
+	if(rc != SQLITE_OK){
+		printf("%s\n", message_error);
+	}
 	sqlite3_close(db);
 	return rc;
 }
@@ -29,14 +33,14 @@ int Database::create_relation(Tag *t, Question *q){
 	return execute_query(sql);
 }
 
-int Database::remove_all_relation_with_tag(Tag *t){
-	string sql = {DELETE + FROM + TABLE_QUESTIONS_TAGS + " " + 
+int Database::delete_all_relation_with_tag(Tag *t){
+	string sql = {DELETE + TABLE_QUESTIONS_TAGS + " " + 
 			WHERE + COLUMN_TAG_ID + "=" + std::to_string(t->get_id()) + ";"};
 	return execute_query(sql);
 }
 
-int Database::remove_all_relation_with_question(Question *q){
-	string sql = {DELETE + FROM + TABLE_QUESTIONS_TAGS + " " + 
+int Database::delete_all_relation_with_question(Question *q){
+	string sql = {DELETE + TABLE_QUESTIONS_TAGS + " " + 
 			WHERE + COLUMN_QUESTION_ID + "=" + std::to_string(q->get_id()) + ";"};
 	return execute_query(sql);
 }

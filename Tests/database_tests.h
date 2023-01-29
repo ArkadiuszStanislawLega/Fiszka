@@ -24,6 +24,8 @@ class DatabaseTests{
 		static void add_realation_question_and_tags();
 		static void read_related_tags();
 		static void read_all_questions();
+		static void delete_relation_questions_with_tag();
+		static void delete_relation_tags_with_question();
 		static void remove_tag_from_question();
 		static void remove_tag();
 		static void remove_question();
