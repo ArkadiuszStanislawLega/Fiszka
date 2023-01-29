@@ -78,7 +78,12 @@ void View::print_add_tag_to_question(){
 }
 
 void View::print_remove_tag(){
-	printf("Usun tag:");
+	printf("Usun tag: %s\n", this->_model->get_selected_tag()->get_tag().c_str());
+	printf("Potwierdz usuniecie wpisujac (T).");
+}
+
+void View::print_removed_tag(){
+	printf("Poprawnie usnieto tag: %s z bazy danych.", this->_model->get_selected_tag()->get_tag().c_str());
 }
 
 void View::print_remove_question(){

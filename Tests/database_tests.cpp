@@ -49,7 +49,7 @@ void DatabaseTests::create_question(){
 }
 
 void DatabaseTests::read_question_id(){
-	printf("Read question id.");
+	printf("Read question id.\t");
 	string value = "TEST";
 	assert(QuestionDb::read_id(value, value) == 1);
 	printf("OK\n");

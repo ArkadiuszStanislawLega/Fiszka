@@ -25,6 +25,7 @@ class View{
 
 		void print_add_tag_to_question();
 		void print_remove_tag();
+		void print_removed_tag();
 		void print_remove_question();
 		void print_remove_tag_from_question();
 		void print_make_series();

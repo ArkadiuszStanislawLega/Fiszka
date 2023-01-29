@@ -83,7 +83,18 @@ void Controller::select_tag(){
 }
 
 void Controller::remove_tag(){
-
+	string input = "";
+	this->_view->print_remove_tag();
+	std::cin >> input;
+	if(input == "T"){
+		int del1, del2;
+		del1 = Database::delete_all_relation_with_tag(this->_model->get_selected_tag());
+		del2 = TagDb::remove(this->_model->get_selected_tag()->get_id());
+		if(del1 ==SQLITE_OK && del2== SQLITE_OK){
+			this->_view->print_removed_tag();
+			this->_model->set_selected_tag(NULL);
+		}
+	}
 }
 
 void Controller::select_action(Views view){
