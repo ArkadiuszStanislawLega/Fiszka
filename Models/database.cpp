@@ -29,6 +29,18 @@ int Database::create_relation(Tag *t, Question *q){
 	return execute_query(sql);
 }
 
+int Database::remove_all_relation_with_tag(Tag *t){
+	string sql = {DELETE + FROM + TABLE_QUESTIONS_TAGS + " " + 
+			WHERE + COLUMN_TAG_ID + "=" + std::to_string(t->get_id()) + ";"};
+	return execute_query(sql);
+}
+
+int Database::remove_all_relation_with_question(Question *q){
+	string sql = {DELETE + FROM + TABLE_QUESTIONS_TAGS + " " + 
+			WHERE + COLUMN_QUESTION_ID + "=" + std::to_string(q->get_id()) + ";"};
+	return execute_query(sql);
+}
+
 void Database::create_tables(){
 	Database::create_table_questions_tags();
 	QuestionDb::create_table();

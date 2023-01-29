@@ -82,8 +82,11 @@ void Controller::select_tag(){
 	}
 }
 
+void Controller::remove_tag(){
+
+}
+
 void Controller::select_action(Views view){
-	printf("SELECTED %d\n",view);
 	switch(view){
 		case Views::main_v:
 		{	
@@ -111,6 +114,7 @@ void Controller::select_action(Views view){
 		}
 		case Views::remove_tag:
 		{
+			this->remove_tag();
 			break;
 		}
 		case Views::remove_question:
