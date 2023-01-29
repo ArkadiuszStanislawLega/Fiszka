@@ -110,8 +110,9 @@ int TagDb::read_related_questions_callback(void *questions, int columns, char **
 
 }
 
-vector<Question> TagDb::read_related_questions(Tag *tag){
-	vector<Question> questions;
+vector<Question *> TagDb::read_related_questions(Tag *tag){
+	printf("TESTUJE 2 %lu\n", tag->get_id());
+	vector<Question *> questions;
 	if(tag != NULL){
 		char *error_message;
 		int rc;
@@ -128,10 +129,11 @@ vector<Question> TagDb::read_related_questions(Tag *tag){
 		sqlite3_open(DATABASE_NAME.c_str(), &db);
 		rc = sqlite3_exec(db, sql.c_str(), &read_related_questions_callback, static_cast<void*>(&questions), &error_message);
 		sqlite3_close(db);
+		printf("TESTUJE 3\n");
 		if(rc != SQLITE_OK){ printf("%s\n", error_message);}
 		else {
-			for(Question q : questions){
-				q.get_tags();
+			for(Question *q : questions){
+				q->get_tags();
 			}
 		}
 	}

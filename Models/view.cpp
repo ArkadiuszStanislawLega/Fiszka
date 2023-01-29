@@ -90,20 +90,43 @@ void View::print_added_tag_to_question(int sql_answer){
 	}
 }
 
-void View::print_remove_tag(){
+void View::print_delete_tag(){
 	printf("Usun tag: %s\n", this->_model->get_selected_tag()->get_tag().c_str());
 	printf("Potwierdz usuniecie wpisujac (T).");
 }
 
-void View::print_removed_tag(){
+void View::print_deleted_tag(){
 	printf("Poprawnie usnieto tag: %s z bazy danych.\n", this->_model->get_selected_tag()->get_tag().c_str());
 }
 
-void View::print_remove_question(){
-	printf("usun pytanie:");
+void View::print_delete_question(vector<Question *> questions){
+	int i = 0;
+	if(questions.size() > 0){
+		printf("usun pytanie (%lu):\n", questions.size());
+		for(Question *q: questions){
+			printf("%d. Value: %s, Answer: %s", i, q->get_value().c_str(), q->get_answer().c_str());
+			if(q->get_tags().size() > 0){
+				printf(", Tag: %s", q->get_tags().at(0)->get_tag().c_str());
+
+			}
+			printf("\n");
+		
+			i++;
+		}
+	} else {
+		printf("Brak pytan do usuniecia.\n");
+	}
 }
 
-void View::print_remove_tag_from_question(){
+void View::print_deleted_question(int sql_answer){
+	if(sql_answer == SQLITE_OK){
+		printf("Poprawnie usunieto zapytanie.\n");
+	} else {
+		printf("Blad bazy danych podczas usuwania zapytania.\n");
+	}
+}
+
+void View::print_delete_tag_from_question(){
 	printf("Usun tag z pytania:");
 }
 

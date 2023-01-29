@@ -20,8 +20,8 @@ class Controller{
 
 		void select_tag();
 		void add_tag_to_question();
-		void remove_tag();
-		void remove_question();
+		void delete_tag();
+		void delete_question();
 		void remove_tag_from_question();
 
 		void get_questions_number_in_series();

@@ -85,17 +85,17 @@ void Controller::select_tag(){
 	}
 }
 
-void Controller::remove_tag(){
+void Controller::delete_tag(){
 	if(this->_model->get_selected_tag()!=NULL){
 		string input = "";
-		this->_view->print_remove_tag();
+		this->_view->print_delete_tag();
 		std::cin >> input;
 		if(input == "T"){
 			int del1, del2;
 			del1 = Database::delete_all_relation_with_tag(this->_model->get_selected_tag());
 			del2 = TagDb::remove(this->_model->get_selected_tag()->get_id());
 			if(del1 ==SQLITE_OK && del2== SQLITE_OK){
-				this->_view->print_removed_tag();
+				this->_view->print_deleted_tag();
 				this->_model->set_selected_tag(NULL);
 			}
 		}
@@ -117,6 +117,34 @@ void Controller::add_tag_to_question(){
 		}
 	} else {
 		this->_view->print_first_select_tag();
+	}
+}
+
+void Controller::delete_question(){
+	int input = 0;
+	vector<Question *> questions;
+
+	printf("TESTUJE 0\n");
+	if(this->_model->get_selected_tag() == NULL){
+		questions = QuestionDb::read_all_questions();
+	} else {
+		printf("TESTUJE 1\n");
+		printf("%lu <-- TEST\n", this->_model->get_selected_tag()->get_id());
+		questions = TagDb::read_related_questions(this->_model->get_selected_tag());
+		printf("TESTUJE 4\n");
+	}
+
+	this->_view->print_delete_question(questions);
+
+	std::cin >> input;
+
+	if(questions.size() > 0 && input < questions.size() && input >= 0){
+		int del1, del2;
+		del1 = Database::delete_all_relation_with_question(questions.at(input));
+		del2 = QuestionDb::remove(questions.at(input)->get_id());
+		this->_view->print_deleted_question(del1 == SQLITE_OK && del2 == SQLITE_OK ? SQLITE_OK : 1);
+	}else {
+		input = 0;
 	}
 }
 
@@ -149,11 +177,12 @@ void Controller::select_action(Views view){
 		}
 		case Views::remove_tag:
 		{
-			this->remove_tag();
+			this->delete_tag();
 			break;
 		}
 		case Views::remove_question:
 		{
+			this->delete_question();
 			break;
 		}
 		case Views::remove_tag_from_question:

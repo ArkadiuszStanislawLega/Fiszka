@@ -25,10 +25,11 @@ class View{
 
 		void print_add_tag_to_question(vector<Question *>);
 		void print_added_tag_to_question(int);
-		void print_remove_tag();
-		void print_removed_tag();
-		void print_remove_question();
-		void print_remove_tag_from_question();
+		void print_delete_tag();
+		void print_deleted_tag();
+		void print_delete_question(vector<Question *>);
+		void print_deleted_question(int);
+		void print_delete_tag_from_question();
 		void print_make_series();
 		
 		void get_tag();
