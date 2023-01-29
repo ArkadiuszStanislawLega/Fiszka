@@ -91,7 +91,7 @@ void DatabaseTests::read_all_questions(){
 }
 
 void DatabaseTests::delete_relation_questions_with_tag(){
-	printf("Read all questions.\t");
+	printf("Delete relation questions with tag.\t");
 	string value = "TEST";
 	Tag *t = new Tag(1, value);
 
@@ -116,7 +116,7 @@ void DatabaseTests::delete_relation_questions_with_tag(){
 	q3->set_id(q1->get_id());
 	Database::create_relation(t, q3);
 
-	assert(Database::delete_all_relation_with_tag(t) == 0);
+	assert(Database::delete_all_relation_with_tag(t) == SQLITE_OK);
 
 	QuestionDb::remove(q1->get_id());
 	QuestionDb::remove(QuestionDb::read_id(value, value));
@@ -125,8 +125,20 @@ void DatabaseTests::delete_relation_questions_with_tag(){
 } 
 
 void DatabaseTests::delete_relation_tags_with_question(){
-	printf("Read all questions.\t");
+	printf("Delete relation tags with question.\t");
+	string value = "TEST";
+	Tag *t = new Tag(1, value);
 
+	Question *q1 = new Question();
+	q1->set_value(value);
+	q1->set_answer(value);
+	QuestionDb::create(q1);
+	q1->set_id(QuestionDb::read_id(value, value));
+
+	Database::create_relation(t, q1);
+	assert(Database::delete_all_relation_with_question(q1) == SQLITE_OK);
+
+	QuestionDb::remove(q1->get_id());
 	printf("OK\n");
 }
 
