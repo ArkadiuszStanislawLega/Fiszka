@@ -23,7 +23,8 @@ class View{
 		void print_created_question(Question *, int);
 		void print_select_tag();
 
-		void print_add_tag_to_question();
+		void print_add_tag_to_question(vector<Question *>);
+		void print_added_tag_to_question(int);
 		void print_remove_tag();
 		void print_removed_tag();
 		void print_remove_question();

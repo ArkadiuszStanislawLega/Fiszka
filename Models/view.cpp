@@ -11,7 +11,7 @@ void View::print_menu(){
 	std::vector<string> options = {	"Tag list", "Add tag", "Add question", 
 					"Add tag to question", "Remove Tag", 
 					"Remove question", "Remove tag from question", 
-					"Select Tag", "Exit"};
+					"Select Tag", "Make series" ,"Exit"};
 	int i = 1;
 
 	printf("MAIN MENU:\n");
@@ -27,11 +27,11 @@ void View::print_menu(){
 }
 
 void View::print_wrong_value(){
-	printf("Wrong value.");
+	printf("Wrong value.\n");
 }
 
 void View::print_first_select_tag(){
-	printf("Select Tag first.");
+	printf("Select Tag first.\n");
 }
 
 
@@ -64,17 +64,30 @@ void View::print_created_question(Question *q, int sql_answer){
 	if(sql_answer == SQLITE_OK){
 		printf("Poprawnie utworzono pytanie: %s, %s\n", q->get_value().c_str(), q->get_answer().c_str());
 	} else {
-		printf("Blad bazy danych");
+		printf("Blad bazy danych.\n");
 	}
 }
 
 void View::print_select_tag(){
-	printf("Choose tag from list:");
+	printf("Choose tag from list:\n");
 	this->print_tag_list();
 }
 
-void View::print_add_tag_to_question(){
-	printf("Dodaj tag to pytania:");
+void View::print_add_tag_to_question(vector<Question *> questions){
+	int i = 0;
+	printf("Dodaj tag (%s) to pytania:\n", this->_model->get_selected_tag()->get_tag().c_str());
+	for(Question *q: questions){ 
+		printf("%d. Value: %s, Answer: %s\n", i, q->get_value().c_str(), q->get_answer().c_str());
+		i++;
+	}
+}
+
+void View::print_added_tag_to_question(int sql_answer){
+	if(sql_answer == SQLITE_OK){
+		printf("Poprawnie dodano tag.\n");
+	} else {
+		printf("Blad bazy danych.\n");
+	}
 }
 
 void View::print_remove_tag(){
@@ -83,7 +96,7 @@ void View::print_remove_tag(){
 }
 
 void View::print_removed_tag(){
-	printf("Poprawnie usnieto tag: %s z bazy danych.", this->_model->get_selected_tag()->get_tag().c_str());
+	printf("Poprawnie usnieto tag: %s z bazy danych.\n", this->_model->get_selected_tag()->get_tag().c_str());
 }
 
 void View::print_remove_question(){

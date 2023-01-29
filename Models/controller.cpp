@@ -72,9 +72,12 @@ void Controller::create_question(){
 
 void Controller::select_tag(){
 	int option_selected = 0;
+	vector<Tag*> tags;
+
 	this->_view->print_select_tag();
+
 	std::cin >> option_selected;
-	vector<Tag*> tags = TagDb::read_all_tags();
+	tags = TagDb::read_all_tags();
 	if(option_selected < tags.size()){
 		this->_model->set_selected_tag(tags.at(option_selected));
 	} else {
@@ -83,17 +86,37 @@ void Controller::select_tag(){
 }
 
 void Controller::remove_tag(){
-	string input = "";
-	this->_view->print_remove_tag();
-	std::cin >> input;
-	if(input == "T"){
-		int del1, del2;
-		del1 = Database::delete_all_relation_with_tag(this->_model->get_selected_tag());
-		del2 = TagDb::remove(this->_model->get_selected_tag()->get_id());
-		if(del1 ==SQLITE_OK && del2== SQLITE_OK){
-			this->_view->print_removed_tag();
-			this->_model->set_selected_tag(NULL);
+	if(this->_model->get_selected_tag()!=NULL){
+		string input = "";
+		this->_view->print_remove_tag();
+		std::cin >> input;
+		if(input == "T"){
+			int del1, del2;
+			del1 = Database::delete_all_relation_with_tag(this->_model->get_selected_tag());
+			del2 = TagDb::remove(this->_model->get_selected_tag()->get_id());
+			if(del1 ==SQLITE_OK && del2== SQLITE_OK){
+				this->_view->print_removed_tag();
+				this->_model->set_selected_tag(NULL);
+			}
 		}
+	} else {
+		this->_view->print_first_select_tag();
+	}
+}
+
+void Controller::add_tag_to_question(){
+	int input = 0;
+	vector<Question *> questions = QuestionDb::read_all_questions();
+	if(this->_model->get_selected_tag() != NULL){
+		this->_view->print_add_tag_to_question(questions);
+		std::cin >> input;
+
+		if(input < questions.size() && input >= 0){
+			int sql_answer = Database::create_relation(this->_model->get_selected_tag(), questions.at(input));
+			this->_view->print_added_tag_to_question(sql_answer);
+		}
+	} else {
+		this->_view->print_first_select_tag();
 	}
 }
 
@@ -121,6 +144,7 @@ void Controller::select_action(Views view){
 		}
 		case Views::add_tag_to_question:
 		{
+			add_tag_to_question();
 			break;
 		}
 		case Views::remove_tag:
