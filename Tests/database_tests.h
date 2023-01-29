@@ -18,6 +18,7 @@ class DatabaseTests{
 		static void read_all_tags();
 		static void create_table_questions();
 		static void create_question();
+		static void read_question_id();
 		static void read_question();
 		static void update_question();
 		static void create_table_questions_tags();

@@ -43,8 +43,15 @@ void DatabaseTests::create_table_questions(){
 
 void DatabaseTests::create_question(){
 	printf("Create question.\t");
-	Question *q = new Question(1, "TEST", "TESTS", {});
+	Question *q = new Question(1, "TEST", "TEST", {});
 	assert(QuestionDb::create(q) == SQLITE_OK);
+	printf("OK\n");
+}
+
+void DatabaseTests::read_question_id(){
+	printf("Read question id.");
+	string value = "TEST";
+	assert(QuestionDb::read_id(value, value) == 1);
 	printf("OK\n");
 }
 
@@ -175,6 +182,7 @@ void DatabaseTests::database_tests(){
 	read_all_tags();
 	create_table_questions();
 	create_question();
+	read_question_id();
 	read_question();
 	update_question();
 	create_table_questions_tags();
