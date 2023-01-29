@@ -83,6 +83,7 @@ void Controller::select_tag(){
 }
 
 void Controller::select_action(Views view){
+	printf("SELECTED %d\n",view);
 	switch(view){
 		case Views::main_v:
 		{	
@@ -91,7 +92,6 @@ void Controller::select_action(Views view){
 		}
 		case Views::tag_list:
 		{
-			printf("SELECTED 1");
 			this->tags_list();
 			break;
 		}
@@ -111,28 +111,23 @@ void Controller::select_action(Views view){
 		}
 		case Views::remove_tag:
 		{
-			printf("SELECTED 4");
 			break;
 		}
 		case Views::remove_question:
 		{
-			printf("SELECTED 5");
 			break;
 		}
 		case Views::remove_tag_from_question:
 		{
-			printf("SELECTED 6");
-			break;
-		}
-		case Views::make_series:
-		{
-			printf("SELECTED 7");
 			break;
 		}
 		case Views::select_tag:
 		{
-			printf("SELECTED 8");
 			this->select_tag();
+			break;
+		}
+		case Views::make_series:
+		{
 			break;
 		}
 	}
