@@ -7,12 +7,15 @@ Controller::Controller(Model *model, View *view){
 	this->_view = view;
 }
 
-void Controller::main_menu(){
-	int option_selected = 0;
+bool Controller::main_menu(){
+	int option_selected;
 	this->_view->print_menu();
+	
+	scanf("%d", &option_selected);
 
-	//std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-	std::cin >> option_selected;
+	if(option_selected <= 0 || option_selected > Model::ACTIONS_NUMBER){
+		return false;
+	}
 
 	if(option_selected < Model::ACTIONS_NUMBER && option_selected > 0){
 		this->select_action((Views)option_selected);
@@ -25,6 +28,7 @@ void Controller::main_menu(){
 	if(option_selected > Model::ACTIONS_NUMBER && option_selected < 0){
 		this->_view->print_wrong_value();
 	}
+	return true;
 }
 
 void Controller::tags_list(){
@@ -122,6 +126,20 @@ void Controller::add_tag_to_question(){
 
 void Controller::delete_question(){
 	int input = 0;
+	vector<Question *> questions = this->get_questions_list_depends_on_tag();
+
+	this->_view->print_delete_question(questions);
+
+	std::cin >> input;
+
+	if(this->is_input_in_vector_size(questions.size(), input)){
+		this->_view->print_deleted_question(get_delete_question_response(questions.at(input)));
+	} else {
+		this->_view->print_wrong_value();
+	}
+}
+
+vector<Question *> Controller::get_questions_list_depends_on_tag(){
 	vector<Question *> questions;
 
 	if(this->_model->get_selected_tag() == NULL){
@@ -129,19 +147,16 @@ void Controller::delete_question(){
 	} else {
 		questions = TagDb::read_related_questions(this->_model->get_selected_tag());
 	}
+	return questions;
+}
 
-	this->_view->print_delete_question(questions);
+bool Controller::is_input_in_vector_size(long size, int input){
+	return size > 0 && input < size && input >= 0;
+}
 
-	std::cin >> input;
-
-	if(questions.size() > 0 && input < questions.size() && input >= 0){
-		int del1, del2;
-		del1 = Database::delete_all_relation_with_question(questions.at(input));
-		del2 = QuestionDb::remove(questions.at(input)->get_id());
-		this->_view->print_deleted_question(del1 == SQLITE_OK && del2 == SQLITE_OK ? SQLITE_OK : 1);
-	}else {
-		input = 0;
-	}
+int Controller::get_delete_question_response(Question *q){
+	return Database::delete_all_relation_with_question(q) + QuestionDb::remove(q->get_id()) == SQLITE_OK ? 0 : 1;
+	
 }
 
 void Controller::select_action(Views view){
@@ -194,6 +209,10 @@ void Controller::select_action(Views view){
 		{
 			break;
 		}
+		default:
+		{
+			break;
+		}
 	}
 }
 
@@ -203,7 +222,10 @@ void Controller::start_app(){
 
 	while(this->_model->is_working())
 	{
-		main_menu();
+		if(!main_menu()){
+			this->_view->print_wrong_value();
+			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+		}
 	}
 }
 
