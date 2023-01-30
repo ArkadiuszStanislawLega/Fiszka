@@ -99,11 +99,11 @@ int TagDb::relate_tag_with_question(Question *q, Tag *t){
 }
 
 int TagDb::read_related_questions_callback(void *questions, int columns, char **column_values, char **columns_names){
- 	if (vector<Question>* q = reinterpret_cast<vector<Question>*>(questions)){
-		Question question = Question();
-		question.set_id(std::stol(column_values[0]));
-		question.set_value(column_values[1]);
-		question.set_answer(column_values[2]);
+ 	if (vector<Question*>* q = reinterpret_cast<vector<Question*>*>(questions)){
+		Question *question = new Question();
+		question->set_id(std::stol(column_values[0]));
+		question->set_value(column_values[1]);
+		question->set_answer(column_values[2]);
 		q->push_back(question);
 	}
 	return 0;
@@ -111,7 +111,6 @@ int TagDb::read_related_questions_callback(void *questions, int columns, char **
 }
 
 vector<Question *> TagDb::read_related_questions(Tag *tag){
-	printf("TESTUJE 2 %lu\n", tag->get_id());
 	vector<Question *> questions;
 	if(tag != NULL){
 		char *error_message;
@@ -129,11 +128,10 @@ vector<Question *> TagDb::read_related_questions(Tag *tag){
 		sqlite3_open(DATABASE_NAME.c_str(), &db);
 		rc = sqlite3_exec(db, sql.c_str(), &read_related_questions_callback, static_cast<void*>(&questions), &error_message);
 		sqlite3_close(db);
-		printf("TESTUJE 3\n");
 		if(rc != SQLITE_OK){ printf("%s\n", error_message);}
 		else {
 			for(Question *q : questions){
-				q->get_tags();
+				QuestionDb::read_related_tags(q);
 			}
 		}
 	}

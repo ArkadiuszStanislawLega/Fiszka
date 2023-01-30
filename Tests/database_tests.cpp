@@ -91,6 +91,13 @@ void DatabaseTests::read_related_tags(){
 	printf("OK\n");
 }
 
+void DatabaseTests::read_related_questions(){
+	printf("Read related questions.\t");
+	Tag *t = new Tag(1, "TEST");
+	assert(TagDb::read_related_questions(t).size() == 1);
+	printf("OK\n");
+}
+
 void DatabaseTests::read_all_questions(){
 	printf("Read all questions.\t");
 	assert(QuestionDb::read_all_questions().size() > 0);
@@ -188,6 +195,7 @@ void DatabaseTests::database_tests(){
 	create_table_questions_tags();
 	add_realation_question_and_tags();
 	read_related_tags();
+	read_related_questions();
 	read_all_questions();
 	remove_tag_from_question();
 	remove_question();

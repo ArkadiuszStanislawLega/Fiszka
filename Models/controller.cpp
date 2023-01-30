@@ -124,14 +124,10 @@ void Controller::delete_question(){
 	int input = 0;
 	vector<Question *> questions;
 
-	printf("TESTUJE 0\n");
 	if(this->_model->get_selected_tag() == NULL){
 		questions = QuestionDb::read_all_questions();
 	} else {
-		printf("TESTUJE 1\n");
-		printf("%lu <-- TEST\n", this->_model->get_selected_tag()->get_id());
 		questions = TagDb::read_related_questions(this->_model->get_selected_tag());
-		printf("TESTUJE 4\n");
 	}
 
 	this->_view->print_delete_question(questions);
