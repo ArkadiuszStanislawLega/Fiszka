@@ -47,17 +47,21 @@ bool Model::is_questions_number_valid(){
 }
 
 void Model::randomise_questions(){
-	int i = 0; 
-	vector<long> ids = this->get_questions_id_related_with_tag();
-	for(i = ids.size()-1; i > 0; i--){
+	int i; 
+	vector<long> ids;
+	this->_randomised_questions.clear();
+
+	ids= this->get_questions_id_related_with_tag();
+	for(i = ids.size(); i > 0; i--){
 		std::srand(time(NULL));
 		long index = std::rand() % i;
 
-		Question * q = QuestionDb::read(ids.at(i)); 
+		Question * q = QuestionDb::read(ids.at(index)); 
 		this->_randomised_questions.push_back(q);
 
 		this->quick_remove_at(ids, index);
 	}
+	printf("TEST %lu\n", this->_randomised_questions.size());
 }
 
 vector<long> Model::get_questions_id_related_with_tag(){

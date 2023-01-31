@@ -44,6 +44,7 @@ void ModelTests::randomise_questions(){
 	vector<long> ids = m->get_questions_id_related_with_tag(); 
 
 	m->randomise_questions();
+	assert(m->get_randomised_questions().size() == 2);
 
 	Database::delete_all_relation_with_tag(t);
 	TagDb::remove(1);
