@@ -180,12 +180,17 @@ void Controller::get_questions_number_in_series(){
 void Controller::series(){
 	if(this->_model->get_selected_tag() != NULL){
 		size_t i = 0;
+
 		this->prepare_randomised_questions();
+
 		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
 		this->_view->print_line();
 		for(; i < this->_model->get_questions_in_series(); i++){ 
-			Question *q = this->_model->get_random_question();
-			printf("(%lu/%d) ", i+1, this->_model->get_questions_in_series());
+			Question *q;
+			
+			this->_view->print_questions_number_in_series(i+1, this->_model->get_questions_in_series());
+			q = this->_model->get_random_question();
 
 			this->_view->print_question_value(q);
 			getchar();

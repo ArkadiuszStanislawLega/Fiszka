@@ -138,6 +138,10 @@ void View::print_make_series(){
 	printf("Robimy serie");
 }
 
+void View::print_questions_number_in_series(long current_number, int max_number){
+	printf("(%lu/%d) ", current_number, max_number);
+}
+
 
 void View::print_wrong_tag(){
 	printf("Bledny tag, sprobuj jeszcze raz.\n");

@@ -41,6 +41,7 @@ class View{
 		void print_number_of_questions_with_tag();
 		void print_question();
 		void print_how_many_number_in_series(long);
+		void print_questions_number_in_series(long, int);
 		void print_value_is_invalid();
 		void print_question_value(Question *);
 		void print_question_answer(Question *);
