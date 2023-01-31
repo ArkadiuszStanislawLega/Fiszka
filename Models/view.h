@@ -15,6 +15,7 @@ class View{
 		void print_menu();
 		void print_wrong_value();
 		void print_first_select_tag();
+		void print_line();
 
 		void print_tag_list();
 		void print_create_tag();
@@ -39,7 +40,7 @@ class View{
 		void print_all_randomised_questions();
 		void print_number_of_questions_with_tag();
 		void print_question();
-		void print_how_many_number_in_series();
+		void print_how_many_number_in_series(long);
 		void print_value_is_invalid();
 		void print_question_value(Question *);
 		void print_question_answer(Question *);

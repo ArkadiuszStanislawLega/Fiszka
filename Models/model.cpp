@@ -9,6 +9,14 @@ Model::Model(){
 	this->_menu_user_selection = 0;
 }
 
+int Model::get_questions_in_series(){
+	return this->_questions_in_series;
+}
+
+void Model::set_questions_in_series(int value){
+	this->_questions_in_series = value;
+}
+
 Views Model::get_current_view(){
 	return this->_current_view;
 }
@@ -43,7 +51,7 @@ void Model::set_selected_tag(Tag *value){
 }
 
 bool Model::is_questions_number_valid(){
-	return this->_questions_in_series <= this->_randomised_questions.size();
+	return this->_questions_in_series <= TagDb::read_related_questions(this->_selected_tag).size() && this->_questions_in_series > 0;
 }
 
 void Model::randomise_questions(){
@@ -51,8 +59,11 @@ void Model::randomise_questions(){
 	vector<long> ids;
 	this->_randomised_questions.clear();
 
-	ids= this->get_questions_id_related_with_tag();
-	for(i = ids.size(); i > 0; i--){
+	ids = this->get_questions_id_related_with_tag();
+	if(this->_questions_in_series == 0){
+		this->_questions_in_series = ids.size();
+	}
+	for(i = this->_questions_in_series; i > 0; i--){
 		std::srand(time(NULL));
 		long index = std::rand() % i;
 
@@ -61,6 +72,7 @@ void Model::randomise_questions(){
 
 		this->quick_remove_at(ids, index);
 	}
+
 }
 
 vector<long> Model::get_questions_id_related_with_tag(){

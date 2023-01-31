@@ -159,24 +159,39 @@ int Controller::get_delete_question_response(Question *q){
 	
 }
 
+void Controller::get_questions_number_in_series(){
+	if(this->_model->get_selected_tag() != NULL){
+		int input;
+		long max_size = TagDb::read_related_questions(this->_model->get_selected_tag()).size();
+		this->_view->print_how_many_number_in_series(max_size);
+		std::cin >> input;
+		this->_model->set_questions_in_series(input);
+
+		if(input > max_size || input < 0){
+			this->_view->print_value_is_invalid();
+			this->get_questions_number_in_series();
+		}
+	} else {
+		this->_view->print_first_select_tag();
+	}
+
+}
+
 void Controller::series(){
-	printf("series TESTS");
 	if(this->_model->get_selected_tag() != NULL){
 		size_t i = 0;
-		printf("TEST 0");
 		this->prepare_randomised_questions();
-		printf("TEST 1");
 		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-		long size = TagDb::read_related_questions(this->_model->get_selected_tag()).size();
-		printf("%lu\n", size);
-		for(; i < size; i++){ 
+		this->_view->print_line();
+		for(; i < this->_model->get_questions_in_series(); i++){ 
 			Question *q = this->_model->get_random_question();
+			printf("(%lu/%d) ", i+1, this->_model->get_questions_in_series());
 
 			this->_view->print_question_value(q);
 			getchar();
 
 			this->_view->print_question_answer(q);
-			getchar();
+			this->_view->print_line();
 		}
 	} else {
 		this->_view->print_first_select_tag();
@@ -185,7 +200,6 @@ void Controller::series(){
 
 void Controller::prepare_randomised_questions(){
 	this->_model->randomise_questions();
-	printf("TEST 4");
 	this->_view->print_all_randomised_questions();
 }
 
@@ -237,6 +251,7 @@ void Controller::select_action(Views view){
 		}
 		case Views::make_series:
 		{
+			this->get_questions_number_in_series();
 			this->series();
 			break;
 		}
@@ -257,16 +272,5 @@ void Controller::start_app(){
 			this->_view->print_wrong_value();
 			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 		}
-	}
-}
-
-
-void Controller::get_questions_number_in_series(){
-	this->_view->print_how_many_number_in_series();
-	//this->_model->get_questions_number_in_series();
-
-	if(!this->_model->is_questions_number_valid()){
-		this->_view->print_value_is_invalid();
-		this->get_questions_number_in_series();
 	}
 }

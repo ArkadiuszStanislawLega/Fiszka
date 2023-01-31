@@ -34,6 +34,9 @@ class Model{
 		Tag *get_selected_tag();
 		void set_selected_tag(Tag *);
 
+		int get_questions_in_series();
+		void set_questions_in_series(int);
+
 		void start_app();
 		vector<Question *> get_randomised_questions();
 		bool is_questions_number_valid();

@@ -26,6 +26,10 @@ void View::print_menu(){
 	printf("Chose number:");
 }
 
+void View::print_line(){
+	std::cout << string(40, '=') << '\n';
+}
+
 void View::print_wrong_value(){
 	printf("Wrong value.\n");
 }
@@ -165,8 +169,8 @@ void View::print_number_of_questions_with_tag(){
 	
 }
 
-void View::print_how_many_number_in_series(){
-	printf("Podaj ilosc pytan ktore chcesz przerobic, cyfra musi byc mniejsza lub rowna (%lu):\n", this->_model->get_randomised_questions().size());
+void View::print_how_many_number_in_series(long size){
+	printf("Podaj ilosc pytan ktore chcesz przerobic, cyfra musi byc mniejsza lub rowna (%lu):\n", size);
 }
 
 void View::print_value_is_invalid(){
