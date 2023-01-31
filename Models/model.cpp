@@ -48,23 +48,25 @@ bool Model::is_questions_number_valid(){
 
 void Model::randomise_questions(){
 	int i = 0; 
-	vector<long> ids = this->get_questions_id_with_tag();
+	vector<long> ids = this->get_questions_id_related_with_tag();
+	printf("TEST 1");
 	for(i = ids.size(); i > 0; i--){
 		std::srand(time(NULL));
 		long index = std::rand() % i;
 
-		//Question * q = this->_db->get_question(ids[index]);
-		//this->_randomised_questions.push_back(q);
+		Question * q = QuestionDb::read(ids.at(i)); 
+		this->_randomised_questions.push_back(q);
+		printf("TEST 3");
 
 		this->quick_remove_at(ids, index);
 	}
 }
 
-vector<long> Model::get_questions_id_with_tag(){
+vector<long> Model::get_questions_id_related_with_tag(){
 	vector<long> questions_ids;
-//	for(auto item : this->_db->get_questions_by_tags(set<string> {this->_current_tag})){
-//		questions_ids.push_back(item.first);
-//	}	
+	for(Question *q : TagDb::read_related_questions(this->_selected_tag)){ 
+		questions_ids.push_back(q->get_id());
+	}	
  	return questions_ids;
 }
 

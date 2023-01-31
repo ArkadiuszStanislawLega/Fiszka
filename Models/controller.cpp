@@ -159,6 +159,36 @@ int Controller::get_delete_question_response(Question *q){
 	
 }
 
+void Controller::series(){
+	printf("series TESTS");
+	if(this->_model->get_selected_tag() != NULL){
+		size_t i = 0;
+		printf("TEST 0");
+		this->prepare_randomised_questions();
+		printf("TEST 1");
+		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+		long size = TagDb::read_related_questions(this->_model->get_selected_tag()).size();
+		printf("%lu\n", size);
+		for(; i < size; i++){ 
+			Question *q = this->_model->get_random_question();
+
+			this->_view->print_question_value(q);
+			getchar();
+
+			this->_view->print_question_answer(q);
+			getchar();
+		}
+	} else {
+		this->_view->print_first_select_tag();
+	}
+}
+
+void Controller::prepare_randomised_questions(){
+	this->_model->randomise_questions();
+	printf("TEST 4");
+	this->_view->print_all_randomised_questions();
+}
+
 void Controller::select_action(Views view){
 	switch(view){
 		case Views::main_v:
@@ -207,6 +237,7 @@ void Controller::select_action(Views view){
 		}
 		case Views::make_series:
 		{
+			this->series();
 			break;
 		}
 		default:
@@ -229,11 +260,6 @@ void Controller::start_app(){
 	}
 }
 
-void Controller::prepare_randomised_questions(){
-	this->get_tag();
-	this->_model->randomise_questions();
-	this->_view->print_all_randomised_questions();
-}
 
 void Controller::get_questions_number_in_series(){
 	this->_view->print_how_many_number_in_series();
@@ -243,27 +269,4 @@ void Controller::get_questions_number_in_series(){
 		this->_view->print_value_is_invalid();
 		this->get_questions_number_in_series();
 	}
-}
-
-void Controller::get_tag(){
-	this->_view->get_tag();
-	//this->_model->get_tag();
-	//if(!this->_model->is_tag_correct()){
-		this->_view->print_wrong_tag();
-		this->get_tag();
-	//}
-}
-
-void Controller::series(){
-	size_t i = 0;
-	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-//	for(; i < this->_model->get_questions_in_series(); i++){ 
-//		Question *q = this->_model->get_random_question();
-//
-//		this->_view->print_question_value(q);
-//		getchar();
-//
-//		this->_view->print_question_answer(q);
-//		getchar();
-//	}
 }

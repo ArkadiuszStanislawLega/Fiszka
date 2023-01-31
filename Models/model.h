@@ -38,7 +38,7 @@ class Model{
 		vector<Question *> get_randomised_questions();
 		bool is_questions_number_valid();
 		void randomise_questions(); 
-		vector<long> get_questions_id_with_tag();
+		vector<long> get_questions_id_related_with_tag();
 		template <typename T>
 		void quick_remove_at(vector<T> &v, size_t index);
 		Question * get_random_question();
