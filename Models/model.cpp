@@ -60,12 +60,14 @@ void Model::randomise_questions(){
 	this->_randomised_questions.clear();
 
 	ids = this->get_questions_id_related_with_tag();
+
 	if(this->_questions_in_series == 0){
 		this->_questions_in_series = ids.size();
 	}
+
 	for(i = this->_questions_in_series; i > 0; i--){
 		std::srand(time(NULL));
-		long index = std::rand() % i;
+		long index = std::rand() % ids.size();
 
 		Question * q = QuestionDb::read(ids.at(index)); 
 		this->_randomised_questions.push_back(q);
