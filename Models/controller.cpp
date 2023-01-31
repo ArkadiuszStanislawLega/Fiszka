@@ -51,27 +51,32 @@ void Controller::create_question(){
 	if(this->_model->get_selected_tag() == NULL){
 		this->_view->print_first_select_tag();
 	} else {
-		string value, answer;
-		int sql_answer = -1;
-		Question *q = new Question();
+		Question *q = this->get_new_question();
+		int sql_answer = QuestionDb::create(q);
 
-		this->_view->print_create_question();
-		
-		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-		std::getline(std::cin, value);	
-		std::getline(std::cin, answer);
-
-		q->set_value(value);
-		q->set_answer(answer);
-
-		sql_answer = QuestionDb::create(q);
 		this->_view->print_created_question(q, sql_answer); 
 
 		if(sql_answer == SQLITE_OK){
-			q->set_id(QuestionDb::read_id(value, answer));
+			q->set_id(QuestionDb::read_id(q->get_value(), q->get_answer()));
 			Database::create_relation(this->_model->get_selected_tag(), q);
 		}
 	}
+}
+
+Question *Controller::get_new_question(){
+	Question *q = new Question();
+	string value, answer;
+	this->_view->print_create_question();
+		
+	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+	std::getline(std::cin, value);	
+	std::getline(std::cin, answer);
+
+	q->set_value(value);
+	q->set_answer(answer);
+
+	return q;
 }
 
 void Controller::select_tag(){
@@ -163,8 +168,11 @@ void Controller::get_questions_number_in_series(){
 	if(this->_model->get_selected_tag() != NULL){
 		int input;
 		long max_size = TagDb::read_related_questions(this->_model->get_selected_tag()).size();
+
 		this->_view->print_how_many_number_in_series(max_size);
+
 		std::cin >> input;
+
 		this->_model->set_questions_in_series(input);
 
 		if(input > max_size || input < 0){
