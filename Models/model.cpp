@@ -61,7 +61,6 @@ void Model::randomise_questions(){
 
 		this->quick_remove_at(ids, index);
 	}
-	printf("TEST %lu\n", this->_randomised_questions.size());
 }
 
 vector<long> Model::get_questions_id_related_with_tag(){
