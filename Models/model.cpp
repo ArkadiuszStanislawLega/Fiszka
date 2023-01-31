@@ -49,14 +49,12 @@ bool Model::is_questions_number_valid(){
 void Model::randomise_questions(){
 	int i = 0; 
 	vector<long> ids = this->get_questions_id_related_with_tag();
-	printf("TEST 1");
-	for(i = ids.size(); i > 0; i--){
+	for(i = ids.size()-1; i > 0; i--){
 		std::srand(time(NULL));
 		long index = std::rand() % i;
 
 		Question * q = QuestionDb::read(ids.at(i)); 
 		this->_randomised_questions.push_back(q);
-		printf("TEST 3");
 
 		this->quick_remove_at(ids, index);
 	}
