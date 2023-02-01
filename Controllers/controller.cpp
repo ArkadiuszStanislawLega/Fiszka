@@ -37,8 +37,8 @@ void Controller::create_tag(){
 	this->_view->print_create_tag();
 	string tag;
 
-	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-	std::cin >> tag;
+	cin.ignore(numeric_limits<streamsize>::max(), '\n');
+	cin >> tag;
 
 	Tag *t = new Tag();
 	t->set_tag(tag);
@@ -66,10 +66,10 @@ Question *Controller::get_new_question(){
 	string value, answer;
 	this->_view->print_create_question();
 		
-	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+	cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
-	std::getline(std::cin, value);	
-	std::getline(std::cin, answer);
+	getline(cin, value);	
+	getline(cin, answer);
 
 	q->set_value(value);
 	q->set_answer(answer);
@@ -83,7 +83,7 @@ void Controller::select_tag(){
 
 	this->_view->print_select_tag();
 
-	std::cin >> option_selected;
+	cin >> option_selected;
 	tags = TagDb::read_all_tags();
 	if(option_selected < tags.size()){
 		this->_model->set_selected_tag(tags.at(option_selected));
@@ -96,7 +96,7 @@ void Controller::delete_tag(){
 	if(this->_model->get_selected_tag()!=NULL){
 		string input = "";
 		this->_view->print_delete_tag();
-		std::cin >> input;
+		cin >> input;
 		if(input == "T"){
 			int del1, del2;
 			del1 = Database::delete_all_relation_with_tag(this->_model->get_selected_tag());
@@ -116,7 +116,7 @@ void Controller::add_tag_to_question(){
 	vector<Question *> questions = QuestionDb::read_all_questions();
 	if(this->_model->get_selected_tag() != NULL){
 		this->_view->print_add_tag_to_question(questions);
-		std::cin >> input;
+		cin >> input;
 
 		if(input < questions.size() && input >= 0){
 			int sql_answer = Database::create_relation(this->_model->get_selected_tag(), questions.at(input));
@@ -133,7 +133,7 @@ void Controller::delete_question(){
 
 	this->_view->print_delete_question(questions);
 
-	std::cin >> input;
+	cin >> input;
 
 	if(this->is_input_in_vector_size(questions.size(), input)){
 		this->_view->print_deleted_question(get_delete_question_response(questions.at(input)));
@@ -169,7 +169,7 @@ void Controller::get_questions_number_in_series(){
 
 		this->_view->print_how_many_number_in_series(max_size);
 
-		std::cin >> input;
+		cin >> input;
 
 		this->_model->set_questions_in_series(input);
 
@@ -189,7 +189,7 @@ void Controller::series(){
 
 		this->prepare_randomised_questions();
 
-		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
 		this->_view->print_line();
 		for(; i < this->_model->get_questions_in_series(); i++){ 
@@ -281,7 +281,7 @@ void Controller::start_app(){
 	{
 		if(!main_menu()){
 			this->_view->print_wrong_value();
-			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
 		}
 	}
 }

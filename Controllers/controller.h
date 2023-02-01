@@ -10,6 +10,11 @@
 
 #include "../Views/view.h"
 
+using std::cin;
+using std::getline;
+using std::numeric_limits;
+using std::streamsize;
+
 class Controller{
 	private:
 		Model *_model;
