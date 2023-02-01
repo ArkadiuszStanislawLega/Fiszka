@@ -4,9 +4,9 @@
 #include <vector>
 #include <string>
 
-#include "tag.h"
-#include "question.h"
-#include "strings.h"
+#include "../Models/tag.h"
+#include "../Models/question.h"
+#include "../Models/strings.h"
 #include "database.h"
 
 using std::vector;

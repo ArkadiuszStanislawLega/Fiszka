@@ -2,9 +2,10 @@
 #ifndef QUESTION_DB
 #define QUESTION_DB
 
-#include "strings.h"
-#include "question.h"
 #include "database.h"
+#include "../Models/strings.h"
+#include "../Models/question.h"
+#include "../Models/tag.h"
 
 class QuestionDb{
 	private:

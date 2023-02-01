@@ -1,6 +1,5 @@
 #include "model.h"
 
-
 Model::Model(){ 
 	this->_current_view = Views::main_v;
 	this->_is_working = true;

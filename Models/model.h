@@ -7,7 +7,7 @@
 #include <limits>
 
 #include "../Enums/views.h"
-#include "database.h"
+#include "../Database/database.h"
 #include "question.h"
 
 using std::vector;

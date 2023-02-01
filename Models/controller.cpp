@@ -1,6 +1,4 @@
 #include "controller.h"
-#include "question.h"
-#include "tag.h"
 
 Controller::Controller(Model *model, View *view){
 	this->_model = model;

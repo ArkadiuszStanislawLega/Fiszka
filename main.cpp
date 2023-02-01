@@ -1,5 +1,4 @@
 #include "main.h"
-#include "Models/question_db.h"
 
 int main(){
 	Model *model = new Model();
