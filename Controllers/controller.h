@@ -3,9 +3,12 @@
 #include <limits>
 
 #include "../Enums/views.h"
-#include "model.h"
+
+#include "../Models/model.h"
+#include "../Models/tag.h"
+#include "../Models/question.h"
+
 #include "../Views/view.h"
-#include "tag.h"
 
 class Controller{
 	private:
