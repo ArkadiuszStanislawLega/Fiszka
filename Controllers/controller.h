@@ -33,13 +33,13 @@ class Controller{
 
 		void delete_question();
 		vector<Question *> get_questions_list_depends_on_tag();
-		bool is_input_in_vector_size(long, int);	
 		int get_delete_question_response(Question *);
 
 		void remove_tag_from_question();
 		void get_questions_number_in_series();
 		void get_tag();
 		void series();
+		void clean_input_buffer();
 		
 	public:
 		Controller(Model *, View *);

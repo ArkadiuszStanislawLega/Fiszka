@@ -36,8 +36,8 @@ void Controller::tags_list(){
 void Controller::create_tag(){
 	this->_view->print_create_tag();
 	string tag;
-
-	cin.ignore(numeric_limits<streamsize>::max(), '\n');
+	
+	this->clean_input_buffer();
 	cin >> tag;
 
 	Tag *t = new Tag();
@@ -66,7 +66,7 @@ Question *Controller::get_new_question(){
 	string value, answer;
 	this->_view->print_create_question();
 		
-	cin.ignore(numeric_limits<streamsize>::max(), '\n');
+	this->clean_input_buffer();
 
 	getline(cin, value);	
 	getline(cin, answer);
@@ -78,13 +78,15 @@ Question *Controller::get_new_question(){
 }
 
 void Controller::select_tag(){
-	int option_selected = 0;
+	int option_selected;
 	vector<Tag*> tags;
 
 	this->_view->print_select_tag();
 
-	cin >> option_selected;
+	scanf("%d", &option_selected);
+
 	tags = TagDb::read_all_tags();
+
 	if(option_selected < tags.size()){
 		this->_model->set_selected_tag(tags.at(option_selected));
 	} else {
@@ -96,7 +98,9 @@ void Controller::delete_tag(){
 	if(this->_model->get_selected_tag()!=NULL){
 		char input;
 		this->_view->print_delete_tag();
-		cin >> input;
+
+		scanf("%c", &input);
+
 		if(input == ANSWER_YES_LARGE || input == ANSWER_YES_SMALL){
 			int del1, del2;
 			del1 = Database::delete_all_relation_with_tag(this->_model->get_selected_tag());
@@ -112,11 +116,13 @@ void Controller::delete_tag(){
 }
 
 void Controller::add_tag_to_question(){
-	int input = 0;
-	vector<Question *> questions = QuestionDb::read_all_questions();
 	if(this->_model->get_selected_tag() != NULL){
+		int input;
+		vector<Question *> questions = QuestionDb::read_all_questions();
+
 		this->_view->print_add_tag_to_question(questions);
-		cin >> input;
+
+		scanf("%d", &input);
 
 		if(input < questions.size() && input >= 0){
 			int sql_answer = Database::create_relation(this->_model->get_selected_tag(), questions.at(input));
@@ -128,18 +134,19 @@ void Controller::add_tag_to_question(){
 }
 
 void Controller::delete_question(){
-	int input = 0;
+	int input;
 	vector<Question *> questions = this->get_questions_list_depends_on_tag();
 
 	this->_view->print_delete_question(questions);
 
-	cin >> input;
+	scanf("%d", &input);
 
-	if(this->is_input_in_vector_size(questions.size(), input)){
+	if(input < questions.size() && input >= 0){
 		this->_view->print_deleted_question(get_delete_question_response(questions.at(input)));
 	} else {
 		this->_view->print_wrong_value();
 	}
+	this->clean_input_buffer();
 }
 
 vector<Question *> Controller::get_questions_list_depends_on_tag(){
@@ -151,10 +158,6 @@ vector<Question *> Controller::get_questions_list_depends_on_tag(){
 		questions = TagDb::read_related_questions(this->_model->get_selected_tag());
 	}
 	return questions;
-}
-
-bool Controller::is_input_in_vector_size(long size, int input){
-	return size > 0 && input < size && input >= 0;
 }
 
 int Controller::get_delete_question_response(Question *q){
@@ -188,10 +191,9 @@ void Controller::series(){
 		size_t i = 0;
 
 		this->prepare_randomised_questions();
-
-		cin.ignore(numeric_limits<streamsize>::max(), '\n');
-
 		this->_view->print_line();
+		this->clean_input_buffer();
+
 		for(; i < this->_model->get_questions_in_series(); i++){ 
 			Question *q;
 			
@@ -273,6 +275,10 @@ void Controller::select_action(Views view){
 	}
 }
 
+void Controller::clean_input_buffer(){
+	cin.ignore(numeric_limits<streamsize>::max(), '\n');
+}
+
 void Controller::start_app(){
 	this->_model->start_app();
 
@@ -280,7 +286,7 @@ void Controller::start_app(){
 	{
 		if(!main_menu()){
 			this->_view->print_wrong_value();
-			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+			this->clean_input_buffer();
 		}
 	}
 }
