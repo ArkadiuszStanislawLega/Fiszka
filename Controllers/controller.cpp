@@ -94,10 +94,10 @@ void Controller::select_tag(){
 
 void Controller::delete_tag(){
 	if(this->_model->get_selected_tag()!=NULL){
-		string input = "";
+		char input;
 		this->_view->print_delete_tag();
 		cin >> input;
-		if(input == "T"){
+		if(input == ANSWER_YES_LARGE || input == ANSWER_YES_SMALL){
 			int del1, del2;
 			del1 = Database::delete_all_relation_with_tag(this->_model->get_selected_tag());
 			del2 = TagDb::remove(this->_model->get_selected_tag()->get_id());
