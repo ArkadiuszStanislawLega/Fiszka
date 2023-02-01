@@ -174,7 +174,7 @@ void Controller::get_questions_number_in_series(){
 		this->_model->set_questions_in_series(input);
 
 		if(input > max_size || input < 0){
-			this->_view->print_value_is_invalid();
+			this->_view->print_wrong_value_try_again();
 			this->get_questions_number_in_series();
 		}
 	} else {
@@ -275,7 +275,6 @@ void Controller::select_action(Views view){
 
 void Controller::start_app(){
 	this->_model->start_app();
-	this->_view->start_app();
 
 	while(this->_model->is_working())
 	{
