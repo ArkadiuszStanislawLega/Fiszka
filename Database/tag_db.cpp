@@ -32,7 +32,7 @@ Tag *TagDb::read(long id){
 		sqlite3 *db;
 		sqlite3_stmt * stmt;
 		string sql  = {	SELECT + "* " + FROM + TABLE_TAGS + " " + 
-				WHERE +  COLUMN_ID + "=" + std::to_string(id) + ";"};
+				WHERE +  COLUMN_ID + "=" + to_string(id) + ";"};
 		sqlite3_open(DATABASE_NAME.c_str(), &db);
 		sqlite3_prepare(db, sql.c_str(), -1, &stmt, NULL );
 		sqlite3_step(stmt);
@@ -49,7 +49,7 @@ int TagDb::update(Tag *tag){
 	if (tag != NULL){
 		string sql = {	UPDATE + TABLE_TAGS + " " + SET + 
 				COLUMN_TAG + "=\"" + tag-> get_tag() + "\" " + 
-				WHERE + COLUMN_ID + "=" + std::to_string(tag->get_id()) +";"};
+				WHERE + COLUMN_ID + "=" + to_string(tag->get_id()) +";"};
 		return Database::execute_query(sql);
 	}
 	return -1;
@@ -58,7 +58,7 @@ int TagDb::update(Tag *tag){
 
 int TagDb::remove(long id){
 	if(id > 0){
-		string sql = { DELETE + TABLE_TAGS + " " + WHERE + COLUMN_ID + "=" + std::to_string(id) + ";"};
+		string sql = { DELETE + TABLE_TAGS + " " + WHERE + COLUMN_ID + "=" + to_string(id) + ";"};
 		return Database::execute_query(sql);
 	} 
 	return -1;
@@ -67,7 +67,7 @@ int TagDb::remove(long id){
 int TagDb::read_all_tags_callback(void *tags, int columns, char **column_values, char **column_names){
  	if (vector<Tag*>* t = reinterpret_cast<vector<Tag*>*>(tags)){
 		Tag *tag = new Tag();
-		tag->set_id(std::stol(column_values[0]));
+		tag->set_id(stol(column_values[0]));
 		tag->set_tag(column_values[1]);
 		t->push_back(tag);
 	}
@@ -91,7 +91,7 @@ int TagDb::relate_tag_with_question(Question *q, Tag *t){
 		string sql = {
 			INSERT + TABLE_QUESTIONS_TAGS + 
 			"(" + COLUMN_QUESTION_ID + ", " + COLUMN_TAG_ID + ")" + VALUES + 
-			"(" + std::to_string(q->get_id()) + ", " + std::to_string(t->get_id()) + ");"
+			"(" + to_string(q->get_id()) + ", " + to_string(t->get_id()) + ");"
 			};
 		return Database::execute_query(sql);
 	}
@@ -101,7 +101,7 @@ int TagDb::relate_tag_with_question(Question *q, Tag *t){
 int TagDb::read_related_questions_callback(void *questions, int columns, char **column_values, char **columns_names){
  	if (vector<Question*>* q = reinterpret_cast<vector<Question*>*>(questions)){
 		Question *question = new Question();
-		question->set_id(std::stol(column_values[0]));
+		question->set_id(stol(column_values[0]));
 		question->set_value(column_values[1]);
 		question->set_answer(column_values[2]);
 		q->push_back(question);
@@ -123,7 +123,7 @@ vector<Question *> TagDb::read_related_questions(Tag *tag){
 		string sql = {	SELECT + TABLE_QUESTIONS + "." + COLUMN_ID + ", " + COLUMN_VALUE + ", " + COLUMN_ANSWER + " " + FROM + TABLE_QUESTIONS + " " +
 				INNER_JOIN + TABLE_QUESTIONS_TAGS + " " + ON + TABLE_QUESTIONS_TAGS + "." + COLUMN_QUESTION_ID  + "=" + TABLE_QUESTIONS + "." + COLUMN_ID + " " +
 				INNER_JOIN + TABLE_TAGS + " " + ON +  TABLE_QUESTIONS_TAGS + "." + COLUMN_TAG_ID + "=" + TABLE_TAGS + "." + COLUMN_ID + " " +
-				WHERE + " " + TABLE_TAGS + "." + COLUMN_ID + "=" + std::to_string(tag->get_id()) + ";"
+				WHERE + " " + TABLE_TAGS + "." + COLUMN_ID + "=" + to_string(tag->get_id()) + ";"
 		};
 		sqlite3_open(DATABASE_NAME.c_str(), &db);
 		rc = sqlite3_exec(db, sql.c_str(), &read_related_questions_callback, static_cast<void*>(&questions), &error_message);

@@ -7,6 +7,11 @@
 #include "../Models/question.h"
 #include "../Models/tag.h"
 
+using std::vector;
+using std::string;
+using std::to_string;
+using std::stol;
+
 class QuestionDb{
 	private:
 		static int read_related_tag_callback(void *, int, char **, char **);

@@ -4,13 +4,15 @@
 #include <vector>
 #include <string>
 
+#include "database.h"
 #include "../Models/tag.h"
 #include "../Models/question.h"
 #include "../Constants/strings.h"
-#include "database.h"
 
 using std::vector;
 using std::string;
+using std::stol;
+using std::to_string;
 
 class TagDb{
 	private:

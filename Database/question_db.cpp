@@ -74,7 +74,7 @@ int QuestionDb::update(Question *question){
 		string sql = {	UPDATE + TABLE_QUESTIONS + " " + SET + 
 				COLUMN_VALUE + "=\"" + question->get_value() + "\", " + 
 				COLUMN_ANSWER + "=\"" + question->get_answer() + "\" " + 
-				WHERE + COLUMN_ID + "=" + std::to_string(question->get_id()) +";"};
+				WHERE + COLUMN_ID + "=" + to_string(question->get_id()) +";"};
 		return Database::execute_query(sql);
 	}
 	return -1;
@@ -82,7 +82,7 @@ int QuestionDb::update(Question *question){
 
 int QuestionDb::read_all_questions_callback(void *questions, int columns, char **column_values, char **columns_names){
 	if(vector<Question*> *q = reinterpret_cast<vector<Question*>*>(questions)){
-		Question *question = new Question(std::stol(column_values[0]), column_values[1], column_values[2], {});
+		Question *question = new Question(stol(column_values[0]), column_values[1], column_values[2], {});
 		q->push_back(question);
 	}
 	return 0;
@@ -111,7 +111,7 @@ vector<Question*> QuestionDb::read_all_questions(){
 int QuestionDb::read_related_tag_callback(void *tags, int columns, char **column_values, char **columns_names){
 	if(vector<Tag*> *t = reinterpret_cast<vector<Tag*>*>(tags)){
 		Tag *tag = new Tag();
-		tag->set_id(std::stol(column_values[0]));
+		tag->set_id(stol(column_values[0]));
 		tag->set_tag(column_values[1]);
 		t->push_back(tag);
 	}
@@ -123,14 +123,10 @@ int QuestionDb::read_related_tags(Question *question){
 	char *error_message;
 	sqlite3 *db;
 	int rc;
-	// SELECT Tags.Id, Tag FROM Tags
-	// INNER JOIN Questions_tags ON Questions_tags.Tag_id=Tags.Id
-	// INNER JOIN Questions ON Questions.Id=Questions_tags.Id
-	// WHERE Questions_tags.Question_id = q->id;
 	string sql = {	SELECT + TABLE_TAGS + "." + COLUMN_ID + ", " + COLUMN_TAG + " " + FROM + TABLE_TAGS + " " +
 			INNER_JOIN + TABLE_QUESTIONS_TAGS + " " + ON + TABLE_QUESTIONS_TAGS + "." + COLUMN_TAG_ID + "=" + TABLE_TAGS + "." + COLUMN_ID + " " + 
 			INNER_JOIN + TABLE_QUESTIONS + " " + ON + TABLE_QUESTIONS + "." + COLUMN_ID + "=" + TABLE_QUESTIONS_TAGS + "." + COLUMN_QUESTION_ID + " " + 
-			WHERE + TABLE_QUESTIONS_TAGS + "." + COLUMN_QUESTION_ID + "=" + std::to_string(question->get_id()) + ";"};
+			WHERE + TABLE_QUESTIONS_TAGS + "." + COLUMN_QUESTION_ID + "=" + to_string(question->get_id()) + ";"};
 	sqlite3_open(DATABASE_NAME.c_str(), &db);
 	rc = sqlite3_exec(db, sql.c_str(), &read_related_tag_callback, static_cast<void*>(&tags), &error_message);
 	
@@ -143,11 +139,9 @@ int QuestionDb::read_related_tags(Question *question){
 
 int QuestionDb::remove_tag(Question *q, Tag *t){
 	if(q != NULL && t != NULL){
-		//DELETE FROM QUESTIONS_TAGS
-		//WHERE Questions_tags.QUESTION_ID = 5 AND QUESTIONS_TAGS.TAG_ID = 2;
 		string sql = {	DELETE + TABLE_QUESTIONS_TAGS + " " + 
-				WHERE + TABLE_QUESTIONS_TAGS + "." + COLUMN_QUESTION_ID + "=" + std::to_string(q->get_id()) + " " +
-				AND + TABLE_QUESTIONS_TAGS + "." + COLUMN_TAG_ID + "=" + std::to_string(t->get_id()) + ";"
+				WHERE + TABLE_QUESTIONS_TAGS + "." + COLUMN_QUESTION_ID + "=" + to_string(q->get_id()) + " " +
+				AND + TABLE_QUESTIONS_TAGS + "." + COLUMN_TAG_ID + "=" + to_string(t->get_id()) + ";"
 		};
 		return Database::execute_query(sql);
 	}
@@ -156,7 +150,7 @@ int QuestionDb::remove_tag(Question *q, Tag *t){
 
 int QuestionDb::remove(long id){
 	if(id > 0){
-		string sql = { DELETE + TABLE_QUESTIONS + " " + WHERE + COLUMN_ID + "=" + std::to_string(id) + ";"};
+		string sql = { DELETE + TABLE_QUESTIONS + " " + WHERE + COLUMN_ID + "=" + to_string(id) + ";"};
 		return Database::execute_query(sql);
 	}
 	return -1;

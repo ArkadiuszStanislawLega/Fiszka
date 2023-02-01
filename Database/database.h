@@ -7,7 +7,6 @@
 #include "question_db.h"
 #include "tag_db.h"
 
-
 using std::string;
 
 class Database{
