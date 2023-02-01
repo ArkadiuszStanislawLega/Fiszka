@@ -182,7 +182,7 @@ void View::print_value_is_invalid(){
 }
 
 void View::print_question_value(Question *q){
-	printf("%s\n", q->get_value().c_str());
+	printf("%s", q->get_value().c_str());
 }
 
 void View::print_question_answer(Question *q){
