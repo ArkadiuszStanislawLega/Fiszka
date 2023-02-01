@@ -6,7 +6,7 @@
 
 #include "../Models/tag.h"
 #include "../Models/question.h"
-#include "../Models/strings.h"
+#include "../Constants/strings.h"
 #include "database.h"
 
 using std::vector;

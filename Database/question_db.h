@@ -3,7 +3,7 @@
 #define QUESTION_DB
 
 #include "database.h"
-#include "../Models/strings.h"
+#include "../Constants/strings.h"
 #include "../Models/question.h"
 #include "../Models/tag.h"
 
