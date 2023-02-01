@@ -4,7 +4,8 @@ TARGET_T=tests
 MODELS_PATH=Models
 DATABASE_PATH=Database
 TESTS_PATH=Tests
-ALL_PATHS=$(DATABASE_PATH)/*.cpp $(MODELS_PATH)/*.cpp -lsqlite3
+VIEWS_PATH=Views
+ALL_PATHS=$(DATABASE_PATH)/*.cpp $(VIEWS_PATH)/*.cpp $(MODELS_PATH)/*.cpp -lsqlite3
 
 fiszka: 	
 	rm -f $(TARGET)

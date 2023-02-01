@@ -4,7 +4,7 @@
 
 #include "../Enums/views.h"
 #include "model.h"
-#include "view.h"
+#include "../Views/view.h"
 #include "tag.h"
 
 class Controller{
