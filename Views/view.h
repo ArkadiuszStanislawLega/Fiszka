@@ -55,6 +55,9 @@ class View{
 		void print_questions_number_in_series(long, int);
 		void print_question_value(Question *);
 		void print_question_answer(Question *);
+
+		void print_value();
+		void print_answer();
 };
 
 #endif

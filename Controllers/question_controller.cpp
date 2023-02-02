@@ -19,11 +19,6 @@ void QuestionController::create(){
 	int sql_answer = QuestionDb::create(q);
 
 	this->_view->print_created_question(q, sql_answer); 
-
-	if(sql_answer == SQLITE_OK){
-		q->set_id(QuestionDb::read_id(q->get_value(), q->get_answer()));
-		Database::create_relation(this->_model->get_selected_tag(), q);
-	}
 }
 
 Question *QuestionController::get_new_question(){
@@ -60,12 +55,16 @@ void QuestionController::select_question(){
 void QuestionController::update(){
 	if(this->_selected_question != NULL){
 		string value, answer;
+		this->clean_input_buffer();
 
+		this->_view->print_value();
 		getline(cin, value);
+
+		this->_view->print_answer();
 		getline(cin, answer);
 
 		this->_selected_question->set_value(value);
-		this->_selected_question->set_value(answer);
+		this->_selected_question->set_answer(answer);
 
 		QuestionDb::update(this->_selected_question);
 	} else {
@@ -85,6 +84,7 @@ void QuestionController::remove(){
 			sql_answer += Database::delete_all_relation_with_question(this->_selected_question);
 			sql_answer += QuestionDb::remove(this->_selected_question->get_id());
 			this->_view->print_deleted_question(SQLITE_OK ? 0 : 1);
+			this->_selected_question = NULL;
 		}
 	} else {
 		this->_view->print_select_question();

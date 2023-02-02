@@ -161,7 +161,7 @@ void View::print_deleted_tag(){
 }
 
 void View::print_delete_question(Question *question){
-	printf("Are you sure do you want remove %s? If yes push (Y).", question->to_string().c_str());
+	printf("Are you sure do you want to remove %s? If yes push (Y).", question->to_string().c_str());
 }
 
 void View::print_deleted_question(int sql_answer){
@@ -211,4 +211,12 @@ void View::print_question_value(Question *q){
 
 void View::print_question_answer(Question *q){
 	printf("%s\n", q->get_answer().c_str());
+}
+
+void View::print_value(){
+	printf("Value:");
+}
+
+void View::print_answer(){
+	printf("Answer:");
 }
