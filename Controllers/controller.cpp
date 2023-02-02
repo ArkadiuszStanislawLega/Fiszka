@@ -4,12 +4,14 @@ Controller::Controller(){
 	this->_model = NULL;
 	this->_view = NULL;
 	this->_question_controller = QuestionController(this->_model, this->_view);
+	this->_tag_controller = TagController(this->_model, this->_view);
 }
 
 Controller::Controller(Model *model, View *view){
 	this->_model = model;
 	this->_view = view;
 	this->_question_controller = QuestionController(this->_model, this->_view);
+	this->_tag_controller = TagController(this->_model, this->_view);
 }
 
 bool Controller::main_menu(){
@@ -36,21 +38,6 @@ bool Controller::main_menu(){
 	return true;
 }
 
-void Controller::tags_list(){
-//	this->_view->print_tag_list();
-}
-
-void Controller::create_tag(){
-	this->_view->print_create_tag();
-	string tag;
-	
-	this->clean_input_buffer();
-	cin >> tag;
-
-	Tag *t = new Tag();
-	t->set_tag(tag);
-	this->_view->print_created_tag(t, TagDb::create(t));
-}
 
 void Controller::select_tag(){
 	int option_selected;
@@ -66,27 +53,6 @@ void Controller::select_tag(){
 		this->_model->set_selected_tag(tags.at(option_selected));
 	} else {
 		this->_view->print_wrong_value();
-	}
-}
-
-void Controller::delete_tag(){
-	if(this->_model->get_selected_tag()!=NULL){
-		char input;
-		this->_view->print_delete_tag();
-
-		scanf("%c", &input);
-
-		if(input == ANSWER_YES_LARGE || input == ANSWER_YES_SMALL){
-			int del1, del2;
-			del1 = Database::delete_all_relation_with_tag(this->_model->get_selected_tag());
-			del2 = TagDb::remove(this->_model->get_selected_tag()->get_id());
-			if(del1 ==SQLITE_OK && del2== SQLITE_OK){
-				this->_view->print_deleted_tag();
-				this->_model->set_selected_tag(NULL);
-			}
-		}
-	} else {
-		this->_view->print_first_select_tag();
 	}
 }
 
@@ -148,21 +114,6 @@ void Controller::select_action(Views view){
 			this->main_menu();
 			break;
 		}
-		case Views::tag_list:
-		{
-			this->tags_list();
-			break;
-		}
-		case Views::add_tag:
-		{
-			this->create_tag();
-			break;
-	  	}
-		case Views::remove_tag:
-		{
-			this->delete_tag();
-			break;
-		}
 		case Views::select_tag:
 		{
 			this->select_tag();
@@ -178,6 +129,10 @@ void Controller::select_action(Views view){
 		{
 			this->_question_controller.main_menu();
 			break;
+		}
+		case Views::tag_menu:
+		{
+			this->_tag_controller.main_menu();
 		}
 		default:
 		{

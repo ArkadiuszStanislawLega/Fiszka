@@ -83,7 +83,7 @@ void QuestionController::remove(){
 		if(answer == ANSWER_YES_LARGE || answer == ANSWER_YES_SMALL){
 			sql_answer += Database::delete_all_relation_with_question(this->_selected_question);
 			sql_answer += QuestionDb::remove(this->_selected_question->get_id());
-			this->_view->print_deleted_question(SQLITE_OK ? 0 : 1);
+			this->_view->print_deleted_question(SQLITE_OK == sql_answer ? 0 : 1);
 			this->_selected_question = NULL;
 		}
 	} else {

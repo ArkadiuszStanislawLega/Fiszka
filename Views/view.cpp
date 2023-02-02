@@ -10,12 +10,10 @@ void View::print_menu(){
 	}
 
 	printf("%s:\n", MAIN_MENU.c_str());
-	printf("%d. %s.\n", (int)Views::tag_list, TAG_LIST.c_str());
-	printf("%d. %s.\n", (int)Views::add_tag, ADD_TAG.c_str());
-	printf("%d. %s.\n", (int)Views::remove_tag, REMOVE_TAG.c_str());
 	printf("%d. %s.\n", (int)Views::select_tag, SELECTED_TAG.c_str());
 	printf("%d. %s.\n", (int)Views::make_series, MAKE_SERIES.c_str());
 	printf("%d. %s.\n", (int)Views::question_menu, "Questions menu");
+	printf("%d. %s.\n", (int)Views::tag_menu, "Tags menu");
 	printf("10. Exit.\n");
 	printf("%s:", CHOSE_NUMBER.c_str());
 }
@@ -128,6 +126,22 @@ void View::print_main_menu(){
 	printf("Please select option:");
 }
 
+void View::print_main_menu_tag(){
+	printf("Tags MENU:\n");
+	printf("%d. %s.\n", (int)Crud::create, "Create");
+	printf("%d. %s.\n", (int)Crud::read, "Select tag");
+	printf("%d. %s.\n", (int)Crud::update, "Update selected tag");
+	printf("%d. %s.\n", (int)Crud::del, "Remove selected tag");
+	printf("%d. %s.\n", (int)Crud::tag_add, "Add question to selected tag");
+	printf("%d. %s.\n", (int)Crud::tag_remove, "Remove question from selected tag");
+	printf("10. Exit.\n");
+	printf("Please select option:");
+
+}
+void View::print_selected_tag(Tag *t){
+	printf("Currently selected tag: %s\n", t->get_tag().c_str());
+}
+
 void View::print_remove_tag_from_question(Question *q){
 	printf("Select tag from the list below to remove it from the question (%s).\n", q->to_string().c_str());
 }
@@ -156,8 +170,25 @@ void View::print_delete_tag(){
 	printf("%s: %s\n%s", REMOVE_TAG.c_str(), this->_model->get_selected_tag()->get_tag().c_str(), INFO_CONFIRM_REMOVE.c_str());
 }
 
-void View::print_deleted_tag(){
-	printf("%s: %s - %s.\n", THE_TAG.c_str(), this->_model->get_selected_tag()->get_tag().c_str(), SUCCESFULLY_REMOVED.c_str());
+void View::print_deleted_tag(int sql_answer){
+	if(sql_answer == SQLITE_OK){
+		printf("%s %s.\n", THE_TAG.c_str(), SUCCESFULLY_REMOVED.c_str());
+	} else {
+		printf("%s.\n", DATABASE_ERROR.c_str());
+	}
+}
+
+void View::print_remove_question_from_tag(){
+	printf("Select the question to removed from below list available qustions.\n");
+}
+
+void View::print_removed_question_from_tag(int sql_answer){
+	if(sql_answer == SQLITE_OK){
+		printf("Removing relation of the question with the tag has been succesfully finished.\n");
+		
+	} else {
+		printf("%s.\n", DATABASE_ERROR.c_str());
+	}
 }
 
 void View::print_delete_question(Question *question){
@@ -182,16 +213,6 @@ void View::print_make_series(){
 
 void View::print_questions_number_in_series(long current_number, int max_number){
 	printf("(%lu/%d) ", current_number, max_number);
-}
-
-void View::print_tags(){
-	int i = 1;
-	vector<Tag*> tags = TagDb::read_all_tags();
-	printf("%s (%lu):\n", LIST_OF_TAGS.c_str(), tags.size());
-	for(Tag *tag : tags){
-		printf("%d. %s\n", i++, tag->get_tag().c_str());
-	}
-	printf("--\n");
 }
 
 void View::print_how_many_number_in_series(long size){
@@ -219,4 +240,16 @@ void View::print_value(){
 
 void View::print_answer(){
 	printf("Answer:");
+}
+
+void View::print_set_new_tag(){
+	printf("Set new tag:");
+}
+
+void View::print_tag_updated(int sql_anwer){
+	if(sql_anwer == SQLITE_OK){
+		printf("Tag updated succesfully.\n");
+	} else {
+		printf("%s.\n", DATABASE_ERROR.c_str());
+	}
 }

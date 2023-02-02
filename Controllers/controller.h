@@ -10,6 +10,7 @@
 
 #include "../Views/view.h"
 #include "question_controller.h"
+#include "tag_controller.h"
 
 using std::cin;
 using std::getline;
@@ -21,6 +22,7 @@ class Controller{
 		Model *_model;
 		View *_view;
 		QuestionController _question_controller;
+		TagController _tag_controller;
 		
 		void prepare_randomised_questions();
 		void select_action(Views);
