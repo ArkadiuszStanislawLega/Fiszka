@@ -9,6 +9,7 @@
 #include "../Models/question.h"
 
 #include "../Views/view.h"
+#include "question_controller.h"
 
 using std::cin;
 using std::getline;
@@ -19,29 +20,23 @@ class Controller{
 	private:
 		Model *_model;
 		View *_view;
+		QuestionController _question_controller;
+		
 		void prepare_randomised_questions();
 		void select_action(Views);
 		
 		void tags_list();
 		void create_tag();
-		void create_question();
-		Question *get_new_question();
-
 		void select_tag();
-		void add_tag_to_question();
 		void delete_tag();
 
-		void delete_question();
-		vector<Question *> get_questions_list_depends_on_tag();
-		int get_delete_question_response(Question *);
-
-		void remove_tag_from_question();
 		void get_questions_number_in_series();
 		void get_tag();
 		void series();
 		void clean_input_buffer();
 		
 	public:
+		Controller();
 		Controller(Model *, View *);
 		void start_app();
 		bool main_menu();

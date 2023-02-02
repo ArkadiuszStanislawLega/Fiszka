@@ -3,6 +3,7 @@
 
 #include "../Models/model.h"
 #include "../Enums/views.h"
+#include "../Enums/crud.h"
 
 class View{
 	private:
@@ -16,7 +17,11 @@ class View{
 		void print_line();
 		void print_first_select_tag();
 
-		void print_tag_list();
+		void print_tags_list(vector<Tag *>);
+		void print_questions_vector(vector<Question *>);
+		void print_tags_vector(vector<Tag *>);
+		void print_select_question_number();
+		void print_select_question();
 		
 		void print_create_tag();
 		void print_created_tag(Tag *, int);
@@ -25,14 +30,19 @@ class View{
 		void print_created_question(Question *, int);
 		
 		void print_select_tag();
-
+		
+		void print_selected_question(Question *);
+		void print_main_menu();
 		void print_add_tag_to_question(vector<Question *>);
+		void print_add_tag_to_question(); 
 		void print_added_tag_to_question(int);
+		void print_remove_tag_from_question(Question *);
+		void print_removed_tag_from_question(int);
 
 		void print_delete_tag();
 		void print_deleted_tag();
 
-		void print_delete_question(vector<Question *>);
+		void print_delete_question(Question *);
 		void print_deleted_question(int);
 
 		void print_delete_tag_from_question();
