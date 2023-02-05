@@ -44,6 +44,7 @@ void Controller::select_tag(){
 	vector<Tag*> tags;
 
 	this->_view->print_select_tag();
+//TODO: print lista
 
 	scanf("%d", &option_selected);
 

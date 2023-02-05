@@ -3,10 +3,15 @@
 View::View(Model * model){
 	this->_model = model;
 	this->_question_view = QuestionView();
+	this->_tag_view = TagView();
 }
 
 QuestionView View::get_question_view(){
 	return this->_question_view;
+}
+
+TagView View::get_tag_view(){
+	return this->_tag_view;
 }
 
 void View::print_menu(){
@@ -17,9 +22,9 @@ void View::print_menu(){
 	printf("%s:\n", MAIN_MENU.c_str());
 	printf("%d. %s.\n", (int)Views::select_tag, SELECTED_TAG.c_str());
 	printf("%d. %s.\n", (int)Views::make_series, MAKE_SERIES.c_str());
-	printf("%d. %s.\n", (int)Views::question_menu, "Questions menu");
-	printf("%d. %s.\n", (int)Views::tag_menu, "Tags menu");
-	printf("10. Exit.\n");
+	printf("%d. %s.\n", (int)Views::question_menu, QUESTIONS_MENU);
+	printf("%d. %s.\n", (int)Views::tag_menu, TAGS_MENU);
+	printf("10. %s.\n", EXIT);
 	printf("%s:", CHOSE_NUMBER.c_str());
 }
 
@@ -39,113 +44,16 @@ void View::print_first_select_tag(){
 	printf("%s.\n", SELECT_TAG_FIRST.c_str());
 }
 
-void View::print_tags_list(vector<Tag *> tags){
-	int i {0};
-	printf("%s:\n", TAGS_LIST.c_str());
-	for(Tag *t : tags){
-		printf("%d. %s\n", i, t->get_tag().c_str());
-		i++;
-	}
-}
-
-void View::print_tags_vector(vector<Tag *> vector){
-	if(vector.size() > 0){
-		printf("Tags: ");
-		for(Tag *t: vector){
-			printf("%s, ", t->get_tag().c_str());
-		}
-	} else {
-		printf("No tags.");
-	}
-}
-
-void View::print_create_tag(){
-	printf("%s:\n", ADD_TAG.c_str());
-}
-
-void View::print_created_tag(Tag *t, int sql_answer){
-	if(sql_answer == 0){
-		printf("%s: %s\n", TAG_CREATED_CORRECTLY.c_str(),t->get_tag().c_str());
-	} else {
-		printf("%s.", DATABASE_ERROR.c_str());
-	}
-}
-
 void View::print_select_tag(){
 	printf("%s:\n", CHOSE_TAG.c_str());
-	//this->print_tag_list();
-}
-
-void View::print_add_tag_to_question(vector<Question *> questions){
-	int i = 0;
-	printf("%s (%s) %s:\n", ADD_THE_TAG.c_str(), this->_model->get_selected_tag()->get_tag().c_str(), TO_THE_QUESTION.c_str());
-	for(Question *q: questions){ 
-		printf("%d. %s: %s, %s: %s\n", i, VALUE.c_str() ,q->get_value().c_str(), ANSWER.c_str(), q->get_answer().c_str());
-		i++;
-	}
 }
 
 void View::print_selected_question(Question *q){
-	printf("Currently selected question: %s\n", q->to_string().c_str());
-}
-
-
-void View::print_main_menu_tag(){
-	printf("Tags MENU:\n");
-	printf("%d. %s.\n", (int)Crud::create, "Create");
-	printf("%d. %s.\n", (int)Crud::read, "Select tag");
-	printf("%d. %s.\n", (int)Crud::update, "Update selected tag");
-	printf("%d. %s.\n", (int)Crud::del, "Remove selected tag");
-	printf("%d. %s.\n", (int)Crud::tag_add, "Add question to selected tag");
-	printf("%d. %s.\n", (int)Crud::tag_remove, "Remove question from selected tag");
-	printf("10. Exit.\n");
-	printf("Please select option:");
-
-}
-void View::print_selected_tag(Tag *t){
-	printf("Currently selected tag: %s\n", t->get_tag().c_str());
-}
-
-
-void View::print_add_tag_to_question(){
-	printf("Select tag from the list below to add to the question.\n");
-}
-
-void View::print_added_tag_to_question(int sql_answer){
-	if(sql_answer == SQLITE_OK){
-		printf("%s.\n", TAG_ADDED_SUCCESFULLY.c_str());
-	} else {
-		printf("%s.\n", DATABASE_ERROR.c_str());
-	}
-}
-
-void View::print_delete_tag(){
-	printf("%s: %s\n%s", REMOVE_TAG.c_str(), this->_model->get_selected_tag()->get_tag().c_str(), INFO_CONFIRM_REMOVE.c_str());
-}
-
-void View::print_deleted_tag(int sql_answer){
-	if(sql_answer == SQLITE_OK){
-		printf("%s %s.\n", THE_TAG.c_str(), SUCCESFULLY_REMOVED.c_str());
-	} else {
-		printf("%s.\n", DATABASE_ERROR.c_str());
-	}
-}
-
-void View::print_remove_question_from_tag(){
-	printf("Select the question to removed from below list available qustions.\n");
-}
-
-void View::print_removed_question_from_tag(int sql_answer){
-	if(sql_answer == SQLITE_OK){
-		printf("Removing relation of the question with the tag has been succesfully finished.\n");
-		
-	} else {
-		printf("%s.\n", DATABASE_ERROR.c_str());
-	}
+	printf("%s: %s\n", INFO_SELECTED_QUESTION, q->to_string().c_str());
 }
 
 void View::print_delete_tag_from_question(){
-	printf("%s:", REMOVE_TAG_FROM_QUESTION.c_str());
+	printf("%s:", REMOVE_TAG_FROM_QUESTION);
 }
 
 void View::print_make_series(){
@@ -161,20 +69,8 @@ void View::print_how_many_number_in_series(long size){
 }
 
 void View::print_all_randomised_questions(){
-	printf("%s (%lu):\n", RANDOM_QUESTION_LIST.c_str(), this->_model->get_randomised_questions().size());
+	printf("%s (%lu):\n", RANDOM_QUESTION_LIST, this->_model->get_randomised_questions().size());
 	for(Question * q : this->_model->get_randomised_questions()){
 		printf(" >> %s\n", q->to_string().c_str());
-	}
-}
-
-void View::print_set_new_tag(){
-	printf("Set new tag:");
-}
-
-void View::print_tag_updated(int sql_anwer){
-	if(sql_anwer == SQLITE_OK){
-		printf("Tag updated succesfully.\n");
-	} else {
-		printf("%s.\n", DATABASE_ERROR.c_str());
 	}
 }

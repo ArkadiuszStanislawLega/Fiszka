@@ -40,9 +40,9 @@ static const string TAG_LIST = "Tags list";
 static const string ADD_TAG = "Add tag";
 static const string ADD_QUESTION = "Add question";
 static const string REMOVE_TAG = "Remove the tag";
-static const string SELECT_TAG = "Select tag";
 static const string MAKE_SERIES = "Make questions series";
-
+static const char *QUESTIONS_MENU = "Questions menu";
+static const char *TAGS_MENU = "Tags menu";
 static const string MAIN_MENU = "MAIN MENU";
 static const string SELECTED_TAG = "Selected tag";
 static const string CHOSE_NUMBER = "Chose number";
@@ -81,7 +81,7 @@ static const char *EXIT = "Exit";
 static const char *QUESTION_MENU = "QUESTION_MENU";
 static const char *INFO_SELECT_QUESTION = "To select question, choose number";
 static const char *INFO_FIRST_SELECT_QUESTION = "Select question first";
-static const char *INFO_SELECTED_QUESTION = "Selected question";
+static const char *INFO_SELECTED_QUESTION = "Currently selected question";
 static const char *INFO_ARE_YOU_SURE_TO_REMOVE_QUESTION = "Are you sure do you want to remove selected question? If yes push (Y).";
 static const char *INFO_SELECT_TAG_TO_REMOVE_FROM_QUESTION= "Select tag from the list below to remove it from the quesiton.\n";
 static const char *TAG_HAS_BEEN_REMOVED = "Tag has been removed";
@@ -90,4 +90,15 @@ static const char *LIST_OF_TAGS = "List of tags";
 static const char *NO_TAGS = "No tags";
 static const char *NO_QUESTIONS = "No questions";
 
+static const char *TAG_MENU = "TAG MENU";
+static const char *SELECT_TAG = "Select tag";
+static const char *UPDATE_TAG = "Update selected tag";
+static const char *REMOVE_SELECTED_TAG = "Remove selected tag";
+static const char *ADD_QUESTION_TO_TAG = "Add question to selected tag";
+static const char *REMOVE_QUESTION_FROM_TAG = "Remove question from selected tag";
+static const char *CURRENTLY_SELECTED_TAG = "Currently selected tag";
+static const char *INFO_SELECT_TAG_TO_ADD_QUESTION = "Select tag from the list below to add the question";
+static const char *TAG_UPDATE_SUCCESFULLY = "Tag updated succesfully";
+static const char *SELECT_QUESTION_TO_REMOVE_FROM_TAG = "Select the qestion to remove from below list available questios";
+static const char *REMOVED_RELATION_QUESTION_AND_TAG_SUCCESFULLY = "Removing relation of the question with the tag has been succesfully finished";
 #endif
