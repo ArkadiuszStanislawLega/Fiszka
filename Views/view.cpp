@@ -43,16 +43,6 @@ void View::print_tags_list(vector<Tag *> tags){
 	}
 }
 
-void View::print_questions_vector(vector<Question *> vector){
-	int i {0};
-	printf("List of questions:\n");
-	for(Question *q : vector){
-		printf("%d. %s, ", i, q->to_string().c_str());
-		this->print_tags_vector(q->get_tags());
-		printf("\n");
-		i++;
-	}
-}
 
 void View::print_tags_vector(vector<Tag *> vector){
 	if(vector.size() > 0){
@@ -78,8 +68,6 @@ void View::print_created_tag(Tag *t, int sql_answer){
 	}
 }
 
-
-
 void View::print_select_tag(){
 	printf("%s:\n", CHOSE_TAG.c_str());
 	//this->print_tag_list();
@@ -98,16 +86,6 @@ void View::print_selected_question(Question *q){
 	printf("Currently selected question: %s\n", q->to_string().c_str());
 }
 
-void View::print_main_menu(){
-	printf("%d. %s.\n", (int)Crud::create, "Create");
-	printf("%d. %s.\n", (int)Crud::read, "Select question");
-	printf("%d. %s.\n", (int)Crud::update, "Update selected question");
-	printf("%d. %s.\n", (int)Crud::del, "Remove selected question");
-	printf("%d. %s.\n", (int)Crud::tag_add, "Add tag to selected question");
-	printf("%d. %s.\n", (int)Crud::tag_remove, "Remove tag from selected question");
-	printf("10. Exit.\n");
-	printf("Please select option:");
-}
 
 void View::print_main_menu_tag(){
 	printf("Tags MENU:\n");
@@ -125,17 +103,6 @@ void View::print_selected_tag(Tag *t){
 	printf("Currently selected tag: %s\n", t->get_tag().c_str());
 }
 
-void View::print_remove_tag_from_question(Question *q){
-	printf("Select tag from the list below to remove it from the question (%s).\n", q->to_string().c_str());
-}
-
-void View::print_removed_tag_from_question(int sql_answer){
-	if(sql_answer == SQLITE_OK){
-		printf("Tag has been removed.\n");
-	} else {
-		printf("%s.\n", DATABASE_ERROR.c_str());
-	}
-}
 
 void View::print_add_tag_to_question(){
 	printf("Select tag from the list below to add to the question.\n");
@@ -174,18 +141,6 @@ void View::print_removed_question_from_tag(int sql_answer){
 	}
 }
 
-void View::print_delete_question(Question *question){
-	printf("Are you sure do you want to remove %s? If yes push (Y).", question->to_string().c_str());
-}
-
-void View::print_deleted_question(int sql_answer){
-	if(sql_answer == SQLITE_OK){
-		printf("%s.\n", QUESTIONS_SUCCESFULLY_REMOVED.c_str());
-	} else {
-		printf("%s.\n", DATABASE_ERROR.c_str());
-	}
-}
-
 void View::print_delete_tag_from_question(){
 	printf("%s:", REMOVE_TAG_FROM_QUESTION.c_str());
 }
@@ -207,22 +162,6 @@ void View::print_all_randomised_questions(){
 	for(Question * q : this->_model->get_randomised_questions()){
 		printf(" >> %s\n", q->to_string().c_str());
 	}
-}
-
-void View::print_question_value(Question *q){
-	printf("%s", q->get_value().c_str());
-}
-
-void View::print_question_answer(Question *q){
-	printf("%s\n", q->get_answer().c_str());
-}
-
-void View::print_value(){
-	printf("Value:");
-}
-
-void View::print_answer(){
-	printf("Answer:");
 }
 
 void View::print_set_new_tag(){

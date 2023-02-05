@@ -1,14 +1,15 @@
 #include "question_view.h"
 
 void QuestionView::print_main_menu(){
-	printf("%d. %s.\n", (int)Crud::create, "Create");
-	printf("%d. %s.\n", (int)Crud::read, "Select question");
-	printf("%d. %s.\n", (int)Crud::update, "Update selected question");
-	printf("%d. %s.\n", (int)Crud::del, "Remove selected question");
-	printf("%d. %s.\n", (int)Crud::tag_add, "Add tag to selected question");
-	printf("%d. %s.\n", (int)Crud::tag_remove, "Remove tag from selected question");
-	printf("10. Exit.\n");
-	printf("Please select option:");
+	printf("%s", QUESTION_MENU);
+	printf("%d. %s.\n", (int)Crud::create, CREATE);
+	printf("%d. %s.\n", (int)Crud::read, SELECT_QUESTION);
+	printf("%d. %s.\n", (int)Crud::update, UPDATE_QUESTION);
+	printf("%d. %s.\n", (int)Crud::del, REMOVE_QUESTION);
+	printf("%d. %s.\n", (int)Crud::tag_add, ADD_TAG_TO_QUESTION);
+	printf("%d. %s.\n", (int)Crud::tag_remove, REMOVE_TAG_FROM_QUESTION);
+	printf("10. %s.\n", EXIT);
+	printf("%s:", PLEASE_SELECT_OPTION);
 }
 
 void QuestionView::print_create_question(){
@@ -24,21 +25,16 @@ void QuestionView::print_created_question(Question *q, int sql_answer){
 }
 
 void QuestionView::print_select_question_number(){
-	printf("Please select question, choose number:");
+	printf("%s:", INFO_SELECT_QUESTION);
 }
 
 void QuestionView::print_select_question(){
-	printf("Select question first.\n");
+	printf("%s.\n", INFO_FIRST_SELECT_QUESTION);
 }
 
-
-
-
-
-
-
 void QuestionView::print_delete_question(Question *question){
-	printf("Are you sure do you want to remove %s? If yes push (Y).", question->to_string().c_str());
+	printf("%s: %s", INFO_SELECTED_QUESTION, question->to_string().c_str());
+	printf("%s", INFO_ARE_YOU_SURE_TO_REMOVE_QUESTION);
 }
 
 void QuestionView::print_deleted_question(int sql_answer){
@@ -50,29 +46,29 @@ void QuestionView::print_deleted_question(int sql_answer){
 }
 
 void QuestionView::print_question_value(Question *q){
-	printf("Value: %s", q->get_value().c_str());
+	printf("%s: %s", VALUE, q->get_value().c_str());
 }
 
 void QuestionView::print_question_answer(Question *q){
-	printf("Answer: %s\n", q->get_answer().c_str());
+	printf("%s: %s\n", ANSWER, q->get_answer().c_str());
 }
 
 void QuestionView::print_value(){
-	printf("Value:");
+	printf("%s:", VALUE);
 }
 
 void QuestionView::print_answer(){
-	printf("Answer:");
+	printf("%s:", ANSWER);
 }
 
-
 void QuestionView::print_remove_tag_from_question(Question *q){
-	printf("Select tag from the list below to remove it from the question (%s).\n", q->to_string().c_str());
+	printf("%s: %s", SELECT_QUESTION, q->to_string().c_str());
+	printf("%s", INFO_SELECT_TAG_TO_REMOVE_FROM_QUESTION);
 }
 
 void QuestionView::print_removed_tag_from_question(int sql_answer){
 	if(sql_answer == SQLITE_OK){
-		printf("Tag has been removed.\n");
+		printf("%s.\n", TAG_HAS_BEEN_REMOVED);
 	} else {
 		printf("%s.\n", DATABASE_ERROR.c_str());
 	}
@@ -80,7 +76,7 @@ void QuestionView::print_removed_tag_from_question(int sql_answer){
 
 void QuestionView::print_questions_vector(vector<Question *> vector){
 	int i {0};
-	printf("List of questions:\n");
+	printf("%s:\n", LIST_OF_QUESTIONS);
 	if(vector.size() > 0){
 		for(Question *q : vector){
 			printf("%d. %s, ", i, q->to_string().c_str());
@@ -89,17 +85,17 @@ void QuestionView::print_questions_vector(vector<Question *> vector){
 			i++;
 		}
 	} else {
-		printf("No questions.\n");
+		printf("%s.", NO_QUESTIONS);
 	}
 }
 
 void QuestionView::print_tags_vector(vector<Tag *> vector){
 	if(vector.size() > 0){
-		printf("List of tags: ");
+		printf("%s:", LIST_OF_TAGS);
 		for(Tag *t: vector){
 			printf("%s, ", t->get_tag().c_str());
 		}
 	} else {
-		printf("No tags.\n");
+		printf("%s.\n", NO_TAGS);
 	}
 }
