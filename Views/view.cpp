@@ -2,15 +2,15 @@
 
 View::View(Model * model){
 	this->_model = model;
-	this->_question_view = QuestionView();
-	this->_tag_view = TagView();
+	this->_question_view = new QuestionView();
+	this->_tag_view = new TagView();
 }
 
-QuestionView View::get_question_view(){
+QuestionView *View::get_question_view(){
 	return this->_question_view;
 }
 
-TagView View::get_tag_view(){
+TagView *View::get_tag_view(){
 	return this->_tag_view;
 }
 

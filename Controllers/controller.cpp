@@ -46,7 +46,7 @@ void Controller::select_tag(){
 	tags = TagDb::read_all_tags();
 
 	this->_view->print_select_tag();
-	this->_view->get_tag_view().print_tags_vector(tags);
+	this->_view->get_tag_view()->print_tags_vector(tags);
 
 	scanf("%d", &option_selected);
 
@@ -94,10 +94,10 @@ void Controller::series(){
 			this->_view->print_questions_number_in_series(i+1, this->_model->get_questions_in_series());
 			q = this->_model->get_random_question();
 
-			this->_view->get_question_view().print_question_value(q);
+			this->_view->get_question_view()->print_question_value(q);
 			getchar();
 
-			this->_view->get_question_view().print_question_answer(q);
+			this->_view->get_question_view()->print_question_answer(q);
 			this->_view->print_line();
 		}
 	} else {

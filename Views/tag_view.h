@@ -11,6 +11,7 @@ using std::cout;
 
 class TagView{
 	public:
+		TagView();
 		void print_main_menu_tag();
 
 		void print_tags_list(vector<Tag *>);

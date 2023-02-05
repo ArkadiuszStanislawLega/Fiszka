@@ -1,5 +1,9 @@
 #include "question_view.h"
 
+QuestionView::QuestionView(){
+
+}
+
 void QuestionView::print_main_menu(){
 	printf("%s", QUESTION_MENU);
 	printf("%d. %s.\n", (int)Crud::create, CREATE);

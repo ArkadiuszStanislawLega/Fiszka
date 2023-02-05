@@ -11,6 +11,8 @@ using std::cout;
 
 class QuestionView{
 	public:
+		QuestionView();
+
 		void print_main_menu();
 		void print_create_question();
 		void print_created_question(Question *, int);

@@ -1,5 +1,9 @@
 #include "tag_view.h"
 
+TagView::TagView(){
+
+}
+
 void TagView::print_main_menu_tag(){
 	printf("%s\n", TAG_MENU);
 	printf("%d. %s.\n", (int)Crud::create, CREATE);

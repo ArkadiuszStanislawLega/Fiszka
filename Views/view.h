@@ -10,13 +10,13 @@
 class View{
 	private:
 		Model * _model;
-		QuestionView _question_view;
-		TagView _tag_view;
+		QuestionView *_question_view;
+		TagView *_tag_view;
 
 	public:
 		View(Model *);
-		QuestionView get_question_view();
-		TagView get_tag_view();
+		QuestionView *get_question_view();
+		TagView *get_tag_view();
 
 		void print_menu();
 		void print_wrong_value();
