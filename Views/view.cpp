@@ -65,9 +65,6 @@ void View::print_tags_vector(vector<Tag *> vector){
 	}
 }
 
-void View::print_select_question_number(){
-	printf("Please select question, choose number:");
-}
 
 void View::print_create_tag(){
 	printf("%s:\n", ADD_TAG.c_str());
@@ -81,21 +78,7 @@ void View::print_created_tag(Tag *t, int sql_answer){
 	}
 }
 
-void View::print_select_question(){
-	printf("Select question first.\n");
-}
 
-void View::print_create_question(){
-	printf("%s\n", INFO_CREATING_QUESTION.c_str());
-}
-
-void View::print_created_question(Question *q, int sql_answer){
-	if(sql_answer == SQLITE_OK){
-		printf("%s: %lu\n", QUESTION_CREATED_CORRECTLY.c_str(),q->get_id());
-	} else {
-		printf("%s.\n", DATABASE_ERROR.c_str());
-	}
-}
 
 void View::print_select_tag(){
 	printf("%s:\n", CHOSE_TAG.c_str());
