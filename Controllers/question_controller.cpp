@@ -96,17 +96,17 @@ void QuestionController::add_tag(){
 		int input, sql_answer;
 		vector<Tag *> tags;
 
-		this->_view->print_add_tag_to_question();
+		this->_view->get_tag_view().print_add_tag_to_question();
 
 		tags = TagDb::read_all_tags();
-		this->_view->print_tags_list(tags);
+		this->_view->get_tag_view().print_tags_list(tags);
 		
 		scanf("%d", &input);
 
 		if(input >= 0 && input < tags.size()){
 			sql_answer = Database::create_relation(tags.at(input), this->_selected_question);
 			QuestionDb::read_related_tags(this->_selected_question);
-			this->_view->print_added_tag_to_question(sql_answer);
+			this->_view->get_tag_view().print_added_tag_to_question(sql_answer);
 		} else {
 			this->_view->print_wrong_value();
 		}
@@ -119,7 +119,7 @@ void QuestionController::remove_tag(){
 	if(this->_selected_question != NULL){
 		int input, sql_answer;
 		this->_view->get_question_view().print_remove_tag_from_question(this->_selected_question);
-		this->_view->print_tags_list(this->_selected_question->get_tags());
+		this->_view->get_tag_view().print_tags_list(this->_selected_question->get_tags());
 	
 		scanf("%d", &input);
 

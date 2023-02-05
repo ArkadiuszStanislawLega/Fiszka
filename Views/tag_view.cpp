@@ -95,3 +95,18 @@ void TagView::print_removed_question_from_tag(int sql_answer){
 		printf("%s.\n", DATABASE_ERROR.c_str());
 	}
 }
+
+void TagView::print_questions_vector(vector<Question *> vector){
+	int i {0};
+	printf("%s:\n", LIST_OF_QUESTIONS);
+	if(vector.size() > 0){
+		for(Question *q : vector){
+			printf("%d. %s, ", i, q->to_string().c_str());
+			this->print_tags_vector(q->get_tags());
+			printf("\n");
+			i++;
+		}
+	} else {
+		printf("%s.", NO_QUESTIONS);
+	}
+}

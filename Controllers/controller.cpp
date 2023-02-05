@@ -43,8 +43,10 @@ void Controller::select_tag(){
 	int option_selected;
 	vector<Tag*> tags;
 
+	tags = TagDb::read_all_tags();
+
 	this->_view->print_select_tag();
-//TODO: print lista
+	this->_view->get_tag_view().print_tags_vector(tags);
 
 	scanf("%d", &option_selected);
 
