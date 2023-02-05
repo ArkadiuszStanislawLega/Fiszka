@@ -2,6 +2,11 @@
 
 View::View(Model * model){
 	this->_model = model;
+	this->_question_view = QuestionView();
+}
+
+QuestionView View::get_question_view(){
+	return this->_question_view;
 }
 
 void View::print_menu(){
@@ -43,7 +48,6 @@ void View::print_tags_list(vector<Tag *> tags){
 	}
 }
 
-
 void View::print_tags_vector(vector<Tag *> vector){
 	if(vector.size() > 0){
 		printf("Tags: ");
@@ -54,7 +58,6 @@ void View::print_tags_vector(vector<Tag *> vector){
 		printf("No tags.");
 	}
 }
-
 
 void View::print_create_tag(){
 	printf("%s:\n", ADD_TAG.c_str());

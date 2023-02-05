@@ -91,10 +91,10 @@ void Controller::series(){
 			this->_view->print_questions_number_in_series(i+1, this->_model->get_questions_in_series());
 			q = this->_model->get_random_question();
 
-			this->_view->print_question_value(q);
+			this->_view->get_question_view().print_question_value(q);
 			getchar();
 
-			this->_view->print_question_answer(q);
+			this->_view->get_question_view().print_question_answer(q);
 			this->_view->print_line();
 		}
 	} else {
