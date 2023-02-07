@@ -99,7 +99,7 @@ void QuestionController::add_tag(){
 		this->_view->get_tag_view()->print_add_tag_to_question();
 
 		tags = TagDb::read_all_tags();
-		this->_view->get_tag_view()->print_tags_list(tags);
+		this->_view->get_tag_view()->print_tags_vector(tags);
 		
 		scanf("%d", &input);
 
@@ -119,7 +119,7 @@ void QuestionController::remove_tag(){
 	if(this->_selected_question != NULL){
 		int input, sql_answer;
 		this->_view->get_question_view()->print_remove_tag_from_question(this->_selected_question);
-		this->_view->get_tag_view()->print_tags_list(this->_selected_question->get_tags());
+		this->_view->get_tag_view()->print_tags_vector(this->_selected_question->get_tags());
 	
 		scanf("%d", &input);
 

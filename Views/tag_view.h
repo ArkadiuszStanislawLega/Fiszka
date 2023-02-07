@@ -14,7 +14,6 @@ class TagView{
 		TagView();
 		void print_main_menu_tag();
 
-		void print_tags_list(vector<Tag *>);
 		void print_tags_vector(vector<Tag *>);
 		
 		void print_create_tag();

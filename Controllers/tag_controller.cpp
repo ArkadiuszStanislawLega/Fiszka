@@ -96,7 +96,7 @@ void TagController::select_tag(){
 	tags = TagDb::read_all_tags();
 
 	this->_view->print_select_tag();
-	this->_view->get_tag_view()->print_tags_list(tags);
+	this->_view->get_tag_view()->print_tags_vector(tags);
 
 	scanf("%d", &option_selected);
 
