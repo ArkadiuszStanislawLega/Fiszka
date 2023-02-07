@@ -174,19 +174,21 @@ void TagController::remove_question(){
 		int input, sql_answer;
 		vector<Question *> related_questions;
 
+		related_questions = TagDb::read_related_questions(this->_selected_tag);
+
 		this->_view->get_tag_view()->print_remove_question_from_tag();
 		this->_view->get_tag_view()->print_questions_vector(related_questions);
+	
+		if(related_questions.size() > 0 ){
+			scanf("%d", &input);
 
-		scanf("%d", &input);
-
-		if(input >= 0 && input < related_questions.size()){
-			sql_answer = TagDb::remove_question(related_questions.at(input), this->_selected_tag);
-			this->_view->get_tag_view()->print_removed_question_from_tag(sql_answer);
-
-		} else {
-			this->_view->print_wrong_value();
+			if(input >= 0 && input < related_questions.size()){
+				sql_answer = TagDb::remove_question(related_questions.at(input), this->_selected_tag);
+				this->_view->get_tag_view()->print_removed_question_from_tag(sql_answer);
+			} else {
+				this->_view->print_wrong_value();
+			}
 		}
-
 	} else {
 		this->_view->print_first_select_tag();
 	}

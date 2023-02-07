@@ -92,6 +92,7 @@ void QuestionView::print_questions_vector(vector<Question *> vector){
 			printf("\n");
 			i++;
 		}
+		printf("\n");
 	} else {
 		printf("%s.", NO_QUESTIONS);
 	}
