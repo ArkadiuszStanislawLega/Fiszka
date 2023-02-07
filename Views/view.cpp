@@ -21,7 +21,7 @@ void View::print_menu(){
 
 	printf("%s:\n", MAIN_MENU.c_str());
 	printf("%d. %s.\n", (int)Views::select_tag, SELECTED_TAG.c_str());
-	printf("%d. %s.\n", (int)Views::make_series, MAKE_SERIES.c_str());
+	printf("%d. %s.\n", (int)Views::make_series, MAKE_SERIES);
 	printf("%d. %s.\n", (int)Views::question_menu, QUESTIONS_MENU);
 	printf("%d. %s.\n", (int)Views::tag_menu, TAGS_MENU);
 	printf("10. %s.\n", EXIT);
@@ -57,7 +57,7 @@ void View::print_delete_tag_from_question(){
 }
 
 void View::print_make_series(){
-	printf("%s:", MAKE_SERIES.c_str());
+	printf("%s:", MAKE_SERIES);
 }
 
 void View::print_questions_number_in_series(long current_number, int max_number){

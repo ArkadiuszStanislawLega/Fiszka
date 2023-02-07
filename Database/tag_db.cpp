@@ -137,3 +137,9 @@ vector<Question *> TagDb::read_related_questions(Tag *tag){
 	}
 	return questions;
 } 
+
+//TDOO: Dorobic testy do remove question. 
+int TagDb::remove_question(Question *q, Tag *t){
+	string sql = {DELETE + TABLE_QUESTIONS_TAGS + " " + WHERE + COLUMN_TAG_ID + "=" + to_string(t->get_id()) + " " + AND + COLUMN_QUESTION_ID + "=" + to_string(q->get_id()) + ";"};
+	return Database::execute_query(sql);
+}

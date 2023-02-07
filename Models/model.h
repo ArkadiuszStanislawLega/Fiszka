@@ -22,7 +22,7 @@ class Model{
 		int _questions_in_series, _menu_user_selection;
 		
 	public:
-		static const int ACTIONS_NUMBER = 10;
+		static const int ACTIONS_NUMBER = 4;
 
 		Model();
 		bool is_working();

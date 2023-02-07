@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include "../Constants/strings.h"
+#include "../Constants/values.h"
 #include "../Models/question.h"
 #include "../Models/tag.h"
 #include "../Enums/crud.h"
@@ -14,6 +15,8 @@ class QuestionView{
 		QuestionView();
 
 		void print_main_menu();
+		void print_selected_question(Question *);
+
 		void print_create_question();
 		void print_created_question(Question *, int);
 

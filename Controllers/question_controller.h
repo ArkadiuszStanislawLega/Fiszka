@@ -9,6 +9,7 @@
 #include "../Models/model.h"
 #include "../Views/view.h"
 #include "../Enums/crud.h"
+#include "../Constants/values.h"
 #include "../Constants/strings.h"
 #include "../Database/database.h"
 #include "../Database/question_db.h"

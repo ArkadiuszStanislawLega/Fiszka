@@ -30,11 +30,10 @@ void TagController::main_menu(){
 
 		this->select_action(input);
 	}
-
 }
 
 void TagController::select_action(int action){
-	if(action == 10){
+	if(action == MENU_EXIT_VALUE){
 		this->_is_working = false;
 	} else {
 		switch((Crud)action){
@@ -181,8 +180,7 @@ void TagController::remove_question(){
 		scanf("%d", &input);
 
 		if(input >= 0 && input < related_questions.size()){
-			//TODO: Dorobic ta funkcje. Jest jak na razie pusta tylko w headerze. 
-			//sql_answer = TagDb::remove_question(related_questions.at(input), this->_selected_tag);
+			sql_answer = TagDb::remove_question(related_questions.at(input), this->_selected_tag);
 			this->_view->get_tag_view()->print_removed_question_from_tag(sql_answer);
 
 		} else {
@@ -193,5 +191,3 @@ void TagController::remove_question(){
 		this->_view->print_first_select_tag();
 	}
 }
-
-

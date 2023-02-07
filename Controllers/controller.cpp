@@ -20,17 +20,18 @@ bool Controller::main_menu(){
 	
 	scanf("%d", &option_selected);
 
-	if(option_selected <= 0 || option_selected > Model::ACTIONS_NUMBER){
+	if(option_selected == MENU_EXIT_VALUE){
+		this->_model->set_is_working(false);
+		return true;
+	}
+
+	if(option_selected <= 0 || option_selected > Model::ACTIONS_NUMBER && option_selected != MENU_EXIT_VALUE){
 		return false;
 	}
 
-	if(option_selected < Model::ACTIONS_NUMBER && option_selected > 0){
+	if(option_selected <= Model::ACTIONS_NUMBER && option_selected 	> 0){
 		this->select_action((Views)option_selected);
 	} 
-
-	if(option_selected == Model::ACTIONS_NUMBER){
-		this->_model->set_is_working(false);
-	}
 
 	if(option_selected > Model::ACTIONS_NUMBER && option_selected < 0){
 		this->_view->print_wrong_value();

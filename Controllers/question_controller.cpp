@@ -7,11 +7,13 @@ void QuestionController::clean_input_buffer(){
 QuestionController::QuestionController(){
 	this->_model = NULL;
 	this->_view = NULL;
+	this->_selected_question = NULL;
 }
 
 QuestionController::QuestionController(Model *model, View *view){
 	this->_model = model;
 	this->_view = view;
+	this->_selected_question = NULL;
 }
 
 void QuestionController::create(){
@@ -137,8 +139,10 @@ void QuestionController::main_menu(){
 	int input;
 	while(this->_is_working){
 		if(this->_selected_question != NULL){
-			this->_view->print_selected_question(this->_selected_question);
+			this->_view->get_question_view()->print_selected_question(this->_selected_question);
+			printf("%s\n", this->_selected_question->get_value().c_str());
 		}
+
 		this->_view->get_question_view()->print_main_menu();
 
 		scanf("%d", &input);
@@ -148,7 +152,7 @@ void QuestionController::main_menu(){
 }
 
 void QuestionController::select_action(int selected){
-	if(selected == 10){
+	if(selected == MENU_EXIT_VALUE){
 		this->_is_working = false;
 	} else {
 		switch((Crud)selected){

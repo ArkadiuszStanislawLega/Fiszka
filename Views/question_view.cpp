@@ -5,15 +5,19 @@ QuestionView::QuestionView(){
 }
 
 void QuestionView::print_main_menu(){
-	printf("%s", QUESTION_MENU);
+	printf("%s\n", QUESTION_MENU);
 	printf("%d. %s.\n", (int)Crud::create, CREATE);
 	printf("%d. %s.\n", (int)Crud::read, SELECT_QUESTION);
 	printf("%d. %s.\n", (int)Crud::update, UPDATE_QUESTION);
 	printf("%d. %s.\n", (int)Crud::del, REMOVE_QUESTION);
 	printf("%d. %s.\n", (int)Crud::tag_add, ADD_TAG_TO_QUESTION);
 	printf("%d. %s.\n", (int)Crud::tag_remove, REMOVE_TAG_FROM_QUESTION);
-	printf("10. %s.\n", EXIT);
+	printf("%d. %s.\n", MENU_EXIT_VALUE, EXIT);
 	printf("%s:", PLEASE_SELECT_OPTION);
+}
+
+void QuestionView::print_selected_question(Question *q){
+	printf("%s: %s", INFO_SELECT_QUESTION, q->to_string().c_str());
 }
 
 void QuestionView::print_create_question(){
