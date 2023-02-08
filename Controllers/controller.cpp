@@ -17,24 +17,23 @@ Controller::Controller(Model *model, View *view){
 void Controller::start_app(){
 	this->_model->start_app();
 
-	while(this->main_menu());
+	while(this->is_main_menu_working());
 }
 
-bool Controller::main_menu(){
+bool Controller::is_main_menu_working(){
 	int option_selected;
 	this->_view->print_menu();
 	
 	scanf("%d", &option_selected);
 
 	if(option_selected == MENU_EXIT_VALUE){
-		this->_model->set_is_working(false);
-		return true;
+		return false;
 	}
 
 	if(option_selected <= 0 || option_selected > Model::ACTIONS_NUMBER && option_selected != MENU_EXIT_VALUE){
 		this->_view->print_wrong_value();
 		this->clean_input_buffer();
-		return false;
+		return true;
 	}
 
 	this->select_action((Views)option_selected);

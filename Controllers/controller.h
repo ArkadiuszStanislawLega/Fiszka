@@ -41,6 +41,6 @@ class Controller{
 		Controller();
 		Controller(Model *, View *);
 		void start_app();
-		bool main_menu();
+		bool is_main_menu_working();
 };
 #endif
