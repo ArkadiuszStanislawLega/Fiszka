@@ -36,6 +36,10 @@ void QuestionView::print_select_question_number(){
 	printf("%s:", INFO_SELECT_QUESTION);
 }
 
+void QuestionView::print_no_related_tags(){
+	printf("%s\n", EMPTY_LIST_RELATED_TAGS_WITH_QUESTION);
+}
+
 void QuestionView::print_select_question(){
 	printf("%s.\n", INFO_FIRST_SELECT_QUESTION);
 }
@@ -70,8 +74,8 @@ void QuestionView::print_answer(){
 }
 
 void QuestionView::print_remove_tag_from_question(Question *q){
-	printf("%s: %s", SELECT_QUESTION, q->to_string().c_str());
-	printf("%s", INFO_SELECT_TAG_TO_REMOVE_FROM_QUESTION);
+	printf("%s: %s\n", INFO_SELECTED_QUESTION, q->to_string().c_str());
+	printf("%s\n", INFO_SELECT_TAG_TO_REMOVE_FROM_QUESTION);
 }
 
 void QuestionView::print_removed_tag_from_question(int sql_answer){

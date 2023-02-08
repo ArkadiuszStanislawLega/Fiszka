@@ -127,15 +127,25 @@ void QuestionController::add_tag(){
 void QuestionController::remove_tag(){
 	if(this->_selected_question != NULL){
 		int input, sql_answer {0};
-		this->_view->get_question_view()->print_remove_tag_from_question(this->_selected_question);
-		this->_view->get_tag_view()->print_tags_vector(this->_selected_question->get_tags());
-	
-		scanf("%d", &input);
+		if(this->_selected_question->get_tags().size() == 0){
+			this->_view->get_question_view()->print_no_related_tags();
+		}
 
-		if(input >= 0 && input < this->_selected_question->get_tags().size()){
-			sql_answer = QuestionDb::remove_tag(this->_selected_question, this->_selected_question->get_tags().at(input));
-			QuestionDb::read_related_tags(this->_selected_question);
-			this->_view->get_question_view()->print_removed_tag_from_question(sql_answer);
+		if (this->_selected_question->get_tags().size() > 0){
+			this->_view->get_question_view()->print_remove_tag_from_question(this->_selected_question);
+			this->_view->get_tag_view()->print_tags_vector(this->_selected_question->get_tags());
+		
+			scanf("%d", &input);
+
+			if(input >= 0 && input < this->_selected_question->get_tags().size()){
+				sql_answer = QuestionDb::remove_tag(this->_selected_question, this->_selected_question->get_tags().at(input));
+				QuestionDb::read_related_tags(this->_selected_question);
+				this->_view->get_question_view()->print_removed_tag_from_question(sql_answer);
+			}
+			else {
+				this->_view->print_wrong_value();
+			}
+
 		}
  	} else {
 		this->_view->get_question_view()->print_select_question();

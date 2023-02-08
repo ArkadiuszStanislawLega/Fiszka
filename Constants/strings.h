@@ -82,6 +82,7 @@ static const char *QUESTION_MENU = "QUESTION MENU";
 static const char *INFO_SELECT_QUESTION = "To select question, choose number";
 static const char *INFO_FIRST_SELECT_QUESTION = "Select question first";
 static const char *INFO_SELECTED_QUESTION = "Currently selected question";
+static const char *EMPTY_LIST_RELATED_TAGS_WITH_QUESTION = "I have nothing to do here, the list of connected tags with a question is empty.";
 static const char *INFO_ARE_YOU_SURE_TO_REMOVE_QUESTION = "Are you sure do you want to remove selected question? If yes push (Y).";
 static const char *INFO_SELECT_TAG_TO_REMOVE_FROM_QUESTION= "Select tag from the list below to remove it from the quesiton.\n";
 static const char *TAG_HAS_BEEN_REMOVED = "Tag has been removed";

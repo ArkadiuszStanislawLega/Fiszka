@@ -32,6 +32,7 @@ class QuestionView{
 		void print_answer();
 
 		void print_remove_tag_from_question(Question *);
+		void print_no_related_tags();
 		void print_removed_tag_from_question(int);
 
 		void print_questions_vector(vector<Question *>);
