@@ -8,12 +8,14 @@ QuestionController::QuestionController(){
 	this->_model = NULL;
 	this->_view = NULL;
 	this->_selected_question = NULL;
+	this->_is_working = true;
 }
 
 QuestionController::QuestionController(Model *model, View *view){
 	this->_model = model;
 	this->_view = view;
 	this->_selected_question = NULL;
+	this->_is_working = true;
 }
 
 void QuestionController::create(){
@@ -43,11 +45,13 @@ Question *QuestionController::get_new_question(){
 }
 
 void QuestionController::select_question(){
-	vector<Question *> questions = QuestionDb::read_all_questions();
+	int input;
+	vector<Question *> questions;
+
+	questions = QuestionDb::read_all_questions();
 	this->_view->get_question_view()->print_questions_vector(questions);
 	this->_view->get_question_view()->print_select_question_number();
 
-	int input;
 	scanf("%d", &input);
 
 	if(input > 0 && input < questions.size()){
@@ -122,7 +126,7 @@ void QuestionController::add_tag(){
 
 void QuestionController::remove_tag(){
 	if(this->_selected_question != NULL){
-		int input, sql_answer;
+		int input, sql_answer {0};
 		this->_view->get_question_view()->print_remove_tag_from_question(this->_selected_question);
 		this->_view->get_tag_view()->print_tags_vector(this->_selected_question->get_tags());
 	
@@ -140,6 +144,7 @@ void QuestionController::remove_tag(){
 
 void QuestionController::main_menu(){
 	int input;
+	this->_is_working = true;
 	while(this->_is_working){
 		if(this->_selected_question != NULL){
 			this->_view->get_question_view()->print_selected_question(this->_selected_question);

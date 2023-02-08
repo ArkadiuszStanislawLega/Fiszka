@@ -20,6 +20,7 @@ void TagController::clean_input_buffer(){
 
 void TagController::main_menu(){
 	int input;
+	this->_is_working = true;
 	while(this->_is_working){
 		if(this->_selected_tag != NULL){
 			this->_view->get_tag_view()->print_selected_tag(this->_selected_tag);

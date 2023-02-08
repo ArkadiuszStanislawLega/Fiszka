@@ -17,10 +17,7 @@ Controller::Controller(Model *model, View *view){
 void Controller::start_app(){
 	this->_model->start_app();
 
-	while(this->_model->is_working())
-	{
-		this->main_menu();
-	}
+	while(this->main_menu());
 }
 
 bool Controller::main_menu(){
