@@ -14,6 +14,15 @@ Controller::Controller(Model *model, View *view){
 	this->_tag_controller = TagController(this->_model, this->_view);
 }
 
+void Controller::start_app(){
+	this->_model->start_app();
+
+	while(this->_model->is_working())
+	{
+		this->main_menu();
+	}
+}
+
 bool Controller::main_menu(){
 	int option_selected;
 	this->_view->print_menu();
@@ -26,16 +35,12 @@ bool Controller::main_menu(){
 	}
 
 	if(option_selected <= 0 || option_selected > Model::ACTIONS_NUMBER && option_selected != MENU_EXIT_VALUE){
+		this->_view->print_wrong_value();
+		this->clean_input_buffer();
 		return false;
 	}
 
-	if(option_selected <= Model::ACTIONS_NUMBER && option_selected 	> 0){
-		this->select_action((Views)option_selected);
-	} 
-
-	if(option_selected > Model::ACTIONS_NUMBER && option_selected < 0){
-		this->_view->print_wrong_value();
-	}
+	this->select_action((Views)option_selected);
 	return true;
 }
 
@@ -149,14 +154,3 @@ void Controller::clean_input_buffer(){
 	cin.ignore(numeric_limits<streamsize>::max(), '\n');
 }
 
-void Controller::start_app(){
-	this->_model->start_app();
-
-	while(this->_model->is_working())
-	{
-		if(!main_menu()){
-			this->_view->print_wrong_value();
-			this->clean_input_buffer();
-		}
-	}
-}
