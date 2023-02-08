@@ -182,10 +182,14 @@ void TagController::remove_question(){
 
 		related_questions = TagDb::read_related_questions(this->_selected_tag);
 
-		this->_view->get_tag_view()->print_remove_question_from_tag();
-		this->_view->get_tag_view()->print_questions_vector(related_questions);
+		if(related_questions.size() == 0){
+			this->_view->get_tag_view()->print_no_related_questions();
+		}
 	
 		if(related_questions.size() > 0 ){
+			this->_view->get_tag_view()->print_remove_question_from_tag();
+			this->_view->get_tag_view()->print_questions_vector(related_questions);
+
 			scanf("%d", &input);
 
 			if(input >= 0 && input < related_questions.size()){

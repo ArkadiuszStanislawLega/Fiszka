@@ -90,6 +90,10 @@ void TagView::print_remove_question_from_tag(){
 	printf("%s.\n", SELECT_QUESTION_TO_REMOVE_FROM_TAG);
 }
 
+void TagView::print_no_related_questions(){
+	printf("%s\n", EMPTY_LIST_RELATED_QUESTIONS_WITH_TAG);
+}
+
 void TagView::print_removed_question_from_tag(int sql_answer){
 	if(sql_answer == SQLITE_OK){
 		printf("%s.\n", REMOVED_RELATION_QUESTION_AND_TAG_SUCCESFULLY);
@@ -110,6 +114,6 @@ void TagView::print_questions_vector(vector<Question *> vector){
 			i++;
 		}
 	} else {
-		printf("%s.", NO_QUESTIONS);
+		printf("%s\n", NO_QUESTIONS);
 	}
 }

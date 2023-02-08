@@ -78,7 +78,7 @@ static const char *REMOVE_QUESTION = "Remove selected question";
 static const char *ADD_TAG_TO_QUESTION = "Add tag to selected question";
 static const char *REMOVE_TAG_FROM_QUESTION = "Remove tag from selected question";
 static const char *EXIT = "Exit";
-static const char *QUESTION_MENU = "QUESTION_MENU";
+static const char *QUESTION_MENU = "QUESTION MENU";
 static const char *INFO_SELECT_QUESTION = "To select question, choose number";
 static const char *INFO_FIRST_SELECT_QUESTION = "Select question first";
 static const char *INFO_SELECTED_QUESTION = "Currently selected question";
@@ -101,5 +101,6 @@ static const char *CURRENTLY_SELECTED_TAG = "Currently selected tag";
 static const char *INFO_SELECT_TAG_TO_ADD_QUESTION = "Select tag from the list below to add the question";
 static const char *TAG_UPDATE_SUCCESFULLY = "Tag updated succesfully";
 static const char *SELECT_QUESTION_TO_REMOVE_FROM_TAG = "Select the qestion to remove from below list available questios";
+static const char *EMPTY_LIST_RELATED_QUESTIONS_WITH_TAG = "I have nothing to do here, the list of connected questions with a tag is empty.";
 static const char *REMOVED_RELATION_QUESTION_AND_TAG_SUCCESFULLY = "Removing relation of the question with the tag has been succesfully finished";
 #endif

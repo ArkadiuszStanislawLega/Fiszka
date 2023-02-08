@@ -2,7 +2,6 @@
 
 Model::Model(){ 
 	this->_current_view = Views::main_v;
-	this->_is_working = true;
 	this->_current_tag = "";
 	this->_questions_in_series = 0;
 	this->_menu_user_selection = 0;
@@ -32,14 +31,6 @@ void Model::start_app(){
 vector<Question *> Model::get_randomised_questions(){
 	return this->_randomised_questions;
 } 
-
-bool Model::is_working(){
-	return this->_is_working;
-}
-
-void Model::set_is_working(bool value){
-	this->_is_working = value;
-}
 
 Tag *Model::get_selected_tag(){
 	return this->_selected_tag;

@@ -1,5 +1,4 @@
 CFLAGS=-Wall -g 
-OUTPUT_NAME=fiszka
 TARGET=main
 TARGET_T=tests
 ALL_CPP_FILE=/*.cpp
@@ -12,9 +11,9 @@ CONSTANTS_PATH=Constants/*.h
 ALL_PATHS=$(CONSTANTS_PATH) $(DATABASE_PATH) $(VIEWS_PATH) $(MODELS_PATH) $(CONTROLLERS_PATH) -lsqlite3
 
 fiszka: 	
-	rm -f $(OUTPUT_NAME)
-	g++ -o $(OUTPUT_NAME) $(TARGET).cpp $(ALL_PATHS)
-	./$(OUTPUT_NAME)
+	rm -f $(TARGET)
+	g++ -o $(TARGET) $(TARGET).cpp $(ALL_PATHS)
+	./$(TARGET)
 
 ftests:
 	rm -f $(TARGET_T)

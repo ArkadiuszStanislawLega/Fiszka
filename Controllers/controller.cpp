@@ -116,7 +116,7 @@ void Controller::select_action(Views view){
 	switch(view){
 		case Views::main_v:
 		{	
-			this->main_menu();
+			this->is_main_menu_working();
 			break;
 		}
 		case Views::select_tag:

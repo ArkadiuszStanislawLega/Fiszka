@@ -16,7 +16,6 @@ class Model{
 	private:
 		Views _current_view;
 		Tag *_selected_tag;
-		bool _is_working;	
 		vector<Question *> _randomised_questions;
 		string _current_tag;
 		int _questions_in_series, _menu_user_selection;
@@ -25,8 +24,6 @@ class Model{
 		static const int ACTIONS_NUMBER = 4;
 
 		Model();
-		bool is_working();
-		void set_is_working(bool);
 
 		Views get_current_view();
 		void set_current_view(Views);

@@ -31,6 +31,7 @@ class TagView{
 		void print_add_tag_to_question(); 
 		void print_added_tag_to_question(int);
 		void print_remove_question_from_tag();
+		void print_no_related_questions();
 		void print_removed_question_from_tag(int);
 		void print_questions_vector(vector<Question *>);
 };
