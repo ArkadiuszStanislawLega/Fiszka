@@ -26,9 +26,14 @@ void TagController::main_menu(){
 		}
 		this->_view->get_tag_view()->print_main_menu_tag();
 
+		this->clean_input_buffer();
 		scanf("%d", &input);
 
-		this->select_action(input);
+		if(input >= 0 && input <= TAG_MENU_OPTIONS_NUMBER || input == MENU_EXIT_VALUE){
+			this->select_action(input);
+		} else {
+			this->_view->print_wrong_value();
+		}
 	}
 }
 
