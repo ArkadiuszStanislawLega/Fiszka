@@ -143,7 +143,6 @@ void QuestionController::main_menu(){
 	while(this->_is_working){
 		if(this->_selected_question != NULL){
 			this->_view->get_question_view()->print_selected_question(this->_selected_question);
-			printf("%s\n", this->_selected_question->get_value().c_str());
 		}
 
 		this->_view->get_question_view()->print_main_menu();

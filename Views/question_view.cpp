@@ -17,7 +17,7 @@ void QuestionView::print_main_menu(){
 }
 
 void QuestionView::print_selected_question(Question *q){
-	printf("%s: %s", INFO_SELECT_QUESTION, q->to_string().c_str());
+	printf("%s: %s\n", INFO_SELECTED_QUESTION, q->to_string().c_str());
 }
 
 void QuestionView::print_create_question(){
