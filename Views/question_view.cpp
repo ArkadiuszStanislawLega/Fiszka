@@ -24,9 +24,9 @@ void QuestionView::print_create_question(){
 	printf("%s\n", INFO_CREATING_QUESTION.c_str());
 }
 
-void QuestionView::print_created_question(Question *q, int sql_answer){
+void QuestionView::print_created_question(int sql_answer){
 	if(sql_answer == SQLITE_OK){
-		printf("%s: %lu\n", QUESTION_CREATED_CORRECTLY.c_str(),q->get_id());
+		printf("%s.\n", QUESTION_CREATED_CORRECTLY.c_str());
 	} else {
 		printf("%s.\n", DATABASE_ERROR.c_str());
 	}

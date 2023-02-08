@@ -18,7 +18,7 @@ class QuestionView{
 		void print_selected_question(Question *);
 
 		void print_create_question();
-		void print_created_question(Question *, int);
+		void print_created_question(int);
 
 		void print_select_question_number();
 		void print_select_question();

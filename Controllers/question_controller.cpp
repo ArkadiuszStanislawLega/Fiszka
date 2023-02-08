@@ -20,7 +20,7 @@ void QuestionController::create(){
 	Question *q = this->get_new_question();
 	int sql_answer = QuestionDb::create(q);
 
-	this->_view->get_question_view()->print_created_question(q, sql_answer); 
+	this->_view->get_question_view()->print_created_question(sql_answer); 
 }
 
 Question *QuestionController::get_new_question(){
@@ -30,7 +30,10 @@ Question *QuestionController::get_new_question(){
 		
 	this->clean_input_buffer();
 
+	this->_view->get_question_view()->print_value();
 	getline(cin, value);	
+
+	this->_view->get_question_view()->print_answer();
 	getline(cin, answer);
 
 	q->set_value(value);
@@ -145,9 +148,14 @@ void QuestionController::main_menu(){
 
 		this->_view->get_question_view()->print_main_menu();
 
+		this->clean_input_buffer();
 		scanf("%d", &input);
 
-		this->select_action(input);
+		if(input >= 0 && input <= QUESTION_MENU_OPTIONS_NUMBER || input == MENU_EXIT_VALUE){
+			this->select_action(input);
+		} else {
+			this->_view->print_wrong_value();
+		}
 	}
 }
 
