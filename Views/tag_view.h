@@ -33,6 +33,7 @@ class TagView{
 		void print_remove_question_from_tag();
 		void print_no_related_questions();
 		void print_removed_question_from_tag(int);
+		void print_tags_in_row(vector<Tag *>);
 		void print_questions_vector(vector<Question *>);
 };
 #endif

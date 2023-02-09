@@ -103,13 +103,20 @@ void TagView::print_removed_question_from_tag(int sql_answer){
 	}
 }
 
+void TagView::print_tags_in_row(vector<Tag *> tags){
+	for(Tag *t : tags){
+		printf("%s,", t->get_tag().c_str());
+	}
+	printf("\b.");
+} 
+
 void TagView::print_questions_vector(vector<Question *> vector){
 	int i {0};
 	printf("%s:\n", LIST_OF_QUESTIONS);
 	if(vector.size() > 0){
 		for(Question *q : vector){
 			printf("%d. %s, ", i, q->to_string().c_str());
-			this->print_tags_vector(q->get_tags());
+			this->print_tags_in_row(q->get_tags());
 			printf("\n");
 			i++;
 		}
