@@ -100,6 +100,15 @@ void QuestionController::remove(){
 	}
 }
 
+bool QuestionController::is_question_having_tag(Tag * t){
+	for(Tag * tag : this->_selected_question->get_tags()){
+		if(tag->get_id() == t->get_id()){
+			return true;
+		}
+	}
+	return false;
+}
+
 void QuestionController::add_tag(){
 	if(this->_selected_question != NULL){
 		int input, sql_answer;
@@ -113,9 +122,13 @@ void QuestionController::add_tag(){
 		scanf("%d", &input);
 
 		if(input >= 0 && input < tags.size()){
-			sql_answer = Database::create_relation(tags.at(input), this->_selected_question);
-			QuestionDb::read_related_tags(this->_selected_question);
-			this->_view->get_tag_view()->print_added_tag_to_question(sql_answer);
+			if(!this->is_question_having_tag(tags.at(input))){
+				sql_answer = Database::create_relation(tags.at(input), this->_selected_question);
+				QuestionDb::read_related_tags(this->_selected_question);
+				this->_view->get_tag_view()->print_added_tag_to_question(sql_answer);
+			} else {
+				this->_view->get_question_view()->print_question_already_having_tag();
+			}
 		} else {
 			this->_view->print_wrong_value();
 		}

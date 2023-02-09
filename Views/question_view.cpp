@@ -45,7 +45,8 @@ void QuestionView::print_select_question(){
 }
 
 void QuestionView::print_delete_question(Question *question){
-	printf("%s: %s", INFO_SELECTED_QUESTION, question->to_string().c_str());
+	printf("%s: %s, ", INFO_SELECTED_QUESTION, question->to_string().c_str());
+	this->print_tags_vector(question->get_tags());
 	printf("%s", INFO_ARE_YOU_SURE_TO_REMOVE_QUESTION);
 }
 
@@ -73,8 +74,12 @@ void QuestionView::print_answer(){
 	printf("%s:", ANSWER);
 }
 
+void QuestionView::print_question_already_having_tag(){
+	printf("%s.\n", ALREADY_HAVING_TAG);
+}
+
 void QuestionView::print_remove_tag_from_question(Question *q){
-	printf("%s: %s\n", INFO_SELECTED_QUESTION, q->to_string().c_str());
+	printf("%s: %s.\n", INFO_SELECTED_QUESTION, q->to_string().c_str());
 	printf("%s\n", INFO_SELECT_TAG_TO_REMOVE_FROM_QUESTION);
 }
 
@@ -104,7 +109,7 @@ void QuestionView::print_questions_vector(vector<Question *> vector){
 
 void QuestionView::print_tags_vector(vector<Tag *> vector){
 	if(vector.size() > 0){
-		printf("%s:", LIST_OF_TAGS);
+		printf("%s: ", LIST_OF_TAGS);
 		for(Tag *t: vector){
 			printf("%s, ", t->get_tag().c_str());
 		}

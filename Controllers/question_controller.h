@@ -35,6 +35,7 @@ class QuestionController{
 		void select_question();
 		void update();
 		void remove();
+		bool is_question_having_tag(Tag *);
 		void add_tag();
 		void remove_tag();
 

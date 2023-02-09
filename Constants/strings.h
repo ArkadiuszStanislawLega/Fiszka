@@ -90,6 +90,7 @@ static const char *LIST_OF_QUESTIONS = "List of questions";
 static const char *LIST_OF_TAGS = "List of tags";
 static const char *NO_TAGS = "No tags";
 static const char *NO_QUESTIONS = "No questions";
+static const char *ALREADY_HAVING_TAG = "This question already having this same tag";
 
 static const char *TAG_MENU = "TAG MENU";
 static const char *SELECT_TAG = "Select tag";

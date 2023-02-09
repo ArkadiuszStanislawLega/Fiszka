@@ -80,7 +80,7 @@ void TagView::print_set_new_tag(){
 
 void TagView::print_tag_updated(int sql_anwer){
 	if(sql_anwer == SQLITE_OK){
-		printf("%s.", TAG_UPDATE_SUCCESFULLY);
+		printf("%s.\n", TAG_UPDATE_SUCCESFULLY);
 	} else {
 		printf("%s.\n", DATABASE_ERROR.c_str());
 	}
