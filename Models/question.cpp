@@ -41,15 +41,18 @@ void Question::set_value(string value){
 	this->_value = value;
 }
 
+bool Question::is_tag_already_related(Tag *t){
+	for(Tag *tag : this->_tags){
+		if(tag->get_id() == t->get_id()){
+			return true;
+		}
+	}
+	return false;
+}
+
 
 string Question::to_string(){
 	return std::to_string(this->_id) + ". " + this->_value + " " + this->_answer; 
-}
-
-bool Question::is_have_tag(Tag *tag){
-	return false;
-	//return	std::find_if(this->_tags.begin(), this->_tags.end(), [&](Tag &current)
-	//		{ return current.get_id() == tag->get_id();}) != this->_tags.end() ? true : false;
 }
 
 void Question::set_tags(vector<Tag*> t){

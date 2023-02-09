@@ -29,5 +29,6 @@ class QuestionDb{
 		static vector<Question*> read_all_questions();
 		static int read_related_tags(Question *);
 		static int remove_tag(Question *, Tag *);
+		static int relate_question_with_tag(Tag *, Question *);
 };
 #endif 

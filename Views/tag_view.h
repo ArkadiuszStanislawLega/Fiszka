@@ -26,7 +26,8 @@ class TagView{
 
 		void print_delete_tag(Tag *);
 		void print_deleted_tag(int);
-
+		
+		void print_tag_already_having_tag();
 		void print_add_tag_to_question(vector<Question *>, Tag *);
 		void print_add_tag_to_question(); 
 		void print_added_tag_to_question(int);

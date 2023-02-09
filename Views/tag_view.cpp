@@ -37,6 +37,10 @@ void TagView::print_created_tag(Tag *t, int sql_answer){
 	}
 }
 
+void TagView::print_tag_already_having_tag(){
+	printf("%s.\n", TAG_ALREADY_CONNECTED_WITH_QUESTION);
+}
+
 void TagView::print_add_tag_to_question(vector<Question *> questions, Tag *tag){
 	int i {0};
 	printf("%s (%s) %s:\n", ADD_THE_TAG.c_str(), tag->get_tag().c_str(), TO_THE_QUESTION.c_str());

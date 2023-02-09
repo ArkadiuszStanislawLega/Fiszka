@@ -105,4 +105,5 @@ static const char *TAG_UPDATE_SUCCESFULLY = "Tag updated succesfully";
 static const char *SELECT_QUESTION_TO_REMOVE_FROM_TAG = "Select the qestion to remove from below list available questios";
 static const char *EMPTY_LIST_RELATED_QUESTIONS_WITH_TAG = "I have nothing to do here, the list of connected questions with a tag is empty.";
 static const char *REMOVED_RELATION_QUESTION_AND_TAG_SUCCESFULLY = "Removing relation of the question with the tag has been succesfully finished";
+static const char *TAG_ALREADY_CONNECTED_WITH_QUESTION = "Selected question is already related with this tag";
 #endif

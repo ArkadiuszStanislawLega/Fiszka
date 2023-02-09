@@ -155,3 +155,10 @@ int QuestionDb::remove(long id){
 	}
 	return -1;
 }
+
+int QuestionDb::relate_question_with_tag(Tag *t, Question *q){
+	if(t->is_question_already_related(q)){
+		return Database::create_relation(t, q);
+	}
+	return -1;
+}

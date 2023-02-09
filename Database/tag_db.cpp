@@ -87,13 +87,8 @@ vector<Tag*> TagDb::read_all_tags(){
 }
 
 int TagDb::relate_tag_with_question(Question *q, Tag *t){
-	if(!q->is_have_tag(t)){
-		string sql = {
-			INSERT + TABLE_QUESTIONS_TAGS + 
-			"(" + COLUMN_QUESTION_ID + ", " + COLUMN_TAG_ID + ")" + VALUES + 
-			"(" + to_string(q->get_id()) + ", " + to_string(t->get_id()) + ");"
-			};
-		return Database::execute_query(sql);
+	if(!q->is_tag_already_related(t)){
+		return Database::create_relation(t, q);
 	}
 	return -1;
 }

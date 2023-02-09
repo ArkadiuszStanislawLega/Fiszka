@@ -25,3 +25,12 @@ void Tag::set_id(long id){
 void Tag::set_tag(string tag){
 	this->_tag = tag;
 }
+
+bool Tag::is_question_already_related(Question *q){
+	for(Tag *t : q->get_tags()){
+		if(t->get_id() == this->_id){
+			return true;
+		}
+	}
+	return false;
+}

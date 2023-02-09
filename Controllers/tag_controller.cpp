@@ -163,9 +163,13 @@ void TagController::add_question(){
 		scanf("%d", &input);
 
 		if(input >= 0 && input < questions.size()){
-			sql_answer = Database::create_relation(this->_selected_tag, questions.at(input));
-			TagDb::read_related_questions(this->_selected_tag);
-			this->_view->get_tag_view()->print_added_tag_to_question(sql_answer);
+			if(!this->_selected_tag->is_question_already_related(questions.at(input))){
+				sql_answer = Database::create_relation(this->_selected_tag, questions.at(input));
+				TagDb::read_related_questions(this->_selected_tag);
+				this->_view->get_tag_view()->print_added_tag_to_question(sql_answer);
+			} else {
+				this->_view->get_tag_view()->print_tag_already_having_tag();
+			}
 		} else {
 			this->_view->print_wrong_value();
 		}
